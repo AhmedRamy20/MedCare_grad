@@ -12,7 +12,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("This is my Profile...."),
+        child: Text("T,...."),
       ),
     );
   }
