@@ -91,6 +91,11 @@ class TextStyles {
     color: ColorsProvider.gray,
     fontWeight: FontWeightconv.regular,
   );
+  static TextStyle font14MoreGrayRegular = TextStyle(
+    fontSize: 14.sp,
+    color: ColorsProvider.profileSubText,
+    fontWeight: FontWeightconv.regular,
+  );
   static TextStyle font14RedRegular = TextStyle(
     fontSize: 18.sp,
     color: const Color(0xffFF0000),
