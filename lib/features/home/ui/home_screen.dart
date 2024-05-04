@@ -73,12 +73,25 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               Scaffold.of(context).openDrawer();
             },
-            icon: const Padding(
-              padding: EdgeInsets.only(left: 15.0),
-              child: Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
+            icon: Stack(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 15.0),
+                  child: Icon(
+                    Icons.menu,
+                    color: ColorsProvider.primaryBink,
+                  ),
+                ),
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => Scaffold.of(context).openDrawer(),
+                      splashColor: ColorsProvider.primaryBink,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -167,9 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Color(0xffE99987),
                   size: 24,
                 ),
-                title: Text(
+                title: const Text(
                   "Logout",
-                  style: TextStyles.font14RedRegular,
+                  style: TextStyle(color: Color.fromARGB(255, 153, 62, 55)),
                 ),
                 onTap: () {
                   context.pushNamedAndRemoveUntil(
