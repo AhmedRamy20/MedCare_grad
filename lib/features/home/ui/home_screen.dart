@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:medical_app/core/cache/cache_helper.dart';
 import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
+import 'package:medical_app/core/networking/endpoints.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
@@ -8,16 +10,33 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool isSearchExpanded = false;
   final searchController = TextEditingController();
+
+  //** username in the Home Page ex- Hi, Ramy  ***//
+
+  String userUniqename = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getUsernameFromCache();
+  }
+
+  Future<void> getUsernameFromCache() async {
+    final cachedUsername = await ChacheHelper().getDataString(key: ApiKey.name);
+    setState(() {
+      userUniqename = cachedUsername ?? '';
+    });
+  }
+
+  //***         ***//
 
   @override
   void dispose() {
@@ -48,93 +67,117 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+        //! Starting point
+        leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: const Padding(
+              padding: EdgeInsets.only(left: 15.0),
+              child: Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
       ),
       drawer: Drawer(
+        elevation: 0,
         width: 300,
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/sec.png',
-                    scale: 0.7,
+            Column(
+              // padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
                   ),
-                  verticalSpace(30),
-                  const Center(
-                    child: Text(
-                      'MedCare Settings',
-                      style: TextStyle(
-                        color: ColorsProvider.darkGray,
-                        fontSize: 17,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/sec.png',
+                        scale: 0.7,
                       ),
-                    ),
+                      verticalSpace(30),
+                      const Center(
+                        child: Text(
+                          'Settings',
+                          style: TextStyle(
+                            color: ColorsProvider.darkGray,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            verticalSpace(20),
+                ),
+                verticalSpace(20),
 
-            ListTile(
-              leading: const Icon(
-                Icons.contact_support,
-                color: Color(0xffE99987),
-                size: 24,
-              ),
-              title: Text(
-                "About Us",
-                style: TextStyles.font14GrayRegular,
-              ),
-              onTap: () {
-                aboutUsDialog();
-              },
+                ListTile(
+                  leading: const Icon(
+                    Icons.contact_support,
+                    color: Color(0xffE99987),
+                    size: 24,
+                  ),
+                  title: Text(
+                    "About Us",
+                    style: TextStyles.font14GrayRegular,
+                  ),
+                  onTap: () {
+                    aboutUsDialog();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.science,
+                    color: Color(0xffE99987),
+                    size: 24,
+                  ),
+                  title: Text(
+                    "Test Result",
+                    style: TextStyles.font14GrayRegular,
+                  ),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.language,
+                    color: Color(0xffE99987),
+                    size: 24,
+                  ),
+                  title: Text(
+                    "Language",
+                    style: TextStyles.font14GrayRegular,
+                  ),
+                  onTap: () {},
+                ),
+                // verticalSpace(150),
+              ],
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.science,
-                color: Color(0xffE99987),
-                size: 24,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: ListTile(
+                leading: const Icon(
+                  Icons.logout_outlined,
+                  color: Color(0xffE99987),
+                  size: 24,
+                ),
+                title: Text(
+                  "Logout",
+                  style: TextStyles.font14RedRegular,
+                ),
+                onTap: () {
+                  context.pushNamedAndRemoveUntil(
+                    Routes.loginScreen,
+                    predicate: (route) => false,
+                  );
+                },
               ),
-              title: Text(
-                "Test Result",
-                style: TextStyles.font14GrayRegular,
-              ),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.language,
-                color: Color(0xffE99987),
-                size: 24,
-              ),
-              title: Text(
-                "Language",
-                style: TextStyles.font14GrayRegular,
-              ),
-              onTap: () {},
-            ),
-            // verticalSpace(150),
-            ListTile(
-              leading: const Icon(
-                Icons.logout_outlined,
-                color: Color(0xffE99987),
-                size: 24,
-              ),
-              title: Text(
-                "Logout",
-                style: TextStyles.font14RedRegular,
-              ),
-              onTap: () {
-                context.pushNamedAndRemoveUntil(
-                  Routes.loginScreen,
-                  predicate: (route) => false,
-                );
-              },
             ),
           ],
         ),
@@ -145,9 +188,14 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Hi, Ramy",
-                style: TextStyles.font24BinkBold2,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  "Hi, $userUniqename",
+                  style: TextStyles.font24BinkBold2,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Text(
                 "Hope you doing well..",
@@ -166,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ].map((e) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5),
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -180,15 +228,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     options: CarouselOptions(
                       height: 200,
                       autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 2),
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayInterval: const Duration(seconds: 2),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
                       autoPlayCurve: Curves.fastOutSlowIn,
                     ),
                   ),
                 ),
-              SizedBox(height: 10),
+              verticalSpace(10),
               AnimatedSize(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 child: Container(
                   height: isSearchExpanded ? null : 56,
@@ -198,8 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Icon(Icons.search),
                       ),
                       Expanded(
@@ -221,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               });
                             },
                             cursorColor: Colors.blue,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: "Search a Drug",
                               border: InputBorder.none,
                               hintStyle: TextStyle(
@@ -229,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 17,
                               ),
                             ),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 19,
                             ),
@@ -237,10 +286,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               // searchedItemInList(searchedValue);
                             },
                             onSubmitted: (value) {
-                              setState(() {
-                                isSearchExpanded = false;
-                              });
-                              // Perform search or any other action
+                              setState(
+                                () {
+                                  isSearchExpanded = false;
+                                },
+                              );
                             },
                           ),
                         ),
@@ -249,48 +299,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
-              //! New Search
-
-              // Positioned(
-              //   top: _isSearchExpanded ? 20 : 120,
-              //   left: 0,
-              //   right: 0,
-              //   child: AnimatedContainer(
-              //     duration: Duration(milliseconds: 300),
-              //     curve: Curves.easeInOut,
-              //     child: Container(
-              //       height: _isSearchExpanded ? 56 : 0,
-              //       decoration: BoxDecoration(
-              //         color: Colors.grey[200],
-              //         borderRadius: BorderRadius.circular(20),
-              //       ),
-              //       child: Row(
-              //         children: [
-              //           Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: Icon(Icons.search),
-              //           ),
-              //           Expanded(
-              //             child: TextField(
-              //               controller: _searchController,
-              //               focusNode: _searchFocusNode,
-              //               onTap: () {
-              //                 setState(() {
-              //                   _isSearchExpanded = true;
-              //                 });
-              //               },
-              //               decoration: InputDecoration(
-              //                 border: InputBorder.none,
-              //                 hintText: 'Search...',
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -301,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 context.pushNamed(Routes.chatbotScreen);
               },
-              backgroundColor: Color.fromARGB(255, 228, 197, 208),
+              backgroundColor: const Color.fromARGB(255, 228, 197, 208),
               child: const Icon(
                 Icons.chat_bubble,
                 color: ColorsProvider.primaryBink,
@@ -353,5 +361,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

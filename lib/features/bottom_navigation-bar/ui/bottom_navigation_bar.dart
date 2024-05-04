@@ -9,7 +9,6 @@ import 'package:medical_app/features/profile/ui/profile_screen.dart';
 class HomeStartWithBottomNav extends StatefulWidget {
   const HomeStartWithBottomNav({super.key});
 
-  // final String username;
   @override
   State<HomeStartWithBottomNav> createState() => _HomeStartWithBottomNavState();
 }
@@ -27,7 +26,7 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
 
   @override
   void initState() {
-    homeScreen = HomeScreen();
+    homeScreen = const HomeScreen();
     nearbyPharmacies = const NearbyPharmacies();
     labTest = const LabTest();
     profile = const Profile();
@@ -38,9 +37,6 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
       nearbyPharmacies,
       profile,
     ];
-    // currentPage = HomeScreen(
-    //   username: widget.username,
-    // );
     currentPage = pages[currentIndex];
     super.initState();
   }
@@ -60,7 +56,6 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
           });
         },
         items: [
-          // IconButton(icon: Icon(Icons.home), onPressed: () {}),
           Icon(
             Icons.home,
             size: 28,

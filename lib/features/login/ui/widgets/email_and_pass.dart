@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/helpers/regex_and_validation.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/widgets/general_text_form_feild.dart';
+import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 
 class EmailWithPassword extends StatefulWidget {
-  EmailWithPassword({super.key, required this.formKey});
-
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  EmailWithPassword({super.key});
 
   @override
   State<EmailWithPassword> createState() => _EmailWithPasswordState();
 }
 
 class _EmailWithPasswordState extends State<EmailWithPassword> {
-  // final formKey = GlobalKey<FormState>();
   bool isObsecureText = true;
 
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  late TextEditingController _passwordController;
+  late TextEditingController _emailController;
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordController = context.read<LoginCubit>().signInPassword;
+    _emailController = context.read<LoginCubit>().signInEmail;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: widget.formKey,
+      key: context.read<LoginCubit>().signInFormKey,
       child: Column(
         children: [
           MyTextFormFeild(
@@ -36,11 +42,11 @@ class _EmailWithPasswordState extends State<EmailWithPassword> {
                 return "Please enter a valid email";
               }
             },
-            controller: emailController,
+            controller: _emailController,
           ),
           verticalSpace(18),
           MyTextFormFeild(
-            controller: passwordController,
+            controller: _passwordController,
             hitText: "Password",
             isObsecureText: isObsecureText,
             suffixIcon: GestureDetector(
@@ -67,7 +73,8 @@ class _EmailWithPasswordState extends State<EmailWithPassword> {
 
   @override
   void dispose() {
+    _passwordController.dispose();
+    _emailController.dispose();
     super.dispose();
-    passwordController.dispose();
   }
 }
