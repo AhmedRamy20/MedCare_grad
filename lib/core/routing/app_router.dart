@@ -13,6 +13,7 @@ import 'package:medical_app/features/home/ui/home_screen.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:medical_app/features/login/ui/login_screen.dart';
 import 'package:medical_app/features/onboarding/onboarding_screens.dart';
+import 'package:medical_app/features/sign_up/logic/cubit/sign_up_cubit.dart';
 import 'package:medical_app/features/sign_up/ui/sign_up_screen.dart';
 
 class AppRouter {
@@ -34,7 +35,10 @@ class AppRouter {
 
       case Routes.signUpScreen:
         return MaterialPageRoute(
-          builder: (_) => const SignupScreen(),
+          builder: (_) => BlocProvider<SignUpCubit>(
+            create: (context) => SignUpCubit(DioConsumer(dio: Dio())),
+            child: const SignupScreen(),
+          ),
         );
 
       case Routes.forgetPasswordScreen:

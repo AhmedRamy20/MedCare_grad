@@ -53,3 +53,11 @@ class LoginCubit extends Cubit<LoginState> {
   //* Did not use it though ...
   String? get loggedInUsername => user?.name;
 }
+
+
+
+
+// {
+//   "email": "ahmedramyars@gmail.com",
+//   "password": "123456789a#"
+// }

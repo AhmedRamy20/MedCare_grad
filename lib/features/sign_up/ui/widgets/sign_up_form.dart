@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/helpers/regex_and_validation.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/widgets/general_text_form_feild.dart';
 import 'package:medical_app/features/login/ui/widgets/password_with_validation.dart';
+import 'package:medical_app/features/sign_up/logic/cubit/sign_up_cubit.dart';
 
 class SignUpRegisterationForm extends StatefulWidget {
   const SignUpRegisterationForm({super.key});
@@ -16,6 +18,7 @@ class SignUpRegisterationForm extends StatefulWidget {
 class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
   bool isPasswordObscureText = true;
   bool isPasswordConfirmationObscureText = true;
+  String? selectedGender;
 
   bool hasLowercase = false;
   bool hasUppercase = false;
@@ -23,14 +26,16 @@ class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
   bool hasNumber = false;
   bool hasMinLength = false;
 
+  //**  */
+
   late TextEditingController passwordController;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   passwordController = context.read<SignupCubit>().passwordController;
-  //   setupPasswordControllerListener();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    passwordController = context.read<SignUpCubit>().signUpPassword;
+    setupPasswordControllerListener();
+  }
 
   void setupPasswordControllerListener() {
     passwordController.addListener(() {
@@ -46,7 +51,7 @@ class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      // key: ,
+      key: context.read<SignUpCubit>().signUpFormKey,
       child: Column(
         children: [
           MyTextFormFeild(
@@ -56,7 +61,7 @@ class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
                 return 'Please enter a valid name';
               }
             },
-            // controller: context.read<SignupCubit>().nameController,
+            controller: context.read<SignUpCubit>().signUpName,
           ),
           verticalSpace(18),
           MyTextFormFeild(
@@ -68,7 +73,7 @@ class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
                 return 'Please enter a valid phone number';
               }
             },
-            // controller: context.read<SignupCubit>().phoneController,
+            controller: context.read<SignUpCubit>().signUpPhoneNumber,
           ),
           verticalSpace(18),
           MyTextFormFeild(
@@ -80,11 +85,52 @@ class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
                 return 'Please enter a valid email';
               }
             },
-            // controller: context.read<SignupCubit>().emailController,
+            controller: context.read<SignUpCubit>().signUpEmail,
           ),
           verticalSpace(18),
           MyTextFormFeild(
-            // controller: context.read<SignupCubit>().passwordController,
+            hitText: 'Birthday',
+            keyboardType: TextInputType.number,
+            showDatePicker: true,
+            controller:
+                context.read<SignUpCubit>().signUpbirthday, //! put in cubit
+            // width: 143.w,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Enter Your Birthday";
+              }
+              return null;
+            },
+          ),
+          verticalSpace(18),
+          DropdownButtonFormField<String>(
+            value: selectedGender,
+            onChanged: (String? newValue) {
+              setState(() {
+                selectedGender = newValue;
+                context.read<SignUpCubit>().genderController.text =
+                    newValue ?? '';
+              });
+            },
+            items: <String>['Male', 'Female']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              hintText: 'Select Gender',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          ),
+          verticalSpace(18),
+          MyTextFormFeild(
+            controller: context.read<SignUpCubit>().signUpPassword,
             hitText: 'Password',
             isObsecureText: isPasswordObscureText,
             suffixIcon: GestureDetector(
@@ -106,8 +152,7 @@ class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
           ),
           verticalSpace(18),
           MyTextFormFeild(
-            // controller:
-            //     context.read<SignupCubit>().passwordConfirmationController,
+            controller: context.read<SignUpCubit>().confirmPassword,
             hitText: 'Password Confirmation',
             isObsecureText: isPasswordConfirmationObscureText,
             suffixIcon: GestureDetector(

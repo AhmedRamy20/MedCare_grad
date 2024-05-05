@@ -107,6 +107,23 @@ class MyTextFormFeild extends StatelessWidget {
 
 //! This for choosing the date like birhday ect... bu specifing the showDatePicker: true
 
+// Future<void> _showDatePicker(
+//     BuildContext context, TextEditingController? controller) async {
+//   final DateTime? pickedDate = await showDatePicker(
+//     context: context,
+//     initialDate: DateTime.now(),
+//     firstDate: DateTime(1900),
+//     lastDate: DateTime.now(),
+//   );
+//   if (pickedDate != null && controller != null) {
+//     final formattedDate =
+//         "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+//     controller.text = formattedDate;
+
+//     FocusScope.of(context).unfocus();
+//   }
+// }
+
 Future<void> _showDatePicker(
     BuildContext context, TextEditingController? controller) async {
   final DateTime? pickedDate = await showDatePicker(
@@ -116,10 +133,22 @@ Future<void> _showDatePicker(
     lastDate: DateTime.now(),
   );
   if (pickedDate != null && controller != null) {
-    final formattedDate =
-        "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-    controller.text = formattedDate;
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (pickedTime != null) {
+      final DateTime combinedDateTime = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        pickedTime.hour,
+        pickedTime.minute,
+      );
+      final formattedDateTime = combinedDateTime.toUtc().toIso8601String();
+      controller.text = formattedDateTime;
 
-    FocusScope.of(context).unfocus();
+      FocusScope.of(context).unfocus();
+    }
   }
 }
