@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/routing/routes.dart';
+import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 import 'package:medical_app/core/widgets/med_app_generic_button.dart';
 import 'package:medical_app/features/sign_up/logic/cubit/sign_up_cubit.dart';
@@ -31,8 +32,30 @@ class _SignupScreenState extends State<SignupScreen> {
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text("Success")));
             } else if (state is SignUpFailure) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.errorMsg)));
+              // ScaffoldMessenger.of(context)
+              //     .showSnackBar(SnackBar(content: Text(state.errorMsg)));
+              //* Failure message
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("OOops.."),
+                  content: Text(state.errorMsg),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      child: const Text(
+                        "Got it",
+                        style: TextStyle(
+                          color: ColorsProvider.primaryBink,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
           },
           builder: (context, state) {

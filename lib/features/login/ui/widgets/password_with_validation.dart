@@ -5,11 +5,12 @@ import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 
 class PasswordWithValidation extends StatelessWidget {
-  const PasswordWithValidation(
-      {super.key,
-      required this.withSpecialCharacters,
-      required this.hasNumber,
-      required this.hasMinLength,});
+  const PasswordWithValidation({
+    super.key,
+    required this.withSpecialCharacters,
+    required this.hasNumber,
+    required this.hasMinLength,
+  });
 
   final bool withSpecialCharacters;
   final bool hasNumber;
@@ -18,12 +19,11 @@ class PasswordWithValidation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        
         validationText('At least 1 number', hasNumber),
         verticalSpace(2),
         validationText('At least 1 special character', withSpecialCharacters),
         verticalSpace(2),
-        validationText('At least 8 characters long', hasMinLength),
+        validationText('At least 6 characters long', hasMinLength),
       ],
     );
   }
