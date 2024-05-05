@@ -29,8 +29,12 @@ class _SignupScreenState extends State<SignupScreen> {
         child: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
             if (state is SignUpSuccess) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text("Success")));
+              // ScaffoldMessenger.of(context)
+              //     .showSnackBar(const SnackBar(content: Text("Success")));
+
+              //* Success (Navigate to verify email then navigate to login)
+              //! put in my mind that i did not do anything except for Navigation
+              context.pushNamed(Routes.emailVerification);
             } else if (state is SignUpFailure) {
               // ScaffoldMessenger.of(context)
               //     .showSnackBar(SnackBar(content: Text(state.errorMsg)));

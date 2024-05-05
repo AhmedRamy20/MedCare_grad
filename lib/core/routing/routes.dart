@@ -7,4 +7,5 @@ class Routes {
   static const String otpScreen = '/otpScreen';
   static const String homeStartWithBottomNav = '/homeStartWithBottomNav';
   static const String chatbotScreen = '/chatbotScreen';
+  static const String emailVerification = '/emailVerification';
 }
