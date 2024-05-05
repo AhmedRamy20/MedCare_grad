@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/helpers/regex_and_validation.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/theming/colors.dart';
+import 'package:medical_app/core/theming/styles.dart';
 import 'package:medical_app/core/widgets/general_text_form_feild.dart';
 import 'package:medical_app/features/login/ui/widgets/password_with_validation.dart';
 import 'package:medical_app/features/sign_up/logic/cubit/sign_up_cubit.dart';
@@ -123,10 +124,26 @@ class _SignUpRegisterationFormState extends State<SignUpRegisterationForm> {
               filled: true,
               fillColor: Colors.white,
               hintText: 'Select Gender',
+              hintStyle: TextStyles.font14GrayRegular,
               border: OutlineInputBorder(
+                borderSide: const BorderSide(color: ColorsProvider.lGray),
                 borderRadius: BorderRadius.circular(10.0),
               ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: ColorsProvider.lGray),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
             ),
+            icon: const Icon(
+              Icons.arrow_drop_down,
+              color: ColorsProvider.primaryBink,
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please select a gender';
+              }
+              return null;
+            },
           ),
           verticalSpace(18),
           MyTextFormFeild(
