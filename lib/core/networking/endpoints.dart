@@ -2,6 +2,7 @@ class EndPoints {
   static String baseUrl = "http://DawayaHealthCare.somee.com/";
   static String signIn = "api/Account/Login";
   static String signUp = "api/Account/Register";
+  static String verifyEmail = "api/Account/Verify-Email";
 }
 
 class ApiKey {
@@ -9,6 +10,7 @@ class ApiKey {
   static String errorMessage = "message";
   static String email = "email";
   static String password = "password";
+  static String verificationCode = "verificationCode";
   // static String name = "displayName";
   static String name = "unique_name";
   static String displayName = "displayName";

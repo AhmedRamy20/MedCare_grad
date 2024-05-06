@@ -15,6 +15,7 @@ import 'package:medical_app/features/login/ui/login_screen.dart';
 import 'package:medical_app/features/onboarding/onboarding_screens.dart';
 import 'package:medical_app/features/sign_up/logic/cubit/sign_up_cubit.dart';
 import 'package:medical_app/features/sign_up/ui/sign_up_screen.dart';
+import 'package:medical_app/features/verify_email/logic/cubit/verify_email_cubit.dart';
 import 'package:medical_app/features/verify_email/ui/email_verification_screen.dart';
 
 class AppRouter {
@@ -48,7 +49,10 @@ class AppRouter {
         );
       case Routes.emailVerification:
         return MaterialPageRoute(
-          builder: (_) => const EmailVerificationScreen(),
+          builder: (_) => BlocProvider<VerifyEmailCubit>(
+            create: (context) => VerifyEmailCubit(), //! DioConsumer(dio: Dio())
+            child: const EmailVerificationScreen(),
+          ),
         );
       case Routes.otpScreen:
         return MaterialPageRoute(
