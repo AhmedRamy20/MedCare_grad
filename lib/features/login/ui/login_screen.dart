@@ -36,27 +36,72 @@ class _LoginScreenState extends State<LoginScreen> {
                   Routes.homeStartWithBottomNav,
                 );
               } else if (state is SignInFailure) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text("OOops.."),
-                    content: Text(state.errorMsg),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        child: const Text(
-                          "Got it",
-                          style: TextStyle(
-                            color: ColorsProvider.primaryBink,
-                            fontSize: 18,
+                //* User is registered but the account is not activated
+                if (state.errorMsg ==
+                    "User is registered but the account is not activated") {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("Account Activation Required"),
+                      content: const Text(
+                        "Would you like to navigate to the verification email screen?",
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            // Navigate to the verification email screen
+                            Navigator.pop(context);
+                            Navigator.pushNamed(
+                              context,
+                              Routes.emailVerification,
+                            );
+                          },
+                          child: const Text(
+                            "Yes",
+                            style: TextStyle(
+                              color: ColorsProvider.primaryBink,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          child: const Text(
+                            "No",
+                            style: TextStyle(
+                              color: ColorsProvider.primaryBink,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("OOops.."),
+                      content: Text(state.errorMsg),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          child: const Text(
+                            "Got it",
+                            style: TextStyle(
+                              color: ColorsProvider.primaryBink,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               } else {
                 const CircularProgressIndicator(
                   color: Color.fromARGB(230, 228, 99, 99),

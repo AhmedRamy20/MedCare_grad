@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/errors/exceptions.dart';
@@ -9,9 +10,10 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this.api) : super(LoginInitial());
+  LoginCubit() : super(LoginInitial());
 
-  final ApiConsumer api;
+  // final ApiConsumer api;
+  final Dio dio = Dio();
   SignInModel? user;
   //Sign in Form key
   GlobalKey<FormState> signInFormKey = GlobalKey();
@@ -26,28 +28,59 @@ class LoginCubit extends Cubit<LoginState> {
 
     try {
       emit(SignInLoading());
-      final response = await api.post(
-        EndPoints.signIn,
+      final response = await dio.post(
+        "http://DawayaHealthCare.somee.com/api/Account/Login",
         data: {
           ApiKey.email: signInEmail.text,
           ApiKey.password: signInPassword.text,
         },
       );
 
-      user = SignInModel.fromJson(response);
+      //*
+      if (response.data ==
+          "User is registered but the account is not activated") {
+        emit(SignInVerifyEmail());
+      } else {
+        user = SignInModel.fromJson(response.data);
 
-      final decodedToken = JwtDecoder.decode(user!.token);
+        final decodedToken = JwtDecoder.decode(user!.token);
 
-      ChacheHelper().saveData(key: ApiKey.token, value: user!.token);
-      ChacheHelper()
-          .saveData(key: ApiKey.name, value: decodedToken[ApiKey.name]);
+        ChacheHelper().saveData(key: ApiKey.token, value: user!.token);
+        ChacheHelper()
+            .saveData(key: ApiKey.name, value: decodedToken[ApiKey.name]);
 
-      emit(SignInSuccess());
+        emit(SignInSuccess());
+      }
+      //*
+
+      // user = SignInModel.fromJson(response.data);
+
+      // final decodedToken = JwtDecoder.decode(user!.token);
+
+      // ChacheHelper().saveData(key: ApiKey.token, value: user!.token);
+      // ChacheHelper()
+      //     .saveData(key: ApiKey.name, value: decodedToken[ApiKey.name]);
+
+      // emit(SignInSuccess());
 
       // print(response);
-    } on ApiException catch (e) {
-      emit(SignInFailure(errorMsg: e.errorModel.errorMessage));
+    } on DioError catch (e) {
+      if (e.response != null) {
+        // print('Server responded with ${e.response!.statusCode}');
+        // print('Response data: ${e.response!.data}');
+        emit(SignInFailure(errorMsg: "${e.response!.data}"));
+      } else {
+        // print('Network error: ${e.message}');
+        emit(SignInFailure(errorMsg: "Failed to login Duo to Network issue.."));
+        // emit(VerifyEmailSuccess());
+      }
+    } catch (e) {
+      print('Error: $e');
+      emit(SignInFailure(errorMsg: e.toString()));
     }
+    // on ApiException catch (e) {
+    //   emit(SignInFailure(errorMsg: e.errorModel.errorMessage));
+    // }
   }
 
   //* Did not use it though ...
@@ -61,3 +94,45 @@ class LoginCubit extends Cubit<LoginState> {
 //   "email": "ahmedramyars@gmail.com",
 //   "password": "123456789a#"
 // }
+
+
+
+
+
+
+
+//* old method
+// signIn() async {
+//     // final dio = Dio;
+
+//     try {
+//       emit(SignInLoading());
+//       final response = await api.post(
+//         EndPoints.signIn,
+//         data: {
+//           ApiKey.email: signInEmail.text,
+//           ApiKey.password: signInPassword.text,
+//         },
+//       );
+
+//       //*
+//       if (response.data == "User is registered but the account is not activated") {
+//         emit(SignInVerifyEmail());
+//       }
+//       //*
+
+//       user = SignInModel.fromJson(response);
+
+//       final decodedToken = JwtDecoder.decode(user!.token);
+
+//       ChacheHelper().saveData(key: ApiKey.token, value: user!.token);
+//       ChacheHelper()
+//           .saveData(key: ApiKey.name, value: decodedToken[ApiKey.name]);
+
+//       emit(SignInSuccess());
+
+//       // print(response);
+//     } on ApiException catch (e) {
+//       emit(SignInFailure(errorMsg: e.errorModel.errorMessage));
+//     }
+//   }

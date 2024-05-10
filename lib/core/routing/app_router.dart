@@ -30,7 +30,7 @@ class AppRouter {
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<LoginCubit>(
-            create: (context) => LoginCubit(DioConsumer(dio: Dio())),
+            create: (context) => LoginCubit(), //DioConsumer(dio: Dio())
             child: const LoginScreen(),
           ),
         );
