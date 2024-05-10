@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
 import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
@@ -7,6 +8,8 @@ import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
+import 'package:medical_app/features/home/logic/cubit/medicine_state.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<MedicineCubit>().fetchMedicines();
     getUsernameFromCache();
   }
 
@@ -248,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-              verticalSpace(10),
+              verticalSpace(8),
               AnimatedSize(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
@@ -312,6 +316,94 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+
+              //! Fetching medicine
+
+              verticalSpace(5),
+
+              isSearchExpanded
+                  ? Container()
+                  : BlocBuilder<MedicineCubit, MedicineState>(
+                      builder: (context, state) {
+                        if (state is MedicineListState) {
+                          final medicineCount = state.medicines.length > 4
+                              ? 4
+                              : state.medicines.length;
+
+                          return Column(
+                            children: List.generate(
+                              medicineCount,
+                              (index) {
+                                final medicine = state.medicines[index];
+                                return ListTile(
+                                  leading: SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: medicine.pictureUrl.isNotEmpty
+                                        ? Image.network(medicine.pictureUrl)
+                                        : const Placeholder(),
+                                  ),
+                                  title: Text(
+                                    medicine.name,
+                                    style: TextStyles.font14DarkMediam,
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        medicine.description,
+                                        style:
+                                            TextStyles.font14LightGrayRegular,
+                                      ),
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            const TextSpan(
+                                              text: '\$ ',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize:
+                                                    16, // Adjust size as needed
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  '${medicine.price.toStringAsFixed(2)}',
+                                              style: const TextStyle(
+                                                color: ColorsProvider
+                                                    .greeting2Color,
+                                                // Change color as needed
+                                                fontSize:
+                                                    16, // Adjust size as needed
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          return const Padding(
+                            padding: EdgeInsets.only(
+                                top: 16.0), // Adjust the top padding as needed
+                            child: Center(
+                              child: SizedBox(
+                                width: 40, // Adjust size as needed
+                                height: 40, // Adjust size as needed
+                                child: CircularProgressIndicator(
+                                  color: ColorsProvider.primaryBink,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
             ],
           ),
         ),

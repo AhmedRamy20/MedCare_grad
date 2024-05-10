@@ -9,6 +9,7 @@ import 'package:medical_app/features/bottom_navigation-bar/ui/bottom_navigation_
 import 'package:medical_app/features/chatbot/ui/chatbot_screen.dart';
 import 'package:medical_app/features/forget-password/ui/foget_password_screen.dart';
 import 'package:medical_app/features/forget-password/ui/otp_screen.dart';
+import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:medical_app/features/login/ui/login_screen.dart';
@@ -69,12 +70,15 @@ class AppRouter {
       //! new v
       case Routes.homeScreen:
         return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
+          builder: (_) => HomeScreen(),
         );
       //! has been modified down
       case Routes.homeStartWithBottomNav:
         return MaterialPageRoute(
-          builder: (_) => const HomeStartWithBottomNav(),
+          builder: (_) => BlocProvider<MedicineCubit>(
+            create: (context) => MedicineCubit(),
+            child: const HomeStartWithBottomNav(),
+          ),
         );
 
       //* Chatbot Screen
