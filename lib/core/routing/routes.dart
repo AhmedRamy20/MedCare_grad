@@ -8,4 +8,5 @@ class Routes {
   static const String homeStartWithBottomNav = '/homeStartWithBottomNav';
   static const String chatbotScreen = '/chatbotScreen';
   static const String emailVerification = '/emailVerification';
+  static const String splashScreen = '/splashscreen';
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medical_app/core/cache/cache_helper.dart';
+import 'package:medical_app/core/helpers/extensions.dart';
+import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 
@@ -12,9 +15,11 @@ class SkipButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (controller.page != 2) {
-          controller.jumpToPage(2);
-        }
+        // if (controller.page != 2) {
+        //   controller.jumpToPage(2);
+        // }
+        ChacheHelper().saveData(key: 'onboarding_seen', value: true);
+        context.pushReplacementNamed(Routes.loginScreen);
       },
       child: Container(
         width: 75.0.w,

@@ -10,6 +10,7 @@ import 'package:medical_app/core/theming/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_state.dart';
+import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loginCubit = context.read<LoginCubit>();
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -188,7 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   "Logout",
                   style: TextStyle(color: Color.fromARGB(255, 153, 62, 55)),
                 ),
-                onTap: () {
+                onTap: () async {
+                  await loginCubit.clearUserData();
                   context.pushNamedAndRemoveUntil(
                     Routes.loginScreen,
                     predicate: (route) => false,
@@ -301,6 +304,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             onChanged: (searchedValue) {
                               // searchedItemInList(searchedValue);
+                              // context
+                              //     .read<MedicineCubit>()
+                              //     .searchMedicines(searchedValue);
                             },
                             onSubmitted: (value) {
                               setState(
@@ -411,6 +417,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: isSearchExpanded
           ? null
           : FloatingActionButton(
+              elevation: 0,
               onPressed: () {
                 context.pushNamed(Routes.chatbotScreen);
               },

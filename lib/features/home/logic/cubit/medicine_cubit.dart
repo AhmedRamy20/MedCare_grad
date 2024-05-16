@@ -8,6 +8,8 @@ class MedicineCubit extends Cubit<MedicineState> {
   MedicineCubit() : super(MedicineInitial());
 
   final Dio dio = Dio();
+  List<Medicine> _medicines = [];
+  List<Medicine> _filteredMedicines = [];
 
   Future<void> fetchMedicines() async {
     try {
@@ -28,4 +30,25 @@ class MedicineCubit extends Cubit<MedicineState> {
       throw Exception('Failed to load medicines: $error');
     }
   }
+
+  //* Search
+
+  // void filterMedicines(String query) {
+  //   final currentState = state;
+  //   if (currentState is MedicineListState) {
+  //     final filteredList = currentState.medicines
+  //         .where((medicine) =>
+  //             medicine.name.toLowerCase().contains(query.toLowerCase()))
+  //         .toList();
+  //     emit(MedicineFilteredState(filteredMedicines: filteredList));
+  //   }
+  // }
+
+  // void searchMedicines(String query) {
+  //   if (query.isEmpty) {
+  //     emit(MedicineListState(medicines: [])); // Reset to original list
+  //   } else {
+  //     filterMedicines(query);
+  //   }
+  // }
 }

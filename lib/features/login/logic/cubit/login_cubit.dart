@@ -22,6 +22,17 @@ class LoginCubit extends Cubit<LoginState> {
   //Sign in password
   TextEditingController signInPassword = TextEditingController();
 
+  //* Check if the user is already logged in
+  Future<void> checkLoginStatus() async {
+    final token = ChacheHelper.sharedPreferences.getString('token');
+    if (token != null && !JwtDecoder.isExpired(token)) {
+      final decodedToken = JwtDecoder.decode(token);
+      emit(SignInSuccess());
+    } else {
+      emit(LoginInitial());
+    }
+  }
+
   //* Login request
   signIn() async {
     // final dio = Dio;
@@ -81,6 +92,12 @@ class LoginCubit extends Cubit<LoginState> {
     // on ApiException catch (e) {
     //   emit(SignInFailure(errorMsg: e.errorModel.errorMessage));
     // }
+  }
+
+  //!! Method to clear cached user data
+  Future<void> clearUserData() async {
+    await ChacheHelper().removeData(key: ApiKey.token);
+    await ChacheHelper().removeData(key: ApiKey.name);
   }
 
   //* Did not use it though ...

@@ -51,8 +51,11 @@ class ChacheHelper {
     return sharedPreferences.containsKey(key);
   }
 
-  Future<bool> clearData({required String key}) async {
-    return sharedPreferences.clear();
+  // Future<bool> clearData({required String key}) async {
+  //   return sharedPreferences.clear();
+  // }
+  Future<bool> clearData() async {
+    return await sharedPreferences.clear();
   }
 
 //* this used to put data in local data base using key

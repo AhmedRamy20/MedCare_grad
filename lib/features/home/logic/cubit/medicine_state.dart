@@ -12,3 +12,12 @@ class MedicineListState extends MedicineState {
     required this.medicines,
   });
 }
+
+// class MedicineFilteredState extends MedicineState {
+//   final List<Medicine> filteredMedicines;
+
+//   MedicineFilteredState({required this.filteredMedicines});
+
+//   @override
+//   List<Object?> get props => [filteredMedicines];
+// }

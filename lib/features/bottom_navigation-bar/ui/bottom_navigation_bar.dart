@@ -27,7 +27,7 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
   @override
   void initState() {
     homeScreen = const HomeScreen();
-    nearbyPharmacies = const NearbyPharmacies();
+    nearbyPharmacies = NearbyPharmacies();
     labTest = const LabTest();
     profile = const Profile();
 

@@ -22,7 +22,7 @@ class MedcareApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.onBoardingScreen,
+        initialRoute: Routes.splashScreen,
       ),
     );
   }
