@@ -21,7 +21,7 @@ import 'package:medical_app/features/verify_email/logic/cubit/verify_email_cubit
 import 'package:medical_app/features/verify_email/ui/email_verification_screen.dart';
 
 class AppRouter {
-  Route generateRoute(RouteSettings settings) {
+  Route? generateRoute(RouteSettings settings) {
     final arguments = settings.arguments;
     switch (settings.name) {
       case Routes.onBoardingScreen:
@@ -97,8 +97,16 @@ class AppRouter {
       //! has been modified down
       case Routes.homeStartWithBottomNav:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider<MedicineCubit>(
-            create: (context) => MedicineCubit(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider<LoginCubit>(
+                create: (context) => LoginCubit(),
+              ),
+              BlocProvider<MedicineCubit>(
+                create: (context) => MedicineCubit(),
+              ),
+            ],
+            // create: (context) => MedicineCubit(),
             child: const HomeStartWithBottomNav(),
           ),
         );
@@ -108,14 +116,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ChatbotScreen(),
         );
-      default:
-        return MaterialPageRoute(
-          builder: (_) => Scaffold(
-            body: Center(
-              child: Text("No route defined for ${settings.name}"),
-            ),
-          ),
-        );
+      // default:
+      //   return MaterialPageRoute(
+      //     builder: (_) => Scaffold(
+      //       body: Center(
+      //         child: Text("No route defined for ${settings.name}"),
+      //       ),
+      //     ),
+      //   );
     }
   }
 }
