@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_app/core/cache/cache_helper.dart';
 import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
@@ -14,7 +15,9 @@ class GestStartedButton extends StatelessWidget {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () {
-          context.pushNamed(Routes.loginScreen);
+          ChacheHelper().saveData(key: 'onboarding_seen', value: true);
+          context.pushReplacementNamed(Routes.loginScreen);
+          // context.pushNamed(Routes.loginScreen);
         },
         child: Container(
           width: 311.w,
