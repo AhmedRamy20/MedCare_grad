@@ -8,8 +8,8 @@ class MedicineCubit extends Cubit<MedicineState> {
   MedicineCubit() : super(MedicineInitial());
 
   final Dio dio = Dio();
-  List<Medicine> _medicines = [];
-  List<Medicine> _filteredMedicines = [];
+  List<Medicine> notFilteredmedicines = [];
+  List<Medicine> filteredMedicines = [];
 
   Future<void> fetchMedicines() async {
     try {
@@ -19,6 +19,7 @@ class MedicineCubit extends Cubit<MedicineState> {
         if (data != null) {
           final List<Medicine> medicines =
               data.map((json) => Medicine.fromJson(json)).toList();
+          notFilteredmedicines.addAll(medicines);
           emit(MedicineListState(medicines: medicines));
         } else {
           throw Exception('Failed to load medicines: Response data is null');
@@ -31,7 +32,45 @@ class MedicineCubit extends Cubit<MedicineState> {
     }
   }
 
-  //* Search
+  //! Search
+
+  void filterMedicines(String query) {
+    final filteredList = notFilteredmedicines
+        .where((medicine) =>
+            medicine.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    emit(MedicineFilteredState(medicines: filteredList));
+  }
+
+  // void searchMedicines(String query) {
+  //   if (query.isEmpty) {
+  //     emit(MedicineListState(medicines: notFilteredmedicines));
+  //   } else {
+  //     filterMedicines(query);
+  //   }
+  // }
+
+  void searchMedicines(String query) {
+    print("Searching for: $query"); // Debug statement
+    if (query.isEmpty) {
+      filteredMedicines = List.from(notFilteredmedicines);
+    } else {
+      filteredMedicines = notFilteredmedicines
+          .where((medicine) =>
+              medicine.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    print(
+        "Filtered medicines count: ${filteredMedicines.length}"); // Debug statement
+    emit(MedicineListState(medicines: filteredMedicines));
+  }
+}
+
+
+
+
+
+//* Search
 
   // void filterMedicines(String query) {
   //   final currentState = state;
@@ -51,4 +90,3 @@ class MedicineCubit extends Cubit<MedicineState> {
   //     filterMedicines(query);
   //   }
   // }
-}

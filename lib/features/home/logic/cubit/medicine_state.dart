@@ -13,11 +13,11 @@ class MedicineListState extends MedicineState {
   });
 }
 
-// class MedicineFilteredState extends MedicineState {
-//   final List<Medicine> filteredMedicines;
+class MedicineFilteredState extends MedicineState {
+  final List<Medicine> medicines;
 
-//   MedicineFilteredState({required this.filteredMedicines});
+  MedicineFilteredState({required this.medicines});
 
-//   @override
-//   List<Object?> get props => [filteredMedicines];
-// }
+  // @override
+  // List<Object?> get props => [filteredMedicines];
+}
