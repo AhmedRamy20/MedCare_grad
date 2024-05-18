@@ -55,6 +55,7 @@ class MedicineCubit extends Cubit<MedicineState> {
     if (query.isEmpty) {
       filteredMedicines = List.from(notFilteredmedicines);
     } else {
+      filteredMedicines.clear();
       filteredMedicines = notFilteredmedicines
           .where((medicine) =>
               medicine.name.toLowerCase().contains(query.toLowerCase()))
