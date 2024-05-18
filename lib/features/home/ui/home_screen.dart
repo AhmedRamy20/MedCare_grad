@@ -361,6 +361,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         medicine.description,
                                         style:
                                             TextStyles.font14LightGrayRegular,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                       Text.rich(
                                         TextSpan(
