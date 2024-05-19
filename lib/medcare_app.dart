@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_app/core/routing/app_router.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
+import 'package:medical_app/features/checkout/presentation/views/widget/cart_view_body.dart';
 
 class MedcareApp extends StatelessWidget {
   const MedcareApp({super.key, required this.appRouter});
@@ -22,7 +23,8 @@ class MedcareApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.splashScreen,
+        // initialRoute: Routes.splashScreen,
+        home: MyCartViewBody(),
       ),
     );
   }

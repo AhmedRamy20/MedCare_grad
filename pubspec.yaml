@@ -37,8 +37,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
+  flutter_credit_card: ^4.0.1
   flutter_native_splash: ^2.3.10
   flutter_screenutil: ^5.9.0
+  flutter_svg: ^2.0.10+1
   freezed: ^2.4.7
   freezed_annotation: ^2.4.1
   get_it: ^7.6.7
