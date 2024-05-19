@@ -29,7 +29,7 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
     homeScreen = const HomeScreen();
     nearbyPharmacies = NearbyPharmacies();
     labTest = const LabTest();
-    profile = const Profile();
+    profile = Profile();
 
     pages = [
       homeScreen,
