@@ -744,16 +744,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
+                            _searchFocusNode.requestFocus();
+
                             setState(() {
                               isSearchExpanded = true;
                             });
-                            FocusScope.of(context)
-                                .requestFocus(_searchFocusNode);
+                            // FocusScope.of(context)
+                            //     .requestFocus(_searchFocusNode);
                           },
                           child: TextField(
                             controller: searchController,
                             focusNode: _searchFocusNode,
                             onTap: () {
+                              _searchFocusNode.requestFocus();
                               setState(() {
                                 isSearchExpanded = true;
                               });
@@ -798,93 +801,87 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               verticalSpace(5),
-              isSearchExpanded
-                  ? Container()
-                  : BlocBuilder<MedicineCubit, MedicineState>(
-                      builder: (context, state) {
-                        if (state is MedicineListState) {
-                          // final medicineCount = state.medicines.length > 4
-                          //     ? 4
-                          //     : state.medicines.length;
+              BlocBuilder<MedicineCubit, MedicineState>(
+                builder: (context, state) {
+                  if (state is MedicineListState) {
+                    final medicineCount =
+                        state.medicines.length > 4 ? 4 : state.medicines.length;
 
-                          if (state.medicines.isEmpty) {
-                            return const Center(
-                              child: Text("No medicines found."),
-                            );
-                          }
+                    if (state.medicines.isEmpty) {
+                      return const Center(
+                        child: Text("No medicines found."),
+                      );
+                    }
 
-                          return Column(
-                            children: List.generate(
-                              state.medicines.length,
-                              (index) {
-                                final medicine = state.medicines[index];
-                                return ListTile(
-                                  leading: SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: medicine.pictureUrl.isNotEmpty
-                                        ? Image.network(medicine.pictureUrl)
-                                        : const Placeholder(),
-                                  ),
-                                  title: Text(
-                                    medicine.name,
-                                    style: TextStyles.font14DarkMediam,
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                    return Column(
+                      children: List.generate(
+                        medicineCount,
+                        (index) {
+                          final medicine = state.medicines[index];
+                          return ListTile(
+                            leading: SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: medicine.pictureUrl.isNotEmpty
+                                  ? Image.network(medicine.pictureUrl)
+                                  : const Placeholder(),
+                            ),
+                            title: Text(
+                              medicine.name,
+                              style: TextStyles.font14DarkMediam,
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  medicine.description,
+                                  style: TextStyles.font14LightGrayRegular,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text.rich(
+                                  TextSpan(
                                     children: [
-                                      Text(
-                                        medicine.description,
-                                        style:
-                                            TextStyles.font14LightGrayRegular,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                      const TextSpan(
+                                        text: '\$ ',
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: 16,
+                                        ),
                                       ),
-                                      Text.rich(
-                                        TextSpan(
-                                          children: [
-                                            const TextSpan(
-                                              text: '\$ ',
-                                              style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text:
-                                                  '${medicine.price.toStringAsFixed(2)}',
-                                              style: const TextStyle(
-                                                color: ColorsProvider
-                                                    .greeting2Color,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
+                                      TextSpan(
+                                        text:
+                                            '${medicine.price.toStringAsFixed(2)}',
+                                        style: const TextStyle(
+                                          color: ColorsProvider.greeting2Color,
+                                          fontSize: 16,
                                         ),
                                       ),
                                     ],
                                   ),
-                                );
-                              },
-                            ),
-                          );
-                        } else {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 16.0),
-                            child: Center(
-                              child: SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: CircularProgressIndicator(
-                                  color: ColorsProvider.primaryBink,
                                 ),
-                              ),
+                              ],
                             ),
                           );
-                        }
-                      },
-                    ),
+                        },
+                      ),
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.only(top: 16.0),
+                      child: Center(
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: CircularProgressIndicator(
+                            color: ColorsProvider.primaryBink,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),

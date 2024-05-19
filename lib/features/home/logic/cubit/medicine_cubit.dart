@@ -65,6 +65,10 @@ class MedicineCubit extends Cubit<MedicineState> {
         "Filtered medicines count: ${filteredMedicines.length}"); // Debug statement
     emit(MedicineListState(medicines: filteredMedicines));
   }
+
+  // void clearFilteredList() {
+  //   emit(MedicineFilteredState(medicines: []));
+  // }
 }
 
 
