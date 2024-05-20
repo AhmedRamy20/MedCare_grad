@@ -9,7 +9,7 @@ void main() {
   ChacheHelper().init();
   runApp(
     MedcareApp(
-      appRouter: AppRouter(),
+      appRouter: AppRouter(),  
     ),
   );
 }
