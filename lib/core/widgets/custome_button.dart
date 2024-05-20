@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:medical_app/core/components/styles.dart';
 import 'package:medical_app/core/theming/colors.dart';
 // import 'package:minimum_ecommerce/core/components/styles.dart';
 
@@ -30,7 +31,7 @@ class CustomButton extends StatelessWidget {
         ),
         child: Center(
           child: isLoading
-              ? const CircularProgressIndicator()
+              ? const CircularProgressIndicator(color: Colors.white,)
               : Text(
                   text,
                   style: const TextStyle(color: Colors.white, fontSize: 18),

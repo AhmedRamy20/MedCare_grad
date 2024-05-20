@@ -45,7 +45,7 @@ class _CustomCreditCardState extends State<CustomCreditCard> {
               showBackView = carditCardModel.isCvvFocused;
               setState(() {});
             },
-            themeColor: Colors.black,
+            themeColor: Colors.white,
             formKey: formKey),
         // Spacer(),
         // CustomButton(text: "Pay Now"),

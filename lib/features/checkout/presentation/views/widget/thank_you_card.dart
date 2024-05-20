@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_app/core/components/styles.dart';
+import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/card_info_widget.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/payment_info_item.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/total_price_widget.dart';
@@ -14,7 +15,7 @@ class ThankYouCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: ShapeDecoration(
-        color: const Color(0xFFEDEDED),
+        color: const Color(0xFFEDEDED),  //const Color(0xFFEDEDED)
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -77,7 +78,7 @@ class ThankYouCard extends StatelessWidget {
                   decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
                       side: const BorderSide(
-                          width: 1.50, color: Color(0xFF34A853)),
+                          width: 1.50, color: ColorsProvider.primaryBink,), //Color(0xFF34A853)
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
@@ -86,7 +87,7 @@ class ThankYouCard extends StatelessWidget {
                       'PAID',
                       textAlign: TextAlign.center,
                       style: Styles.style24
-                          .copyWith(color: const Color(0xff34A853)),
+                          .copyWith(color: ColorsProvider.primaryBink),  //const Color(0xff34A853)
                     ),
                   ),
                 )

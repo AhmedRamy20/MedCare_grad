@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/widgets/custome_button.dart';
+import 'package:medical_app/features/checkout/data/repos/check_out_repo_impelementation.dart';
+import 'package:medical_app/features/checkout/presentation/manager/cubit/payment_cubit.dart';
 import 'package:medical_app/features/checkout/presentation/views/payment_details.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/cart_info_item.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/payment_method_list_view.dart';
+import 'package:medical_app/features/checkout/presentation/views/widget/payment_methods_bottom_sheet.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/total_price_widget.dart';
 
 class MyCartViewBody extends StatelessWidget {
@@ -47,7 +51,8 @@ class MyCartViewBody extends StatelessWidget {
               color: Color(0xffC7C7C7),
             ),
             // const TotalPrice(title: 'Total', value: r'$50.97'),  //!! modified
-            TotalPrice(title: 'Total', value: '50.97'), //! "$theTotalPrice"
+            TotalPrice(title: 'Total', value: '50.97'),
+            //! "$theTotalPrice"
             const SizedBox(
               height: 16,
             ),
@@ -76,7 +81,10 @@ class MyCartViewBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     builder: (context) {
-                      return PaymentMethodsBottomSheet();
+                      return BlocProvider(
+                        create: (context) => PaymentCubit(CheckoutRepoImpl()),
+                        child: PaymentMethodsBottomSheet(),
+                      );
                     });
               },
             ),
@@ -90,24 +98,3 @@ class MyCartViewBody extends StatelessWidget {
   }
 }
 
-class PaymentMethodsBottomSheet extends StatelessWidget {
-  const PaymentMethodsBottomSheet({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(
-            height: 16,
-          ),
-          PaymentMethodsListView(),
-          const SizedBox(height: 30),
-          const CustomButton(text: "Continue"),
-        ],
-      ),
-    );
-  }
-}

@@ -26,4 +26,13 @@ class ApiKey {
   static String confirmPass = "confirmPassword";
   // static String location = "location";
   // static String profilePic = "profilePic";
+
+  static String secretKey =
+      'sk_test_51PAEi006Qc6zhMxfSkmzOtSM0yaSkal56IpoH6u4UpJtavj3feXhn42XSkmz3DwcgSqv1HamCXPYdsdwoyfSJv90003oTNL0NC';
+
+  static String puplishableKey =
+      'pk_test_51PAEi006Qc6zhMxfWEnQ0Aoo2n8qde3IJznuPrQ57VLq0sFdJhzylk4sJGD0zDxmvP1qMkHuo1NcndtTBYoWWpWh00UxuXvJug';
+
+  // static String clientID = 'sa';
+  // static String paypalSecretKey = 'sa';
 }
