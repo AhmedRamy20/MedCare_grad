@@ -7,6 +7,7 @@ import 'package:medical_app/core/networking/dio_consumer.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/features/bottom_navigation-bar/ui/bottom_navigation_bar.dart';
 import 'package:medical_app/features/chatbot/ui/chatbot_screen.dart';
+import 'package:medical_app/features/checkout/presentation/views/widget/cart_view_body.dart';
 import 'package:medical_app/features/forget-password/ui/foget_password_screen.dart';
 import 'package:medical_app/features/forget-password/ui/otp_screen.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
@@ -80,6 +81,10 @@ class AppRouter {
       case Routes.otpScreen:
         return MaterialPageRoute(
           builder: (_) => OtpScreen(),
+        );
+      case Routes.paymentCheckout:
+        return MaterialPageRoute(
+          builder: (_) => MyCartViewBody(),
         );
       //! old v
       // case Routes.homeScreen:

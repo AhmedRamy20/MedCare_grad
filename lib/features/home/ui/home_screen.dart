@@ -539,14 +539,18 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () {},
             icon: Transform(
-              transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
-              alignment: Alignment.center,
-              child: const Icon(
-                Icons.shopping_cart,
-                color: ColorsProvider.greeting1Color,
-                size: 33,
-              ),
-            ),
+                transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                alignment: Alignment.center,
+                child: IconButton(
+                  onPressed: () {
+                    context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                  },
+                  icon: const Icon(
+                    Icons.shopping_cart,
+                    color: ColorsProvider.greeting1Color,
+                    size: 33,
+                  ),
+                )),
           ),
         ],
         leading: Builder(

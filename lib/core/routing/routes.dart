@@ -9,4 +9,5 @@ class Routes {
   static const String chatbotScreen = '/chatbotScreen';
   static const String emailVerification = '/emailVerification';
   static const String splashScreen = '/splashscreen';
+  static const String paymentCheckout = '/PaymentCheckout';
 }
