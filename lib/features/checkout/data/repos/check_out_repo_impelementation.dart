@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:medical_app/core/components/stripe_service.dart';
@@ -16,6 +15,9 @@ class CheckoutRepoImpl extends CheckoutRepo {
           paymentIntentInputModel: paymentIntentInputModel);
 
       return right(null);
+    } on StripeException catch (e) {
+      return left(ServerFailure(
+          errMessage: e.error.message ?? 'Oops there was an error'));
     } catch (e) {
       return left(ServerFailure(errMessage: e.toString()));
     }
