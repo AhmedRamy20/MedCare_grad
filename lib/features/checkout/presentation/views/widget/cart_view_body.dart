@@ -23,7 +23,7 @@ class MyCartViewBody extends StatelessWidget {
             const SizedBox(
               height: 18,
             ),
-            Expanded(child: Image.asset('assets/images/basket_image.png')),
+            Expanded(child: Image.asset('assets/images/drugcart.jpg')),  //'assets/images/basket_image.png'
             const SizedBox(
               height: 25,
             ),
@@ -76,6 +76,7 @@ class MyCartViewBody extends StatelessWidget {
                 //     });
 
                 showModalBottomSheet(
+                    // backgroundColor: Colors.white,
                     context: context,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),

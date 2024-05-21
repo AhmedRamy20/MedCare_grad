@@ -1,6 +1,7 @@
-
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:medical_app/core/theming/colors.dart';
 
 import '../../features/checkout/data/models/init_payment_sheet_input_model.dart';
 import '../../features/checkout/data/models/payment_intent_input_model.dart';
@@ -24,11 +25,23 @@ class StripeService {
     return paymentIntentModel;
   }
 
-  Future initPaymentSheet(
-      {required String paymentIntentClientSecret }) async {
+  Future initPaymentSheet({required String paymentIntentClientSecret}) async {
     await Stripe.instance.initPaymentSheet(
       paymentSheetParameters: SetupPaymentSheetParameters(
         paymentIntentClientSecret: paymentIntentClientSecret,
+        appearance: PaymentSheetAppearance(
+          colors: PaymentSheetAppearanceColors(
+            background: Colors.white,
+            primary: ColorsProvider.primaryBink,
+            componentBackground: Colors.white,
+            componentBorder: Colors.black45,
+            primaryText: Colors.black,
+            secondaryText: Colors.black54,
+            placeholderText: Colors.grey,
+            icon: Colors.black,
+            componentText: Colors.black,
+          ),
+        ),
         // customerEphemeralKeySecret:
         // initiPaymentSheetInputModel.ephemeralKeySecret,
         // customerId: initiPaymentSheetInputModel.customerId,
@@ -50,7 +63,8 @@ class StripeService {
     //     clientSecret: paymentIntentModel.clientSecret!,
     //     customerId: paymentIntentInputModel.cusomerId,
     //     ephemeralKeySecret: ephemeralKeyModel.secret!);
-    await initPaymentSheet(paymentIntentClientSecret: paymentIntentModel.clientSecret!);
+    await initPaymentSheet(
+        paymentIntentClientSecret: paymentIntentModel.clientSecret!);
     // await initPaymentSheet(
     //     initiPaymentSheetInputModel: initPaymentSheetInputModel);
     await displayPaymentSheet();
