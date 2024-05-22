@@ -1,10 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
 import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
 import 'package:medical_app/features/nearby-pharmacies/ui/nearby_pharmacy_location.dart';
 import 'package:medical_app/features/profile/ui/profile_screen.dart';
+import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 
 class HomeStartWithBottomNav extends StatefulWidget {
   const HomeStartWithBottomNav({super.key});
@@ -82,7 +85,19 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
           ),
         ],
       ),
-      body: pages[currentIndex],
+      // body: pages[currentIndex],
+      body: IndexedStack(
+        index: currentIndex,
+        children: [
+          homeScreen,
+          BlocProvider<LabTestCubit>(
+            create: (context) => LabTestCubit(Dio()), // Provide LabTestCubit
+            child: labTest,
+          ),
+          nearbyPharmacies,
+          profile,
+        ],
+      ),
     );
   }
 }

@@ -10,4 +10,5 @@ class Routes {
   static const String emailVerification = '/emailVerification';
   static const String splashScreen = '/splashscreen';
   static const String paymentCheckout = '/PaymentCheckout';
+  static const String labTest = '/LabTest';
 }

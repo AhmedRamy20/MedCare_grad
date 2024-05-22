@@ -12,6 +12,8 @@ import 'package:medical_app/features/forget-password/ui/foget_password_screen.da
 import 'package:medical_app/features/forget-password/ui/otp_screen.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
+import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
+import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:medical_app/features/login/ui/login_screen.dart';
 import 'package:medical_app/features/onboarding/onboarding_screens.dart';
@@ -110,6 +112,9 @@ class AppRouter {
               BlocProvider<MedicineCubit>(
                 create: (context) => MedicineCubit(),
               ),
+              BlocProvider<LabTestCubit>(
+                create: (context) => LabTestCubit(Dio()),
+              ),
             ],
             // create: (context) => MedicineCubit(),
             child: const HomeStartWithBottomNav(),
@@ -121,6 +126,13 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ChatbotScreen(),
         );
+      // case Routes.labTest:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider<LabTestCubit>(
+      //       create: (context) => LabTestCubit(Dio()),
+      //       child: LabTest(),
+      //     ),
+      //   );
       // default:
       //   return MaterialPageRoute(
       //     builder: (_) => Scaffold(

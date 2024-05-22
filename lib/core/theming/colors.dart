@@ -15,4 +15,7 @@ class ColorsProvider {
   static const Color greeting1Color = Color(0xFFE99987);
   static const Color greeting2Color = Color(0xFF616161);
   static const Color profileSubText = Color(0xFF757575);
+  static const Color gold = Color(0xFFF79644);
+  static const Color priceGrey = Color(0xFFBDBDBD);
+  static const Color discriptionTestGrey = Color(0xFF737373);
 }

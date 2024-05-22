@@ -88,7 +88,7 @@ class TextStyles {
   );
   static TextStyle font14GrayRegular = TextStyle(
     fontSize: 14.sp,
-    color: ColorsProvider.gray,
+    color: ColorsProvider.discriptionTestGrey,
     fontWeight: FontWeightconv.regular,
   );
   static TextStyle font14MoreGrayRegular = TextStyle(
@@ -111,6 +111,11 @@ class TextStyles {
     color: ColorsProvider.gray,
     fontWeight: FontWeightconv.medium,
   );
+  static TextStyle font14GoldBold = TextStyle(
+    fontSize: 14.sp,
+    color: ColorsProvider.gold,
+    fontWeight: FontWeightconv.bold,
+  );
   static TextStyle font14WhiteMediam = TextStyle(
     fontSize: 14.sp,
     color: Colors.white,
@@ -120,5 +125,10 @@ class TextStyles {
     fontSize: 16.sp,
     color: Colors.white,
     fontWeight: FontWeightconv.semiBold,
+  );
+  static TextStyle font16GreyBold = TextStyle(
+    fontSize: 16.sp,
+    color: ColorsProvider.priceGrey,
+    fontWeight: FontWeightconv.bold,
   );
 }
