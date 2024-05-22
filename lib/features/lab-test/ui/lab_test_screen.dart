@@ -9,6 +9,7 @@ import 'package:medical_app/core/theming/styles.dart';
 import 'package:medical_app/features/lab-test/data/models/lab_test_model.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_state.dart';
+import 'package:medical_app/features/lab-test/ui/lab_details_screen.dart';
 
 class LabTest extends StatefulWidget {
   const LabTest({super.key});
@@ -207,39 +208,72 @@ class _LabTestState extends State<LabTest> {
                                       ),
                                     ),
                                     verticalSpace(5),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'Price: ',
+                                            style: TextStyles.font16GreyBold,
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                '\$${labTest.price.toString()}',
+                                            style: const TextStyle(
+                                              color: ColorsProvider.gold,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    verticalSpace(10),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: 'Price: ',
-                                                style:
-                                                    TextStyles.font16GreyBold,
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    '\$${labTest.price.toString()}',
-                                                style: const TextStyle(
-                                                  color: ColorsProvider.gold,
-                                                  fontWeight: FontWeight.bold,
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LabDetailScreen(
+                                                  lab: labTest.lab,
                                                 ),
                                               ),
-                                            ],
+                                            );
+                                          },
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                              labTest.lab.pictureUrl,
+                                            ), //labTest.lab.pictureUrl
                                           ),
                                         ),
 
                                         // Lab info
-                                        CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                            labTest.lab.pictureUrl,
-                                          ), //labTest.lab.pictureUrl
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                ColorsProvider.primaryBink,
+                                            foregroundColor: Colors.white,
+                                            elevation: 0,
+                                            padding: EdgeInsets.only(
+                                                top: 10,
+                                                bottom: 13,
+                                                right: 34,
+                                                left: 34),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                          child: const Text("Add to Cart"),
                                         ),
                                       ],
                                     ),
-                                    verticalSpace(10),
+
+                                    verticalSpace(5),
                                   ],
                                 ),
                               ),
@@ -260,42 +294,6 @@ class _LabTestState extends State<LabTest> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class LabDetailScreen extends StatefulWidget {
-  const LabDetailScreen({super.key, required this.lab});
-
-  final Lab lab;
-  @override
-  State<LabDetailScreen> createState() => _LabDetailScreenState();
-}
-
-class _LabDetailScreenState extends State<LabDetailScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.lab.name),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(widget.lab.pictureUrl),
-            ),
-            SizedBox(height: 16),
-            Text('Email: ${widget.lab.email}', style: TextStyle(fontSize: 18)),
-            Text('Phone: ${widget.lab.phone}', style: TextStyle(fontSize: 18)),
-            Text('Location: ${widget.lab.location}',
-                style: TextStyle(fontSize: 18)),
-          ],
         ),
       ),
     );
