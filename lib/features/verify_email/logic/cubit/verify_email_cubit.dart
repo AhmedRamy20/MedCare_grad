@@ -21,7 +21,7 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
   verifyEmailRequest() async {
     try {
       final response = await dio.post(
-        "http://DawayaHealthCare.somee.com/api/Account/Verify-Email",
+        "http://DawayahealthCare1.somee.com/Account/Verify-Email",
         data: {
           "email": verifyEmail.text,
           "verificationCode": verificationCode.text,

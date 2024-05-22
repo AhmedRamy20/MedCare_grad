@@ -21,3 +21,9 @@ class MedicineFilteredState extends MedicineState {
   // @override
   // List<Object?> get props => [filteredMedicines];
 }
+
+class MedicineError extends MedicineState {
+  final String message;
+
+  MedicineError(this.message);
+}

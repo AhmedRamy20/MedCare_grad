@@ -23,12 +23,16 @@ class MedicineCubit extends Cubit<MedicineState> {
           emit(MedicineListState(medicines: medicines));
         } else {
           throw Exception('Failed to load medicines: Response data is null');
+          // emit(
+          //     MedicineError('Failed to load medicines: Response data is null'));
         }
       } else {
         throw Exception('Failed to load medicines: ${response.statusCode}');
+        // emit(MedicineError('Failed to load medicines: ${response.statusCode}'));
       }
     } catch (error) {
       throw Exception('Failed to load medicines: $error');
+      // emit(MedicineError('Failed to load medicines: $error'));
     }
   }
 
@@ -51,9 +55,11 @@ class MedicineCubit extends Cubit<MedicineState> {
   // }
 
   void searchMedicines(String query) {
-    print("Searching for: $query"); // Debug statement
+    print("Searching for: $query");
     if (query.isEmpty) {
-      filteredMedicines = List.from(notFilteredmedicines);
+      // filteredMedicines = List.from(notFilteredmedicines);
+      // emit(MedicineListState(medicines: notFilteredmedicines));
+      emit(MedicineListState(medicines: notFilteredmedicines));
     } else {
       filteredMedicines.clear();
       filteredMedicines = notFilteredmedicines

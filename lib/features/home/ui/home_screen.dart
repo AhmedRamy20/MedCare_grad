@@ -870,6 +870,63 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     );
+                  } else if (state is MedicineFilteredState) {
+                    // Display the filtered list of medicines
+                    final medicineCount =
+                        state.medicines.length > 4 ? 4 : state.medicines.length;
+                    return Column(
+                      children: List.generate(
+                        medicineCount,
+                        (index) {
+                          final medicine = state.medicines[index];
+                          return ListTile(
+                            leading: SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: medicine.pictureUrl.isNotEmpty
+                                  ? Image.network(medicine.pictureUrl)
+                                  : const Placeholder(),
+                            ),
+                            title: Text(
+                              medicine.name,
+                              style: TextStyles.font14DarkMediam,
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  medicine.description,
+                                  style: TextStyles.font14LightGrayRegular,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      const TextSpan(
+                                        text: '\$ ',
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            '${medicine.price.toStringAsFixed(2)}',
+                                        style: const TextStyle(
+                                          color: ColorsProvider.greeting2Color,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    );
                   } else {
                     return const Padding(
                       padding: EdgeInsets.only(top: 16.0),

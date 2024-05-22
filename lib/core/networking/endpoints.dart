@@ -1,10 +1,12 @@
 class EndPoints {
-  static String baseUrl = "http://DawayaHealthCare.somee.com/";
-  static String wholeGetMedicine = "http://DawayaHealthCare.somee.com/api/Medicine/Get-All-Medicines";
-  static String signIn = "api/Account/Login";
-  static String signUp = "api/Account/Register";
-  static String verifyEmail = "api/Account/Verify-Email";
-  static String getAllMedicine = "/api/Medicine/Get-All-Medicines";
+  // static String baseUrl = "http://DawayaHealthCare.somee.com/";
+  static String baseUrl = "http://DawayahealthCare1.somee.com/";
+  static String wholeGetMedicine =
+      "http://DawayahealthCare1.somee.com/Medicine/Get-All-Medicines";
+  static String signIn = "Account/Login";
+  static String signUp = "Account/Register";
+  static String verifyEmail = "Account/Verify-Email";
+  static String getAllMedicine = "Medicine/Get-All-Medicines";
 }
 
 class ApiKey {
