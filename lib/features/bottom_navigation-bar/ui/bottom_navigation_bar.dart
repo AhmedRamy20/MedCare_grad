@@ -6,6 +6,7 @@ import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
 import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
 import 'package:medical_app/features/nearby-pharmacies/ui/nearby_pharmacy_location.dart';
+import 'package:medical_app/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:medical_app/features/profile/ui/profile_screen.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 
@@ -95,7 +96,10 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
             child: labTest,
           ),
           nearbyPharmacies,
-          profile,
+          BlocProvider<ProfileCubit>(
+            create: (context) => ProfileCubit(),
+            child: profile,
+          ),
         ],
       ),
     );

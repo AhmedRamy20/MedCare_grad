@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/features/profile/data/model/user_data.dart';
 import 'package:medical_app/features/profile/logic/cubit/profile_state.dart';
+import 'package:medical_app/core/cache/cache_helper.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
@@ -11,8 +14,68 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> fetchUserData() async {
     try {
       emit(ProfileLoading());
-      final response = await dio
-          .get('http://DawayaHealthCare.somee.com/api/Account/GetCurrentuser');
+
+      //* Retrieve the token from secure storage or any other source
+      // String? token = await chacheHel;
+      final token = ChacheHelper.sharedPreferences.getString('token');
+
+      // Check if token is not null
+      if (token == null) {
+        throw Exception('No token found');
+      }
+
+      final response = await dio.get(
+        'http://DawayahealthCare1.somee.com/Account/GetCurrentuser',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      final userData = UserData.fromJson(response.data);
+      emit(ProfileSuccess(userData: userData));
+    } catch (e) {
+      emit(ProfileError(errMsg: e.toString()));
+    }
+  }
+
+  //!! update
+
+  Future<void> updateUserData({
+    String? displayName,
+    int? weight,
+    int? height,
+    String? pictureUrl,
+    File? imageFile,
+  }) async {
+    try {
+      emit(ProfileLoading());
+
+      final token = ChacheHelper.sharedPreferences.getString('token');
+
+      // Check if token is not null
+      if (token == null) {
+        throw Exception('No token found');
+      }
+
+      FormData formData = FormData.fromMap({
+        'DisplayName': displayName,
+        'Weight': weight,
+        'Height': height,
+        'Image': await MultipartFile.fromFile(imageFile!.path,
+            filename: 'image.jpg'),
+      });
+      // Add authorization header
+      final response = await dio.put(
+        'http://DawayahealthCare1.somee.com/Account/UpdateCurrentUser',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
       final userData = UserData.fromJson(response.data);
       emit(ProfileSuccess(userData: userData));
     } catch (e) {
