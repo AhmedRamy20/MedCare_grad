@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:medical_app/features/profile/data/model/user_data.dart';
 import 'package:medical_app/features/profile/logic/cubit/profile_state.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
@@ -46,7 +47,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     int? weight,
     int? height,
     String? pictureUrl,
-    File? imageFile,
+    XFile? imageFile, //make it File
   }) async {
     try {
       emit(ProfileLoading());
@@ -58,13 +59,29 @@ class ProfileCubit extends Cubit<ProfileState> {
         throw Exception('No token found');
       }
 
-      FormData formData = FormData.fromMap({
-        'DisplayName': displayName,
-        'Weight': weight,
-        'Height': height,
-        'Image': await MultipartFile.fromFile(imageFile!.path,
-            filename: 'image.jpg'),
-      });
+      // FormData formData = FormData.fromMap({
+      //   'DisplayName': displayName,
+      //   'Weight': weight,
+      //   'Height': height,
+      //   'Image': await MultipartFile.fromFile(imageFile!.path,
+      //       filename: 'image.jpg'),
+      // });
+      FormData formData = FormData();
+      if (displayName != null) {
+        formData.fields.add(MapEntry('DisplayName', displayName));
+      }
+      if (weight != null) {
+        formData.fields.add(MapEntry('Weight', weight.toString()));
+      }
+      if (height != null) {
+        formData.fields.add(MapEntry('Height', height.toString()));
+      }
+      if (imageFile != null) {
+        formData.files.add(MapEntry(
+          'Image',
+          await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
+        ));
+      }
       // Add authorization header
       final response = await dio.put(
         'http://DawayahealthCare1.somee.com/Account/UpdateCurrentUser',
