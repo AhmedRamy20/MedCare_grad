@@ -28,6 +28,10 @@ class _LabTestState extends State<LabTest> {
     context.read<LabTestCubit>().fetchLabTests();
   }
 
+  Future<void> _handleRefresh() async {
+    await context.read<LabTestCubit>().fetchLabTests();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,151 +142,164 @@ class _LabTestState extends State<LabTest> {
                         child: CircularProgressIndicator(),
                       );
                     } else if (state is LabTestLoaded) {
+                      if (state.labTests.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            'No lab tests available.',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                        );
+                      }
                       final labTestCount =
                           state.labTests.length > 3 ? 3 : state.labTests.length;
 
-                      return ListView.builder(
-                        itemCount: labTestCount, //state.labTests.length
-                        itemBuilder: (context, index) {
-                          final labTest = state.labTests[index];
-                          // return ListTile(
-                          //   leading: CircleAvatar(
-                          //     backgroundImage: NetworkImage(
-                          //         labTest.imageUrl), //labTest.lab.pictureUrl
-                          //   ),
-                          //   title: Text(labTest.name),
-                          //   subtitle: Text(labTest.description),
-                          //   trailing: Text('\$${labTest.price.toString()}'),
-                          //   onTap: () {
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             LabDetailScreen(lab: labTest.lab),
-                          //       ),
-                          //     );
-                          //   },
-                          // );
-                          //!!!
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Center(
-                                  child: Image.network(
-                                    labTest.imageUrl,
-                                    height: 268.h,
-                                    // width: 341.w,
-                                    fit: BoxFit.cover,
+                      return RefreshIndicator(
+                        onRefresh: _handleRefresh,
+                        child: ListView.builder(
+                          itemCount: labTestCount, //state.labTests.length
+                          itemBuilder: (context, index) {
+                            final labTest = state.labTests[index];
+                            // return ListTile(
+                            //   leading: CircleAvatar(
+                            //     backgroundImage: NetworkImage(
+                            //         labTest.imageUrl), //labTest.lab.pictureUrl
+                            //   ),
+                            //   title: Text(labTest.name),
+                            //   subtitle: Text(labTest.description),
+                            //   trailing: Text('\$${labTest.price.toString()}'),
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             LabDetailScreen(lab: labTest.lab),
+                            //       ),
+                            //     );
+                            //   },
+                            // );
+                            //!!!
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Center(
+                                    child: Image.network(
+                                      labTest.imageUrl,
+                                      height: 268.h,
+                                      // width: 341.w,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 12.h,
-                                        bottom: 12,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: 12.h,
+                                          bottom: 12,
+                                        ),
+                                        child: Text(
+                                          labTest.name,
+                                          style: TextStyles.font14GoldBold,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                      child: Text(
-                                        labTest.name,
-                                        style: TextStyles.font14GoldBold,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                      // verticalSpace(5),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8),
+                                        child: Text(
+                                          labTest.description,
+                                          style: TextStyles.font14GrayRegular,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
-                                    // verticalSpace(5),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Text(
-                                        labTest.description,
-                                        style: TextStyles.font14GrayRegular,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    verticalSpace(5),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: 'Price: ',
-                                            style: TextStyles.font16GreyBold,
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                '\$${labTest.price.toString()}',
-                                            style: const TextStyle(
-                                              color: ColorsProvider.gold,
-                                              fontWeight: FontWeight.bold,
+                                      verticalSpace(5),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: 'Price: ',
+                                              style: TextStyles.font16GreyBold,
                                             ),
+                                            TextSpan(
+                                              text:
+                                                  '\$${labTest.price.toString()}',
+                                              style: const TextStyle(
+                                                color: ColorsProvider.gold,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      verticalSpace(10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LabDetailScreen(
+                                                    lab: labTest.lab,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                labTest.lab.pictureUrl,
+                                              ), //labTest.lab.pictureUrl
+                                            ),
+                                          ),
+
+                                          // Lab info
+                                          ElevatedButton(
+                                            onPressed: () {},
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  ColorsProvider.primaryBink,
+                                              foregroundColor: Colors.white,
+                                              elevation: 0,
+                                              padding: EdgeInsets.only(
+                                                  top: 10,
+                                                  bottom: 13,
+                                                  right: 34,
+                                                  left: 34),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                            ),
+                                            child: const Text("Add to Cart"),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    verticalSpace(10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LabDetailScreen(
-                                                  lab: labTest.lab,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                              labTest.lab.pictureUrl,
-                                            ), //labTest.lab.pictureUrl
-                                          ),
-                                        ),
 
-                                        // Lab info
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                ColorsProvider.primaryBink,
-                                            foregroundColor: Colors.white,
-                                            elevation: 0,
-                                            padding: EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 13,
-                                                right: 34,
-                                                left: 34),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                            ),
-                                          ),
-                                          child: const Text("Add to Cart"),
-                                        ),
-                                      ],
-                                    ),
-
-                                    verticalSpace(5),
-                                  ],
+                                      verticalSpace(5),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              const Divider(
-                                color: Color.fromARGB(255, 220, 219, 219),
-                              ),
-                            ],
-                          );
-                        },
+                                const Divider(
+                                  color: Color.fromARGB(255, 220, 219, 219),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                       );
                     } else if (state is LabTestError) {
                       return Center(child: Text(state.message));

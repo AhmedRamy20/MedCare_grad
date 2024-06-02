@@ -71,4 +71,18 @@ class ChacheHelper {
       return await sharedPreferences.setInt(key, value);
     }
   }
+
+  //! New
+
+  // Add a method to save the image URL to SharedPreferences
+  Future<void> saveImageUrl(String imageUrl) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('profileImageUrl', imageUrl);
+  }
+
+// Add a method to get the image URL from SharedPreferences
+  Future<String?> getImageUrl() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('profileImageUrl');
+  }
 }

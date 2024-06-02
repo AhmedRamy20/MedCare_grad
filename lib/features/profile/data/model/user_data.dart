@@ -2,18 +2,19 @@ class UserData {
   final String displayName;
   final String email;
   final String? gender;
+  final String? bloodType;
   final int weight;
   final int height;
-  final String? pictureUrl;
+  String? pictureUrl;
 
-  UserData({
-    required this.displayName,
-    required this.email,
-    this.gender,
-    required this.weight,
-    required this.height,
-    this.pictureUrl,
-  });
+  UserData(
+      {required this.displayName,
+      required this.email,
+      this.gender,
+      required this.weight,
+      required this.height,
+      this.pictureUrl,
+      this.bloodType});
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
@@ -23,6 +24,7 @@ class UserData {
       weight: json['weight'],
       height: json['height'],
       pictureUrl: json['pictureUrl'],
+      bloodType: json['bloodType'],
     );
   }
 }

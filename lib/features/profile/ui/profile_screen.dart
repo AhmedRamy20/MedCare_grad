@@ -390,7 +390,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
+import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -399,7 +401,8 @@ import 'package:medical_app/features/profile/logic/cubit/profile_state.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key});
+  final VoidCallback onProfileUpdated;
+  const Profile({Key? key, required this.onProfileUpdated});
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -411,6 +414,8 @@ class _ProfileState extends State<Profile> {
   final TextEditingController userWeightController = TextEditingController();
   final TextEditingController userHeightController = TextEditingController();
   XFile? _pickedImage;
+
+  String? _profileImageUrl;
 
   @override
   void initState() {
@@ -428,9 +433,14 @@ class _ProfileState extends State<Profile> {
             child: BlocConsumer<ProfileCubit, ProfileState>(
               listener: (context, state) {
                 if (state is ProfileSuccess) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Profile updated successfully')),
-                  );
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(content: Text('Profile updated successfully')),
+                  // );
+
+                  // Save profile image URL to state variable
+                  setState(() {
+                    _profileImageUrl = state.userData.pictureUrl;
+                  });
                 } else if (state is ProfileError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Error: ${state.errMsg}')),
@@ -471,11 +481,33 @@ class _ProfileState extends State<Profile> {
                           GestureDetector(
                             onTap: _pickImage,
                             child: CircleAvatar(
+                              //     backgroundColor: Colors.grey.shade200,
+                              //     backgroundImage: _pickedImage != null
+                              //         ? FileImage(File(_pickedImage!.path))
+                              //         : AssetImage("assets/images/avatar.png")
+                              //             as ImageProvider<Object>,
+                              //     radius: 60,
+                              //   ),
+                              // ),
+
+                              //! 2
+                              //     backgroundColor: Colors.grey.shade200,
+                              //     backgroundImage: _profileImageUrl != null
+                              //         ? NetworkImage(_profileImageUrl!)
+                              //         : _pickedImage != null
+                              //             ? FileImage(File(_pickedImage!.path))
+                              //             : AssetImage("assets/images/avatar.png")
+                              //                 as ImageProvider<Object>,
+                              //     radius: 60,
+                              //   ),
+                              // ),
                               backgroundColor: Colors.grey.shade200,
                               backgroundImage: _pickedImage != null
                                   ? FileImage(File(_pickedImage!.path))
-                                  : AssetImage("assets/images/avatar.png")
-                                      as ImageProvider<Object>,
+                                  : _profileImageUrl != null
+                                      ? NetworkImage(_profileImageUrl!)
+                                      : AssetImage("assets/images/avatar.png")
+                                          as ImageProvider<Object>,
                               radius: 60,
                             ),
                           ),
@@ -564,13 +596,22 @@ class _ProfileState extends State<Profile> {
     }
   }
 
+  //imageFile: _pickedImage, _pickedImage != null ? File(_pickedImage!.path) : null,
   void _updateProfile() {
-    context.read<ProfileCubit>().updateUserData(
+    context
+        .read<ProfileCubit>()
+        .updateUserData(
           displayName: userNameController.text,
           weight: int.tryParse(userWeightController.text),
           height: int.tryParse(userHeightController.text),
-          imageFile:
-              _pickedImage, //_pickedImage != null ? File(_pickedImage!.path) : null,
-        );
+          imageFile: _pickedImage,
+        )
+        .then((_) {
+      widget.onProfileUpdated();
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $error')),
+      );
+    });
   }
 }

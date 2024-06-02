@@ -2,6 +2,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_app/core/helpers/extensions.dart';
+import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
 import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
@@ -33,7 +35,30 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
     homeScreen = const HomeScreen();
     nearbyPharmacies = NearbyPharmacies();
     labTest = const LabTest();
-    profile = Profile();
+    profile = Profile(
+      onProfileUpdated: () {
+        // Show dialog when profile is updated successfully
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Success'),
+              content: Text('Profile updated successfully!'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Pop the dialog
+                    // Navigator.popUntil(
+                    //     context, ModalRoute.withName(Routes.profile));
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
 
     pages = [
       homeScreen,

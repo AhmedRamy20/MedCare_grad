@@ -11,4 +11,5 @@ class Routes {
   static const String splashScreen = '/splashscreen';
   static const String paymentCheckout = '/PaymentCheckout';
   static const String labTest = '/LabTest';
+  static const String profile = '/Profile';
 }

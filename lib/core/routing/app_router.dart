@@ -17,6 +17,8 @@ import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:medical_app/features/login/ui/login_screen.dart';
 import 'package:medical_app/features/onboarding/onboarding_screens.dart';
+import 'package:medical_app/features/profile/logic/cubit/profile_cubit.dart';
+import 'package:medical_app/features/profile/ui/profile_screen.dart';
 import 'package:medical_app/features/sign_up/logic/cubit/sign_up_cubit.dart';
 import 'package:medical_app/features/sign_up/ui/sign_up_screen.dart';
 import 'package:medical_app/features/splashcheckonboarding/splash_screen.dart';
@@ -88,6 +90,12 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => MyCartViewBody(),
         );
+      //! New maps phase
+      // case Routes.profile:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider<ProfileCubit>(
+      //         create: (context) => ProfileCubit(), child: Profile()),
+      //   );
       //! old v
       // case Routes.homeScreen:
       //   return MaterialPageRoute(

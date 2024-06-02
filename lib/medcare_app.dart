@@ -23,7 +23,8 @@ class MedcareApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.splashScreen,
+        // initialRoute: Routes.splashScreen,
+        initialRoute: Routes.homeStartWithBottomNav,
         // home: MyCartViewBody(),
       ),
     );

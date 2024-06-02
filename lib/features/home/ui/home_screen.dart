@@ -526,6 +526,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  Future<void> _handleRefresh() async {
+    await context.read<MedicineCubit>().fetchMedicines();
+  }
+
   @override
   Widget build(BuildContext context) {
     final loginCubit = context.read<LoginCubit>();
@@ -679,272 +683,280 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  "Hi, $userUniqename",
-                  style: TextStyles.font24BinkBold2,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    "Hi, $userUniqename",
+                    style: TextStyles.font24BinkBold2,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              Text(
-                "Hope you doing well..",
-                style: TextStyles.font11GrayRegular,
-              ),
-              if (!isSearchExpanded)
-                SizedBox(
-                  height: 200,
-                  child: CarouselSlider(
-                    items: [
-                      "assets/images/slid11.png",
-                      "assets/images/slid22.png",
-                      "assets/images/slid3.png"
-                    ].map((e) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Image.asset(
-                          e,
-                          fit: BoxFit.fitWidth,
-                        ),
-                      );
-                    }).toList(),
-                    options: CarouselOptions(
-                      height: 200,
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 2),
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 800),
-                      autoPlayCurve: Curves.fastOutSlowIn,
+                Text(
+                  "Hope you doing well..",
+                  style: TextStyles.font11GrayRegular,
+                ),
+                if (!isSearchExpanded)
+                  SizedBox(
+                    height: 200,
+                    child: CarouselSlider(
+                      items: [
+                        "assets/images/slid11.png",
+                        "assets/images/slid22.png",
+                        "assets/images/slid3.png"
+                      ].map((e) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.asset(
+                            e,
+                            fit: BoxFit.fitWidth,
+                          ),
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        height: 200,
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 2),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                      ),
                     ),
                   ),
-                ),
-              verticalSpace(8),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                child: Container(
-                  height: isSearchExpanded ? null : 56,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.search),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            _searchFocusNode.requestFocus();
-
-                            setState(() {
-                              isSearchExpanded = true;
-                            });
-                            // FocusScope.of(context)
-                            //     .requestFocus(_searchFocusNode);
-                          },
-                          child: TextField(
-                            controller: searchController,
-                            focusNode: _searchFocusNode,
+                verticalSpace(8),
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  child: Container(
+                    height: isSearchExpanded ? null : 56,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(Icons.search),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
                             onTap: () {
                               _searchFocusNode.requestFocus();
+
                               setState(() {
                                 isSearchExpanded = true;
                               });
+                              // FocusScope.of(context)
+                              //     .requestFocus(_searchFocusNode);
                             },
-                            cursorColor: Colors.blue,
-                            decoration: const InputDecoration(
-                              hintText: "Search a Drug",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 17,
+                            child: TextField(
+                              controller: searchController,
+                              focusNode: _searchFocusNode,
+                              onTap: () {
+                                _searchFocusNode.requestFocus();
+                                setState(() {
+                                  isSearchExpanded = true;
+                                });
+                              },
+                              cursorColor: Colors.blue,
+                              decoration: const InputDecoration(
+                                hintText: "Search a Drug",
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 17,
+                                ),
                               ),
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 19,
+                              ),
+                              onChanged: (searchedValue) {
+                                print("Search value: $searchedValue");
+                                // context
+                                //     .read<MedicineCubit>()
+                                //     .searchMedicines(searchedValue);
+                                context
+                                    .read<MedicineCubit>()
+                                    .searchMedicines(searchedValue);
+                              },
+                              onSubmitted: (value) {
+                                // setState(
+                                //   () {
+                                //     isSearchExpanded = false;
+                                //   },
+                                // );
+                                setState(() {
+                                  isSearchExpanded = false;
+                                });
+                              },
                             ),
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 19,
-                            ),
-                            onChanged: (searchedValue) {
-                              print("Search value: $searchedValue");
-                              // context
-                              //     .read<MedicineCubit>()
-                              //     .searchMedicines(searchedValue);
-                              context
-                                  .read<MedicineCubit>()
-                                  .searchMedicines(searchedValue);
-                            },
-                            onSubmitted: (value) {
-                              // setState(
-                              //   () {
-                              //     isSearchExpanded = false;
-                              //   },
-                              // );
-                              setState(() {
-                                isSearchExpanded = false;
-                              });
-                            },
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              verticalSpace(5),
-              BlocBuilder<MedicineCubit, MedicineState>(
-                builder: (context, state) {
-                  if (state is MedicineListState) {
-                    final medicineCount =
-                        state.medicines.length > 4 ? 4 : state.medicines.length;
+                verticalSpace(5),
+                BlocBuilder<MedicineCubit, MedicineState>(
+                  builder: (context, state) {
+                    if (state is MedicineListState) {
+                      final medicineCount = state.medicines.length > 4
+                          ? 4
+                          : state.medicines.length;
 
-                    if (state.medicines.isEmpty) {
-                      return const Center(
-                        child: Text("No medicines found."),
+                      if (state.medicines.isEmpty) {
+                        return const Center(
+                          child: Text("No medicines found."),
+                        );
+                      }
+
+                      return Column(
+                        children: List.generate(
+                          medicineCount,
+                          (index) {
+                            final medicine = state.medicines[index];
+                            return ListTile(
+                              leading: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: medicine.pictureUrl.isNotEmpty
+                                    ? Image.network(medicine.pictureUrl)
+                                    : const Placeholder(),
+                              ),
+                              title: Text(
+                                medicine.name,
+                                style: TextStyles.font14DarkMediam,
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    medicine.description,
+                                    style: TextStyles.font14LightGrayRegular,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                          text: '\$ ',
+                                          style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              '${medicine.price.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            color:
+                                                ColorsProvider.greeting2Color,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       );
-                    }
-
-                    return Column(
-                      children: List.generate(
-                        medicineCount,
-                        (index) {
-                          final medicine = state.medicines[index];
-                          return ListTile(
-                            leading: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: medicine.pictureUrl.isNotEmpty
-                                  ? Image.network(medicine.pictureUrl)
-                                  : const Placeholder(),
-                            ),
-                            title: Text(
-                              medicine.name,
-                              style: TextStyles.font14DarkMediam,
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  medicine.description,
-                                  style: TextStyles.font14LightGrayRegular,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: [
-                                      const TextSpan(
-                                        text: '\$ ',
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            '${medicine.price.toStringAsFixed(2)}',
-                                        style: const TextStyle(
-                                          color: ColorsProvider.greeting2Color,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
+                    } else if (state is MedicineFilteredState) {
+                      // Display the filtered list of medicines
+                      final medicineCount = state.medicines.length > 4
+                          ? 4
+                          : state.medicines.length;
+                      return Column(
+                        children: List.generate(
+                          medicineCount,
+                          (index) {
+                            final medicine = state.medicines[index];
+                            return ListTile(
+                              leading: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: medicine.pictureUrl.isNotEmpty
+                                    ? Image.network(medicine.pictureUrl)
+                                    : const Placeholder(),
+                              ),
+                              title: Text(
+                                medicine.name,
+                                style: TextStyles.font14DarkMediam,
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    medicine.description,
+                                    style: TextStyles.font14LightGrayRegular,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else if (state is MedicineFilteredState) {
-                    // Display the filtered list of medicines
-                    final medicineCount =
-                        state.medicines.length > 4 ? 4 : state.medicines.length;
-                    return Column(
-                      children: List.generate(
-                        medicineCount,
-                        (index) {
-                          final medicine = state.medicines[index];
-                          return ListTile(
-                            leading: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: medicine.pictureUrl.isNotEmpty
-                                  ? Image.network(medicine.pictureUrl)
-                                  : const Placeholder(),
-                            ),
-                            title: Text(
-                              medicine.name,
-                              style: TextStyles.font14DarkMediam,
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  medicine.description,
-                                  style: TextStyles.font14LightGrayRegular,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    children: [
-                                      const TextSpan(
-                                        text: '\$ ',
-                                        style: TextStyle(
-                                          color: Colors.green,
-                                          fontSize: 16,
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                          text: '\$ ',
+                                          style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 16,
+                                          ),
                                         ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            '${medicine.price.toStringAsFixed(2)}',
-                                        style: const TextStyle(
-                                          color: ColorsProvider.greeting2Color,
-                                          fontSize: 16,
+                                        TextSpan(
+                                          text:
+                                              '${medicine.price.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            color:
+                                                ColorsProvider.greeting2Color,
+                                            fontSize: 16,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 16.0),
+                        child: Center(
+                          child: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(
+                              color: ColorsProvider.primaryBink,
                             ),
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    return const Padding(
-                      padding: EdgeInsets.only(top: 16.0),
-                      child: Center(
-                        child: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: CircularProgressIndicator(
-                            color: ColorsProvider.primaryBink,
                           ),
                         ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

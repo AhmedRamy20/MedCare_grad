@@ -34,6 +34,16 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       );
       final userData = UserData.fromJson(response.data);
+
+      // Retrieve the saved image URL from SharedPreferences
+      // final savedImageUrl = await ChacheHelper().getImageUrl();
+      // if (savedImageUrl != null) {
+      //   userData.pictureUrl = savedImageUrl;
+      // }
+      // Save the image URL to shared preferences
+      if (userData.pictureUrl != null) {
+        await ChacheHelper().saveImageUrl(userData.pictureUrl!);
+      }
       emit(ProfileSuccess(userData: userData));
     } catch (e) {
       emit(ProfileError(errMsg: e.toString()));
@@ -46,7 +56,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     String? displayName,
     int? weight,
     int? height,
-    String? pictureUrl,
     XFile? imageFile, //make it File
   }) async {
     try {
@@ -93,10 +102,59 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       );
 
+      // if (response.data is String) {
+      //   // Handle the error case where the response data is a String
+      //   throw Exception(response.data);
+      // }
+      // if (response.data is String) {
+      //   // Handle the error case where the response data is a String
+      //   emit(ProfileError(errMsg: response.data));
+      //   return;
+      // }
+      if (response.data != 'User updated successfully') {
+        throw Exception('Error: ${response.data}');
+      }
+
       final userData = UserData.fromJson(response.data);
+
+      // Save the new image URL if available
+      // if (response.data['pictureUrl'] != null) {
+      //   await ChacheHelper().saveImageUrl(response.data['pictureUrl']);
+      // }
+      // Save the new image URL if available
+      if (userData.pictureUrl != null) {
+        await ChacheHelper().saveImageUrl(userData.pictureUrl!);
+      }
+
       emit(ProfileSuccess(userData: userData));
     } catch (e) {
       emit(ProfileError(errMsg: e.toString()));
     }
   }
 }
+
+
+
+
+
+// onSubmitProfile() {
+//     if (this.profileForm.dirty) {
+//       let formData = new FormData();
+//       formData.append('DisplayName', this.profileForm.get('DisplayName')!.value ?? null);
+//       formData.append('Height', this.profileForm.get('Height')!.value ?? null);
+//       formData.append('Weight', this.profileForm.get('Weight')!.value ?? null);
+//       if (this.selectedFile) {
+//         formData.append('Image', this.selectedFile, this.selectedFile.name);
+//       }
+//       formData.append('BloodType', this.profileForm.get('BloodType')!.value ?? null);
+//       this.changePass.updateUserinfo(formData).subscribe({
+//         next: (res: any) => {
+//           console.log(res);
+//           this.toast.success('Profile Updated Successfully');
+//           window.location.reload();
+//         }, error: (err) => {
+//           this.toast.error(err);
+//         }
+//       })
+//     }
+//   }
