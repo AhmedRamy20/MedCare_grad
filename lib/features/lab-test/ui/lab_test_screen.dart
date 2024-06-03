@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +11,7 @@ import 'package:medical_app/features/lab-test/data/models/lab_test_model.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_state.dart';
 import 'package:medical_app/features/lab-test/ui/lab_details_screen.dart';
+import 'package:medical_app/features/lab-test/ui/widgets/lab_test_shimmer.dart';
 
 class LabTest extends StatefulWidget {
   const LabTest({super.key});
@@ -133,14 +135,13 @@ class _LabTestState extends State<LabTest> {
               ),
 
               //* Labs tests
+              verticalSpace(10),
 
               Expanded(
                 child: BlocBuilder<LabTestCubit, LabTestState>(
                   builder: (context, state) {
                     if (state is LabTestLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return const HomePageShimmer();
                     } else if (state is LabTestLoaded) {
                       if (state.labTests.isEmpty) {
                         return const Center(
@@ -185,11 +186,26 @@ class _LabTestState extends State<LabTest> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   child: Center(
-                                    child: Image.network(
-                                      labTest.imageUrl,
+                                    //*old
+                                    // child: Image.network(
+                                    //   labTest.imageUrl,
+                                    //   height: 268.h,
+                                    //   // width: 341.w,
+                                    //   fit: BoxFit.cover,
+                                    // ),
+                                    //* fancy
+                                    child: FancyShimmerImage(
+                                      imageUrl: labTest.imageUrl,
                                       height: 268.h,
-                                      // width: 341.w,
-                                      fit: BoxFit.cover,
+                                      boxFit: BoxFit.cover,
+                                      errorWidget: Container(
+                                        color: Colors.grey[200],
+                                        child: const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                          size: 40,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -274,7 +290,7 @@ class _LabTestState extends State<LabTest> {
                                                   ColorsProvider.primaryBink,
                                               foregroundColor: Colors.white,
                                               elevation: 0,
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 10,
                                                   bottom: 13,
                                                   right: 34,
@@ -302,7 +318,29 @@ class _LabTestState extends State<LabTest> {
                         ),
                       );
                     } else if (state is LabTestError) {
-                      return Center(child: Text(state.message));
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(state.message),
+                            const SizedBox(height: 8),
+                            ElevatedButton(
+                              onPressed: _handleRefresh,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorsProvider.primaryBink,
+                                foregroundColor: Colors.white,
+                                elevation: 0,
+                                padding: const EdgeInsets.only(
+                                    top: 10, bottom: 13, right: 15, left: 15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: const Text("Reload"),
+                            ),
+                          ],
+                        ),
+                      );
                     } else {
                       return Container();
                     }

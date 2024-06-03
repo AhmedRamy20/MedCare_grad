@@ -13,6 +13,7 @@ class MedicineCubit extends Cubit<MedicineState> {
 
   Future<void> fetchMedicines() async {
     try {
+      emit(MedicineListLoadingState());
       final response = await dio.get(EndPoints.wholeGetMedicine);
       if (response.statusCode == 200) {
         final List<dynamic>? data = response.data;

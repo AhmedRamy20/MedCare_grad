@@ -478,6 +478,7 @@
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
@@ -490,6 +491,7 @@ import 'package:medical_app/core/theming/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_state.dart';
+import 'package:medical_app/features/home/ui/widgets/medicine_shimmer_loading.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -815,7 +817,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 verticalSpace(5),
                 BlocBuilder<MedicineCubit, MedicineState>(
                   builder: (context, state) {
-                    if (state is MedicineListState) {
+                    if (state is MedicineListLoadingState) {
+                      return const MedicineShimmerLoading();
+                    } else if (state is MedicineListState) {
                       final medicineCount = state.medicines.length > 4
                           ? 4
                           : state.medicines.length;
@@ -835,9 +839,29 @@ class _HomeScreenState extends State<HomeScreen> {
                               leading: SizedBox(
                                 height: 100,
                                 width: 100,
+                                //* old
+                                // child: medicine.pictureUrl.isNotEmpty
+                                //     ? Image.network(medicine.pictureUrl)
+                                //     : const Placeholder(),
                                 child: medicine.pictureUrl.isNotEmpty
-                                    ? Image.network(medicine.pictureUrl)
-                                    : const Placeholder(),
+                                    ? FancyShimmerImage(
+                                        imageUrl: medicine.pictureUrl,
+                                        boxFit: BoxFit.cover,
+                                        errorWidget: Container(
+                                          child: const Icon(
+                                            Icons.error,
+                                            color: ColorsProvider.primaryBink,
+                                          ),
+                                        ),
+                                      )
+                                    : const Icon(
+                                        Icons.error,
+                                        color: ColorsProvider.primaryBink,
+                                      ),
+                                //! fancy
+                                // child: FancyShimmerImage(
+                                //   imageUrl: medicine.pictureUrl,
+                                // ),
                               ),
                               title: Text(
                                 medicine.name,

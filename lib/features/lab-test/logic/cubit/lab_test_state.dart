@@ -8,8 +8,9 @@ class LabTestLoading extends LabTestState {}
 
 class LabTestLoaded extends LabTestState {
   final List<LabTestModel> labTests;
+  final bool isOffline;
 
-  LabTestLoaded(this.labTests);
+  LabTestLoaded(this.labTests, {this.isOffline = false});
 }
 
 class LabTestError extends LabTestState {
