@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/networking/dio_consumer.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/features/bottom_navigation-bar/ui/bottom_navigation_bar.dart';
+import 'package:medical_app/features/cart/logic/cubit/cart_cubit.dart';
+import 'package:medical_app/features/cart/ui/cart_screen.dart';
 import 'package:medical_app/features/chatbot/ui/chatbot_screen.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/cart_view_body.dart';
 import 'package:medical_app/features/forget-password/ui/foget_password_screen.dart';
@@ -133,6 +135,20 @@ class AppRouter {
       case Routes.chatbotScreen:
         return MaterialPageRoute(
           builder: (_) => const ChatbotScreen(),
+        );
+      case Routes.cart:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider<CartCubit>(
+                create: (context) => CartCubit(),
+              ),
+              BlocProvider(
+                create: (context) => LabTestCubit(Dio()),
+              ),
+            ],
+            child: const CartScreen(),
+          ),
         );
       // case Routes.labTest:
       //   return MaterialPageRoute(

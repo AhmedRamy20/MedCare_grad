@@ -9,6 +9,8 @@ class HomePageShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     // bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Shimmer.fromColors(
       // loop: 3,
@@ -27,9 +29,9 @@ class HomePageShimmer extends StatelessWidget {
                 child: Center(
                   child: Container(
                     height: 268,
-                    width: double.infinity,
+                    width: 300,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDarkTheme ? Colors.white12 : Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -49,7 +51,7 @@ class HomePageShimmer extends StatelessWidget {
                         height: 13,
                         width: 100,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: isDarkTheme ? Colors.white12 : Colors.white,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -61,7 +63,7 @@ class HomePageShimmer extends StatelessWidget {
                         height: 38,
                         width: 280,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: isDarkTheme ? Colors.white12 : Colors.white,
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
@@ -71,7 +73,7 @@ class HomePageShimmer extends StatelessWidget {
                       height: 15,
                       width: 88,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDarkTheme ? Colors.white12 : Colors.white,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -83,7 +85,7 @@ class HomePageShimmer extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
-                            color: Colors.white,
+                            color: isDarkTheme ? Colors.white12 : Colors.white,
                           ),
                           height: 50,
                           width: 50,
@@ -92,7 +94,7 @@ class HomePageShimmer extends StatelessWidget {
                           height: 49,
                           width: 142,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: isDarkTheme ? Colors.white12 : Colors.white,
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),

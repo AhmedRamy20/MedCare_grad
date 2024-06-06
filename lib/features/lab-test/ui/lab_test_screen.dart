@@ -7,6 +7,7 @@ import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
+import 'package:medical_app/features/cart/logic/cubit/cart_cubit.dart';
 import 'package:medical_app/features/lab-test/data/models/lab_test_model.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_state.dart';
@@ -36,6 +37,8 @@ class _LabTestState extends State<LabTest> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Lab Tests"),
@@ -50,7 +53,8 @@ class _LabTestState extends State<LabTest> {
               alignment: Alignment.center,
               child: IconButton(
                 onPressed: () {
-                  context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                  // context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                  context.pushNamed(Routes.cart);
                 },
                 icon: const Icon(
                   Icons.shopping_cart,
@@ -74,7 +78,8 @@ class _LabTestState extends State<LabTest> {
                 child: Container(
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color:
+                        isDarkTheme ? Colors.grey.shade800 : Colors.grey[200],
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Row(
@@ -100,7 +105,8 @@ class _LabTestState extends State<LabTest> {
                             onTap: () {
                               _searchFocusNode.requestFocus();
                             },
-                            cursorColor: Colors.blue,
+                            cursorColor:
+                                isDarkTheme ? Colors.white : Colors.black,
                             decoration: InputDecoration(
                               hintText: "Search by Lab Tests",
                               border: InputBorder.none,
@@ -234,7 +240,11 @@ class _LabTestState extends State<LabTest> {
                                             const EdgeInsets.only(bottom: 8),
                                         child: Text(
                                           labTest.description,
-                                          style: TextStyles.font14GrayRegular,
+                                          style: isDarkTheme
+                                              ? TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 14.sp)
+                                              : TextStyles.font14GrayRegular,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -284,7 +294,18 @@ class _LabTestState extends State<LabTest> {
 
                                           // Lab info
                                           ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              context
+                                                  .read<CartCubit>()
+                                                  .addToCart(labTest);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                      '${labTest.name} added to cart'),
+                                                ),
+                                              );
+                                            },
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
                                                   ColorsProvider.primaryBink,

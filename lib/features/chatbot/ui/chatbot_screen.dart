@@ -17,8 +17,10 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   TextEditingController queryController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: isDarkTheme ? Colors.grey.shade800 : Colors.grey[300],
       appBar: AppBar(
         title: const Text(
           "Chatbot",
@@ -47,7 +49,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             child: ColorFiltered(
               colorFilter: ColorFilter.linearToSrgbGamma(),
               child: Container(
-                color: Colors.white,
+                color: isDarkTheme ? Colors.grey.shade500 : Colors.white,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: SizedBox(

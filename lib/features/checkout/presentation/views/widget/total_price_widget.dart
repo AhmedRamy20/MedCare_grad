@@ -7,18 +7,32 @@ class TotalPrice extends StatelessWidget {
   final String title, value;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Row(
       children: [
         Text(
           title,
           textAlign: TextAlign.center,
-          style: Styles.style24,
+          style: isDarkTheme
+              ? const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                )
+              : Styles.style24,
         ),
         const Spacer(),
         Text(
           value,
           textAlign: TextAlign.center,
-          style: Styles.style24,
+          style: isDarkTheme
+              ? const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                )
+              : Styles.style24,
         )
       ],
     );

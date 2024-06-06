@@ -12,4 +12,5 @@ class Routes {
   static const String paymentCheckout = '/PaymentCheckout';
   static const String labTest = '/LabTest';
   static const String profile = '/Profile';
+  static const String cart = '/Cart';
 }

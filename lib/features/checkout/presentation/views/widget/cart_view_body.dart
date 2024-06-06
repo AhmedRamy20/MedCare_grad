@@ -8,6 +8,7 @@ import 'package:medical_app/features/checkout/presentation/views/widget/cart_inf
 import 'package:medical_app/features/checkout/presentation/views/widget/payment_method_list_view.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/payment_methods_bottom_sheet.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/total_price_widget.dart';
+import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 
 class MyCartViewBody extends StatelessWidget {
   const MyCartViewBody({super.key});
@@ -15,6 +16,8 @@ class MyCartViewBody extends StatelessWidget {
   // final double theTotalPrice;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -23,7 +26,15 @@ class MyCartViewBody extends StatelessWidget {
             const SizedBox(
               height: 18,
             ),
-            Expanded(child: Image.asset('assets/images/drugcart.jpg')),  //'assets/images/basket_image.png'
+            Expanded(
+              child: isDarkTheme
+                  ? Image.asset(
+                      'assets/images/drugcart3.jpg',
+                    )
+                  : Image.asset(
+                      'assets/images/drugcart.jpg',
+                    ),
+            ), //'assets/images/basket_image.png'
             const SizedBox(
               height: 25,
             ),
@@ -98,4 +109,3 @@ class MyCartViewBody extends StatelessWidget {
     );
   }
 }
-

@@ -481,11 +481,13 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
 import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/networking/endpoints.dart';
 import 'package:medical_app/core/routing/routes.dart';
+import 'package:medical_app/core/theming/appTheme/cubit/app_theme_cubit.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -535,6 +537,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final loginCubit = context.read<LoginCubit>();
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(
@@ -597,26 +602,49 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               children: [
                 DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: isDarkTheme ? Colors.grey.shade800 : Colors.white,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/sec.png',
-                        scale: 0.7,
-                      ),
-                      verticalSpace(30),
-                      const Center(
-                        child: Text(
-                          'Settings',
-                          style: TextStyle(
-                            color: ColorsProvider.darkGray,
-                            fontSize: 17,
+                      // Image.asset(
+                      //   'assets/images/sec.png',
+                      //   scale: 0.7,
+                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.settings,
+                            color: isDarkTheme
+                                ? Colors.white70
+                                : ColorsProvider.darkGray,
                           ),
-                        ),
+                          horizontalSpace(10),
+                          Text(
+                            'Settings',
+                            style: TextStyle(
+                              color: isDarkTheme
+                                  ? Colors.white
+                                  : ColorsProvider.darkGray,
+                              fontSize: 17,
+                            ),
+                          ),
+                          // verticalSpace(20),
+                        ],
                       ),
+                      // Center(
+                      //   child: Text(
+                      //     'Settings',
+                      //     style: TextStyle(
+                      //       color: isDarkTheme
+                      //           ? Colors.white70
+                      //           : ColorsProvider.darkGray,
+                      //       fontSize: 17,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -629,10 +657,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   title: Text(
                     "About Us",
-                    style: TextStyles.font14GrayRegular,
+                    style: isDarkTheme
+                        ? const TextStyle(color: Colors.white)
+                        : TextStyles.font14GrayRegular,
                   ),
                   onTap: () {
-                    aboutUsDialog();
+                    aboutUsDialog(context, isDarkTheme);
                   },
                 ),
                 ListTile(
@@ -643,7 +673,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   title: Text(
                     "Test Result",
-                    style: TextStyles.font14GrayRegular,
+                    style: isDarkTheme
+                        ? const TextStyle(color: Colors.white)
+                        : TextStyles.font14GrayRegular,
                   ),
                   onTap: () {},
                 ),
@@ -655,9 +687,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   title: Text(
                     "Language",
-                    style: TextStyles.font14GrayRegular,
+                    style: isDarkTheme
+                        ? const TextStyle(color: Colors.white)
+                        : TextStyles.font14GrayRegular,
                   ),
                   onTap: () {},
+                ),
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.dark_mode,
+                //     color: Color(0xffE99987),
+                //     size: 24,
+                //   ),
+                //   title: Text(
+                //     "Dark Theme",
+                //     style: isDarkTheme
+                //         ? const TextStyle(color: Colors.white)
+                //         : TextStyles.font14GrayRegular,
+                //   ),
+                //   onTap: () {
+                //     context.read<AppThemeCubit>().toggleTheme();
+                //   },
+                // ),
+                ListTile(
+                  leading: isDarkTheme
+                      ? const Icon(
+                          Icons.dark_mode, // Use light mode icon by default
+                          color: Color(0xffE99987),
+                          size: 24,
+                        )
+                      : const Icon(
+                          Icons.light_mode, // Use light mode icon by default
+                          color: Color(0xffE99987),
+                          size: 24,
+                        ),
+                  title: Text(
+                    "Theme",
+                    style: isDarkTheme
+                        ? const TextStyle(color: Colors.white)
+                        : TextStyles.font14GrayRegular,
+                  ),
+                  trailing: Switch(
+                    value: isDarkTheme,
+                    onChanged: (value) {
+                      context.read<AppThemeCubit>().toggleTheme();
+                    },
+                    activeColor: const Color(0xffE99987),
+                    inactiveThumbColor: Colors.grey.shade500,
+                    inactiveTrackColor: Colors.white,
+                    // inactiveThumbImage: AssetImage('assets/images/google.png'),
+                  ),
                 ),
               ],
             ),
@@ -669,9 +748,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Color(0xffE99987),
                   size: 24,
                 ),
-                title: const Text(
+                title: Text(
                   "Logout",
-                  style: TextStyle(color: Color.fromARGB(255, 153, 62, 55)),
+                  style: isDarkTheme
+                      ? const TextStyle(color: Colors.white)
+                      : const TextStyle(
+                          color: Color.fromARGB(255, 153, 62, 55)),
                 ),
                 onTap: () async {
                   await loginCubit.clearUserData();
@@ -705,7 +787,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Text(
                   "Hope you doing well..",
-                  style: TextStyles.font11GrayRegular,
+                  style: isDarkTheme
+                      ? TextStyle(color: Colors.white)
+                      : TextStyles.font11GrayRegular,
                 ),
                 if (!isSearchExpanded)
                   SizedBox(
@@ -720,7 +804,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: isDarkTheme
+                                ? Colors.grey.shade900
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Image.asset(
@@ -746,7 +832,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     height: isSearchExpanded ? null : 56,
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color:
+                          isDarkTheme ? Colors.grey.shade800 : Colors.grey[200],
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -775,7 +862,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   isSearchExpanded = true;
                                 });
                               },
-                              cursorColor: Colors.blue,
+                              cursorColor:
+                                  isDarkTheme ? Colors.white : Colors.black,
                               decoration: const InputDecoration(
                                 hintText: "Search a Drug",
                                 border: InputBorder.none,
@@ -865,14 +953,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               title: Text(
                                 medicine.name,
-                                style: TextStyles.font14DarkMediam,
+                                style: isDarkTheme
+                                    ? TextStyle(
+                                        color: Colors.white, fontSize: 14.sp)
+                                    : TextStyles.font14DarkMediam,
                               ),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     medicine.description,
-                                    style: TextStyles.font14LightGrayRegular,
+                                    style: isDarkTheme
+                                        ? TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 14.sp)
+                                        : TextStyles.font14LightGrayRegular,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -889,11 +984,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         TextSpan(
                                           text:
                                               '${medicine.price.toStringAsFixed(2)}',
-                                          style: const TextStyle(
-                                            color:
-                                                ColorsProvider.greeting2Color,
-                                            fontSize: 16,
-                                          ),
+                                          style: isDarkTheme
+                                              ? const TextStyle(
+                                                  color: Colors.white60,
+                                                  fontSize: 16)
+                                              : const TextStyle(
+                                                  color: ColorsProvider
+                                                      .greeting2Color,
+                                                  fontSize: 16,
+                                                ),
                                         ),
                                       ],
                                     ),
@@ -1000,7 +1099,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void aboutUsDialog() {
+  void aboutUsDialog(BuildContext context, bool isDarkTheme) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -1018,7 +1117,9 @@ class _HomeScreenState extends State<HomeScreen> {
               verticalSpace(10),
               SelectableText(
                 'MedCare Phone: +01019686065',
-                style: TextStyles.font14DarkMediam,
+                style: isDarkTheme
+                    ? TextStyle(color: Colors.white, fontSize: 14.sp)
+                    : TextStyles.font14DarkMediam,
               ),
             ],
           ),
