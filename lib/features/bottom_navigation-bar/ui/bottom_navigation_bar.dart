@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
+import 'package:medical_app/features/cart/logic/cubit/cart_cubit.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
 import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
+import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:medical_app/features/nearby-pharmacies/ui/nearby_pharmacy_location.dart';
 import 'package:medical_app/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:medical_app/features/profile/ui/profile_screen.dart';
@@ -72,12 +74,17 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
 
   @override
   Widget build(BuildContext context) {
+    final loginCubit = context.read<LoginCubit>();
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
+    final colorChoice = isDarkTheme ? Colors.grey.shade800 : Colors.white;
+    final iconColorChoice = isDarkTheme ? Colors.grey.shade500 : Colors.white;
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         buttonBackgroundColor: ColorsProvider.primaryBink,
-        backgroundColor: Colors.white,
+        backgroundColor: isDarkTheme ? Colors.grey.shade700 : Colors.white,
         height: 66,
-        color: ColorsProvider.naveColor,
+        color: colorChoice,
         animationDuration: const Duration(milliseconds: 500),
         onTap: (int index) {
           setState(() {
@@ -88,26 +95,30 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
           Icon(
             Icons.home,
             size: 28,
-            color:
-                currentIndex == 0 ? Colors.white : ColorsProvider.naveIconColor,
+            color: currentIndex == 0
+                ? iconColorChoice
+                : ColorsProvider.naveIconColor,
           ),
           Icon(
             Icons.science_sharp,
             size: 28,
-            color:
-                currentIndex == 1 ? Colors.white : ColorsProvider.naveIconColor,
+            color: currentIndex == 1
+                ? iconColorChoice
+                : ColorsProvider.naveIconColor,
           ),
           Icon(
             Icons.location_on,
             size: 28,
-            color:
-                currentIndex == 2 ? Colors.white : ColorsProvider.naveIconColor,
+            color: currentIndex == 2
+                ? iconColorChoice
+                : ColorsProvider.naveIconColor,
           ),
           Icon(
             Icons.person,
             size: 28,
-            color:
-                currentIndex == 3 ? Colors.white : ColorsProvider.naveIconColor,
+            color: currentIndex == 3
+                ? iconColorChoice
+                : ColorsProvider.naveIconColor,
           ),
         ],
       ),
@@ -116,8 +127,21 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
         index: currentIndex,
         children: [
           homeScreen,
-          BlocProvider<LabTestCubit>(
-            create: (context) => LabTestCubit(Dio()), // Provide LabTestCubit
+          // BlocProvider<LabTestCubit>(
+          //   create: (context) => LabTestCubit(Dio()), // Provide LabTestCubit
+          //   child: labTest,
+          // ),
+
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<LabTestCubit>(
+                create: (context) =>
+                    LabTestCubit(Dio()), // Provide LabTestCubit
+              ),
+              BlocProvider(
+                create: (context) => CartCubit(),
+              ),
+            ],
             child: labTest,
           ),
           nearbyPharmacies,

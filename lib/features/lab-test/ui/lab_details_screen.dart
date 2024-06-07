@@ -35,17 +35,19 @@ class _LabDetailScreenState extends State<LabDetailScreen> {
               //   // width: 341.w,
               //   fit: BoxFit.cover,
               // ),
-              Container(
-                height: 268.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ClipRRect(
-                  // ClipRRect to round the corners of the image
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    widget.lab.pictureUrl,
-                    fit: BoxFit.cover,
+              Center(
+                child: Container(
+                  height: 268.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ClipRRect(
+                    // ClipRRect to round the corners of the image
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      widget.lab.pictureUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

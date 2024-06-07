@@ -6,18 +6,32 @@ class OrderInfoItem extends StatelessWidget {
   final String title, value;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Row(
       children: [
         Text(
           title,
           textAlign: TextAlign.center,
-          style: Styles.style18,
+          style: isDarkTheme
+              ? const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                )
+              : Styles.style18,
         ),
         const Spacer(),
         Text(
           value,
           textAlign: TextAlign.center,
-          style: Styles.style18,
+          style: isDarkTheme
+              ? const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                )
+              : Styles.style18,
         )
       ],
     );

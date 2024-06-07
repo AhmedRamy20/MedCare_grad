@@ -11,6 +11,8 @@ class PaymentMethodItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: 103,
@@ -34,7 +36,8 @@ class PaymentMethodItem extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: Colors.white),
+            borderRadius: BorderRadius.circular(15),
+            color: isDarkTheme ? Colors.grey.shade600 : Colors.white),
         child: Center(
           child: SvgPicture.asset(
             image,

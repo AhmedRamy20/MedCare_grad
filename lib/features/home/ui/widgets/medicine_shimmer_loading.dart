@@ -70,6 +70,8 @@
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
 // class MedicineShimmerLoading extends StatelessWidget {
@@ -136,6 +138,8 @@ class MedicineShimmerLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
@@ -154,7 +158,7 @@ class MedicineShimmerLoading extends StatelessWidget {
                     height: 110,
                     width: 110,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDarkTheme ? Colors.white12 : Colors.white,
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
@@ -164,7 +168,7 @@ class MedicineShimmerLoading extends StatelessWidget {
                       height: 13,
                       width: 20,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDarkTheme ? Colors.white12 : Colors.white,
                         borderRadius: BorderRadius.circular(2),
                       ),
                     ),
@@ -178,7 +182,7 @@ class MedicineShimmerLoading extends StatelessWidget {
                           height: 13,
                           width: 170,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: isDarkTheme ? Colors.white12 : Colors.white,
                             borderRadius: BorderRadius.circular(2),
                           ),
                         ),
@@ -187,7 +191,7 @@ class MedicineShimmerLoading extends StatelessWidget {
                         height: 13,
                         width: 65,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: isDarkTheme ? Colors.white12 : Colors.white,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),

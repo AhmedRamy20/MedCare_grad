@@ -49,8 +49,10 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: isDarkTheme ? Colors.grey.shade800 : Colors.grey[300],
       appBar: AppBar(
         title: const Text(
           "Chatbot",
