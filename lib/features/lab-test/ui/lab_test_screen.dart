@@ -161,6 +161,7 @@ class _LabTestState extends State<LabTest> {
                           state.labTests.length > 3 ? 3 : state.labTests.length;
 
                       return RefreshIndicator(
+                        color: ColorsProvider.primaryBink,
                         onRefresh: _handleRefresh,
                         child: ListView.builder(
                           itemCount: labTestCount, //state.labTests.length

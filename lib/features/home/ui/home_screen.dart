@@ -768,6 +768,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: RefreshIndicator(
+        color: ColorsProvider.primaryBink,
         onRefresh: _handleRefresh,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
