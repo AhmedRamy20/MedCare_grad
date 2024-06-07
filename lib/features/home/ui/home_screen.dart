@@ -1128,8 +1128,8 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: ColorsProvider.primaryBink,
-              onPrimary: Colors.white,
+              foregroundColor: ColorsProvider.primaryBink,
+              backgroundColor: Colors.white,
               elevation: 2,
             ),
             onPressed: () {
