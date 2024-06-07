@@ -1,10 +1,10 @@
 class UserData {
-  final String displayName;
+  late final String displayName;
   final String email;
   final String? gender;
   final String? bloodType;
-  final int weight;
-  final int height;
+  late final int weight;
+  late final int height;
   String? pictureUrl;
 
   UserData(

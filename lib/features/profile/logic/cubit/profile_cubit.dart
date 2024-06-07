@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -53,9 +51,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   //!! update
 
   Future<void> updateUserData({
-    String? displayName,
-    int? weight,
-    int? height,
+    required String displayName,
+    required int weight,
+    required int height,
     XFile? imageFile, //make it File
   }) async {
     try {
@@ -67,25 +65,11 @@ class ProfileCubit extends Cubit<ProfileState> {
       if (token == null) {
         throw Exception('No token found');
       }
-
-      // FormData formData = FormData.fromMap({
-      //   'DisplayName': displayName,
-      //   'Weight': weight,
-      //   'Height': height,
-      //   'Image': await MultipartFile.fromFile(imageFile!.path,
-      //       filename: 'image.jpg'),
-      // });
       FormData formData = FormData();
-      if (displayName != null) {
-        formData.fields.add(MapEntry('DisplayName', displayName));
-      }
-      if (weight != null) {
-        formData.fields.add(MapEntry('Weight', weight.toString()));
-      }
-      if (height != null) {
-        formData.fields.add(MapEntry('Height', height.toString()));
-      }
-      if (imageFile != null) {
+      formData.fields.add(MapEntry('DisplayName', displayName));
+          formData.fields.add(MapEntry('Weight', weight.toString()));
+          formData.fields.add(MapEntry('Height', height.toString()));
+          if (imageFile != null) {
         formData.files.add(MapEntry(
           'Image',
           await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
@@ -101,60 +85,28 @@ class ProfileCubit extends Cubit<ProfileState> {
           },
         ),
       );
-
-      // if (response.data is String) {
-      //   // Handle the error case where the response data is a String
-      //   throw Exception(response.data);
-      // }
-      // if (response.data is String) {
-      //   // Handle the error case where the response data is a String
-      //   emit(ProfileError(errMsg: response.data));
-      //   return;
-      // }
       if (response.data != 'User updated successfully') {
         throw Exception('Error: ${response.data}');
       }
 
-      final userData = UserData.fromJson(response.data);
+      //final userData = UserData.fromJson(response.data);
+      //if (userData.pictureUrl != null) {
+        //await ChacheHelper().saveImageUrl(userData.pictureUrl!);
+      //}
+      final userData = UserData(
+        displayName: displayName,
+        weight: weight,
+        height: height,
+        pictureUrl: imageFile != null ? await ChacheHelper().getImageUrl() : null, email: '',
+      );
 
-      // Save the new image URL if available
-      // if (response.data['pictureUrl'] != null) {
-      //   await ChacheHelper().saveImageUrl(response.data['pictureUrl']);
-      // }
-      // Save the new image URL if available
+      // Save the image URL to shared preferences if a new image is uploaded
       if (userData.pictureUrl != null) {
         await ChacheHelper().saveImageUrl(userData.pictureUrl!);
       }
-
       emit(ProfileSuccess(userData: userData));
     } catch (e) {
       emit(ProfileError(errMsg: e.toString()));
     }
   }
 }
-
-
-
-
-
-// onSubmitProfile() {
-//     if (this.profileForm.dirty) {
-//       let formData = new FormData();
-//       formData.append('DisplayName', this.profileForm.get('DisplayName')!.value ?? null);
-//       formData.append('Height', this.profileForm.get('Height')!.value ?? null);
-//       formData.append('Weight', this.profileForm.get('Weight')!.value ?? null);
-//       if (this.selectedFile) {
-//         formData.append('Image', this.selectedFile, this.selectedFile.name);
-//       }
-//       formData.append('BloodType', this.profileForm.get('BloodType')!.value ?? null);
-//       this.changePass.updateUserinfo(formData).subscribe({
-//         next: (res: any) => {
-//           console.log(res);
-//           this.toast.success('Profile Updated Successfully');
-//           window.location.reload();
-//         }, error: (err) => {
-//           this.toast.error(err);
-//         }
-//       })
-//     }
-//   }
