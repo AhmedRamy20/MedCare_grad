@@ -43,6 +43,15 @@ class ProfileCubit extends Cubit<ProfileState> {
         await ChacheHelper().saveImageUrl(userData.pictureUrl!);
       }
       emit(ProfileSuccess(userData: userData));
+    } on DioError catch (e) {
+      if (e.message!.contains('Connection failed') ||
+          e.message!.contains('Connection refused') ||
+          e.message!.contains('Connection reset') ||
+          e.message!.contains('SocketException')) {
+        emit(ProfileError(errMsg: 'No internet connection'));
+      } else {
+        emit(ProfileError(errMsg: 'Error: ${e.message}'));
+      }
     } catch (e) {
       emit(ProfileError(errMsg: e.toString()));
     }
@@ -67,9 +76,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
       FormData formData = FormData();
       formData.fields.add(MapEntry('DisplayName', displayName));
-          formData.fields.add(MapEntry('Weight', weight.toString()));
-          formData.fields.add(MapEntry('Height', height.toString()));
-          if (imageFile != null) {
+      formData.fields.add(MapEntry('Weight', weight.toString()));
+      formData.fields.add(MapEntry('Height', height.toString()));
+      if (imageFile != null) {
         formData.files.add(MapEntry(
           'Image',
           await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
@@ -91,13 +100,15 @@ class ProfileCubit extends Cubit<ProfileState> {
 
       //final userData = UserData.fromJson(response.data);
       //if (userData.pictureUrl != null) {
-        //await ChacheHelper().saveImageUrl(userData.pictureUrl!);
+      //await ChacheHelper().saveImageUrl(userData.pictureUrl!);
       //}
       final userData = UserData(
         displayName: displayName,
         weight: weight,
         height: height,
-        pictureUrl: imageFile != null ? await ChacheHelper().getImageUrl() : null, email: '',
+        pictureUrl:
+            imageFile != null ? await ChacheHelper().getImageUrl() : null,
+        email: '',
       );
 
       // Save the image URL to shared preferences if a new image is uploaded

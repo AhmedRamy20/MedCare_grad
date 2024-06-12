@@ -6,13 +6,12 @@ class AppThemes {
     primaryColor: ColorsProvider.primaryBink,
     scaffoldBackgroundColor: Colors.white,
     brightness: Brightness.light,
-    // Define other light theme properties here
   );
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: ColorsProvider.primaryBink,
-    scaffoldBackgroundColor: Colors.grey.shade900,
+    scaffoldBackgroundColor:
+        Colors.grey.shade900, //Color.fromARGB(255, 33, 36, 52)
     brightness: Brightness.dark,
-    // Define other dark theme properties here
   );
 }

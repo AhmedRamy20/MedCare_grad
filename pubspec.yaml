@@ -35,6 +35,7 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   dartz: ^0.10.1
   dio: ^5.4.1
+  equatable: ^2.0.5
   fancy_shimmer_image: ^2.0.3
   flutter:
     sdk: flutter

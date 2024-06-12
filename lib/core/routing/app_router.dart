@@ -88,9 +88,23 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => OtpScreen(),
         );
+      //! old payment
+      // case Routes.paymentCheckout:
+      //   return MaterialPageRoute(
+      //     builder: (_) => MyCartViewBody(),
+      //   );
       case Routes.paymentCheckout:
+        if (arguments != null &&
+            arguments is Map &&
+            arguments.containsKey('totalPrice')) {
+          double totalPrice = arguments['totalPrice'];
+          return MaterialPageRoute(
+            builder: (_) => MyCartViewBody(totalPrice: totalPrice),
+          );
+        }
         return MaterialPageRoute(
-          builder: (_) => MyCartViewBody(),
+          builder: (_) => MyCartViewBody(
+              totalPrice: 0.0), // Default to 0.0 if totalPrice is not provided
         );
       //! New maps phase
       // case Routes.profile:
@@ -138,17 +152,7 @@ class AppRouter {
         );
       case Routes.cart:
         return MaterialPageRoute(
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider<CartCubit>(
-                create: (context) => CartCubit(),
-              ),
-              BlocProvider(
-                create: (context) => LabTestCubit(Dio()),
-              ),
-            ],
-            child: const CartScreen(),
-          ),
+          builder: (_) => const CartScreen(),
         );
       // case Routes.labTest:
       //   return MaterialPageRoute(

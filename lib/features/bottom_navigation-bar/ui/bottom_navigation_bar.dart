@@ -138,9 +138,6 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
                 create: (context) =>
                     LabTestCubit(Dio()), // Provide LabTestCubit
               ),
-              BlocProvider(
-                create: (context) => CartCubit(),
-              ),
             ],
             child: labTest,
           ),

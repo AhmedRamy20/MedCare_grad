@@ -11,8 +11,8 @@ import 'package:medical_app/features/checkout/presentation/views/widget/total_pr
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 
 class MyCartViewBody extends StatelessWidget {
-  const MyCartViewBody({super.key});
-
+  const MyCartViewBody({super.key, required this.totalPrice});
+  final double totalPrice;
   // final double theTotalPrice;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class MyCartViewBody extends StatelessWidget {
               color: Color(0xffC7C7C7),
             ),
             // const TotalPrice(title: 'Total', value: r'$50.97'),  //!! modified
-            TotalPrice(title: 'Total', value: '50.97'),
+            TotalPrice(title: 'Total', value: totalPrice.toStringAsFixed(2)),
             //! "$theTotalPrice"
             const SizedBox(
               height: 16,

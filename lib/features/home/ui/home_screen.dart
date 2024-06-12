@@ -554,7 +554,7 @@ class _HomeScreenState extends State<HomeScreen> {
               alignment: Alignment.center,
               child: IconButton(
                 onPressed: () {
-                  context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                  context.pushNamed(Routes.cart); //MyCartViewBody
                 },
                 icon: const Icon(
                   Icons.shopping_cart,
@@ -679,20 +679,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onTap: () {},
                 ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.language,
-                    color: Color(0xffE99987),
-                    size: 24,
-                  ),
-                  title: Text(
-                    "Language",
-                    style: isDarkTheme
-                        ? const TextStyle(color: Colors.white)
-                        : TextStyles.font14GrayRegular,
-                  ),
-                  onTap: () {},
-                ),
+                //* Language if needed
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.language,
+                //     color: Color(0xffE99987),
+                //     size: 24,
+                //   ),
+                //   title: Text(
+                //     "Language",
+                //     style: isDarkTheme
+                //         ? const TextStyle(color: Colors.white)
+                //         : TextStyles.font14GrayRegular,
+                //   ),
+                //   onTap: () {},
+                // ),
                 // ListTile(
                 //   leading: const Icon(
                 //     Icons.dark_mode,

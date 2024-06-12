@@ -29,12 +29,6 @@ class _LabDetailScreenState extends State<LabDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image.network(
-              //   widget.lab.pictureUrl,
-              //   height: 268.h,
-              //   // width: 341.w,
-              //   fit: BoxFit.cover,
-              // ),
               Center(
                 child: Container(
                   height: 268.h,
@@ -59,28 +53,6 @@ class _LabDetailScreenState extends State<LabDetailScreen> {
                 ),
               ),
               verticalSpace(25.h),
-              // Text(
-              //   'Email: ${widget.lab.email}',
-              //   style: TextStyles.font16GreyBold,
-              // ),
-              // RichText(
-              //   text: TextSpan(
-              //     children: [
-              //       TextSpan(
-              //         text: 'Email: ',
-              //         style: TextStyles.font16GreyBold,
-              //       ),
-              //       TextSpan(
-              //         text: widget.lab.email,
-              //         style: const TextStyle(
-              //           color: ColorsProvider.gold,
-              //           fontWeight: FontWeight.bold,
-              //           fontSize: 18,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               ListTile(
                 leading: const Icon(Icons.email, color: ColorsProvider.gold),
                 title: RichText(
@@ -102,9 +74,7 @@ class _LabDetailScreenState extends State<LabDetailScreen> {
                   ),
                 ),
               ),
-
               verticalSpace(8.h),
-
               ListTile(
                 leading: const Icon(Icons.phone, color: ColorsProvider.gold),
                 title: RichText(
@@ -127,7 +97,6 @@ class _LabDetailScreenState extends State<LabDetailScreen> {
                 ),
               ),
               verticalSpace(8.h),
-
               ListTile(
                 leading:
                     const Icon(Icons.location_on, color: ColorsProvider.gold),
