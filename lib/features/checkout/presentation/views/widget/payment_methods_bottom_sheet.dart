@@ -4,7 +4,8 @@ import 'package:medical_app/features/checkout/presentation/views/widget/custome_
 import 'package:medical_app/features/checkout/presentation/views/widget/payment_method_list_view.dart';
 
 class PaymentMethodsBottomSheet extends StatelessWidget {
-  const PaymentMethodsBottomSheet({super.key});
+  final double totalPrice;
+  const PaymentMethodsBottomSheet({super.key, required this.totalPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +20,9 @@ class PaymentMethodsBottomSheet extends StatelessWidget {
           PaymentMethodsListView(),
           const SizedBox(height: 30),
           // CustomButton(text: "Continue"),
-          CustomButtonBlocConsumer(),
+          CustomButtonBlocConsumer(totalPrice: totalPrice),
         ],
       ),
     );
   }
 }
-

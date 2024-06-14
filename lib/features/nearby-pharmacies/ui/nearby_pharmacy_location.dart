@@ -51,6 +51,44 @@
 //   }
 // }
 
+//!!!!!!!!!!!!!!!!!!!!!
+
+// import 'dart:async';
+// import 'package:flutter/material.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+// class NearbyPharmacies extends StatefulWidget {
+//   const NearbyPharmacies({super.key});
+//   @override
+//   State<NearbyPharmacies> createState() => _NearbyPharmaciesState();
+// }
+
+// class _NearbyPharmaciesState extends State<NearbyPharmacies> {
+//   Completer<GoogleMapController> _controller = Completer();
+
+//   static final CameraPosition _initialPosition = CameraPosition(
+//     target: LatLng(37.42796133580664,
+//         -122.085749655962),
+//     zoom: 14.0,
+//   );
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Nearby Pharmacies'),
+//       ),
+//       body: GoogleMap(
+//         mapType: MapType.normal,
+//         initialCameraPosition: _initialPosition,
+//         onMapCreated: (GoogleMapController controller) {
+//           _controller.complete(controller);
+//         },
+//       ),
+//     );
+//   }
+// }
+
 //* to check Api Key => https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY
 
 //* key: "AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY",

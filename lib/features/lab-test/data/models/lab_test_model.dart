@@ -99,6 +99,8 @@ class LabTestModel extends Equatable {
   final double price;
   final Lab lab;
   final String imageUrl;
+  //*
+  int quantity;
 
   LabTestModel({
     required this.id,
@@ -107,6 +109,7 @@ class LabTestModel extends Equatable {
     required this.price,
     required this.lab,
     required this.imageUrl,
+    this.quantity = 1,
   });
 
   factory LabTestModel.fromJson(Map<String, dynamic> json) {

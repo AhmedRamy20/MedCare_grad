@@ -495,6 +495,7 @@ import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_state.dart';
 import 'package:medical_app/features/home/ui/widgets/medicine_shimmer_loading.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -665,6 +666,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     aboutUsDialog(context, isDarkTheme);
                   },
                 ),
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.contact_support,
+                //     color: Color(0xffE99987),
+                //     size: 24,
+                //   ),
+                //   title: Text(
+                //     "Contact Us+",
+                //     style: isDarkTheme
+                //         ? const TextStyle(color: Colors.white)
+                //         : TextStyles.font14GrayRegular,
+                //   ),
+                //   onTap: () {
+                //     launchUrl(
+                //       Uri.parse('+01019686065'),
+                //     );
+                //   },
+                // ),
                 ListTile(
                   leading: const Icon(
                     Icons.science,

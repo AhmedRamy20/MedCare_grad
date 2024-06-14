@@ -7,8 +7,10 @@ import 'package:medical_app/features/checkout/presentation/manager/cubit/payment
 import 'package:medical_app/features/checkout/presentation/views/thank_you_view.dart';
 
 class CustomButtonBlocConsumer extends StatelessWidget {
+  final double totalPrice;
   const CustomButtonBlocConsumer({
     super.key,
+    required this.totalPrice,
   });
 
   @override
@@ -70,8 +72,10 @@ class CustomButtonBlocConsumer extends StatelessWidget {
         return CustomButton(
           onTap: () {
             // paymentIntentInputModel here we put the data of the order
+            int totalPriceInCents = (totalPrice).round();
             PaymentIntentInputModel paymentIntentInputModel =
-                PaymentIntentInputModel(amount: '100', currency: 'USD');
+                PaymentIntentInputModel(
+                    amount: totalPriceInCents.toString(), currency: 'USD');
             BlocProvider.of<PaymentCubit>(context)
                 .makePayment(paymentIntentInputModel: paymentIntentInputModel);
           },

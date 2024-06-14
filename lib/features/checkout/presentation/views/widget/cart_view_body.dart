@@ -95,7 +95,7 @@ class MyCartViewBody extends StatelessWidget {
                     builder: (context) {
                       return BlocProvider(
                         create: (context) => PaymentCubit(CheckoutRepoImpl()),
-                        child: PaymentMethodsBottomSheet(),
+                        child: PaymentMethodsBottomSheet(totalPrice: totalPrice),
                       );
                     });
               },
