@@ -6,25 +6,35 @@ class TermsAndConditionsText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
         children: [
           TextSpan(
             text: 'By logging, you agree to our',
-            style: TextStyles.font13GrayRegular,
+            style: isDarkTheme
+                ? TextStyles.font13whiteRegular
+                : TextStyles.font13GrayRegular,
           ),
           TextSpan(
             text: ' Terms & Conditions',
-            style: TextStyles.font13DarkMediam,
+            style: isDarkTheme
+                ? TextStyles.font14WhiteMediam
+                : TextStyles.font13DarkMediam,
           ),
           TextSpan(
             text: ' and',
-            style: TextStyles.font13GrayRegular.copyWith(height: 1.5),
+            style: isDarkTheme
+                ? TextStyles.font13whiteRegular
+                : TextStyles.font13GrayRegular.copyWith(height: 1.5),
           ),
           TextSpan(
             text: ' Privacy Policy.',
-            style: TextStyles.font13DarkMediam,
+            style: isDarkTheme
+                ? TextStyles.font14WhiteMediam
+                : TextStyles.font13DarkMediam,
           ),
         ],
       ),

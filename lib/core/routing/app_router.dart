@@ -12,8 +12,10 @@ import 'package:medical_app/features/chatbot/ui/chatbot_screen.dart';
 import 'package:medical_app/features/checkout/presentation/views/widget/cart_view_body.dart';
 import 'package:medical_app/features/forget-password/ui/foget_password_screen.dart';
 import 'package:medical_app/features/forget-password/ui/otp_screen.dart';
+import 'package:medical_app/features/home/data/medicine_model.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
+import 'package:medical_app/features/home/ui/medicine_details_screen.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
@@ -124,6 +126,20 @@ class AppRouter {
       case Routes.homeScreen:
         return MaterialPageRoute(
           builder: (_) => HomeScreen(),
+        );
+      //! MedicineDetailsScreen
+      case Routes.medicineDetailsScreen:
+        if (arguments != null && arguments is Medicine) {
+          return MaterialPageRoute(
+            builder: (_) => MedicineDetailsScreen(medicine: arguments),
+          );
+        }
+        return MaterialPageRoute(
+          builder: (_) => Scaffold(
+            body: Center(
+              child: Text("No medicine data provided for ${settings.name}"),
+            ),
+          ),
         );
       //! has been modified down
       case Routes.homeStartWithBottomNav:

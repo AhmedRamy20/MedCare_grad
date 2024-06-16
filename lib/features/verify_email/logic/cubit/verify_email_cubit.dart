@@ -21,14 +21,15 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
   verifyEmailRequest() async {
     try {
       final response = await dio.post(
-        "http://DawayahealthCare1.somee.com/Account/Verify-Email",
+        "http://DawayahealthCare2.somee.com/Account/Verify-Email",
         data: {
           "email": verifyEmail.text,
           "verificationCode": verificationCode.text,
         },
       );
 
-      if (response.data == "Email Verification") {
+      if (response.data == "Email Verified") {
+        //Email Verification
         emit(VerifyEmailSuccess());
       } else {
         emit(VerifyEmailFailure(errorMsg: "Failed to verify email"));

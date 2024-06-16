@@ -10,6 +10,7 @@ import 'package:medical_app/features/checkout/presentation/views/widget/cart_vie
 import 'package:medical_app/core/theming/appTheme/cubit/app_theme_cubit.dart';
 import 'package:medical_app/core/theming/appTheme/cubit/app_theme_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_app/core/cache/cache_helper.dart';
 
 // class MedcareApp extends StatelessWidget {
 //   const MedcareApp({super.key, required this.appRouter});
@@ -36,36 +37,81 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 //!!!!!!
 
+// class MedcareApp extends StatelessWidget {
+//   const MedcareApp(
+//       {Key? key, required this.appRouter, required this.cacheHelper})
+//       : super(key: key);
+//   final AppRouter appRouter;
+//   final ChacheHelper cacheHelper;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ScreenUtilInit(
+//       designSize: const Size(375, 812),
+//       minTextAdapt: true,
+//       child: BlocBuilder<AppThemeCubit, AppThemeState>(
+//         builder: (context, themeState) {
+//           return MultiBlocProvider(
+//             providers: [
+//               BlocProvider<AppThemeCubit>.value(
+//                   value: context.read<AppThemeCubit>()),
+//               BlocProvider<CartCubit>(
+//                 create: (context) =>
+//                     CartCubit(), // Initialize your CartCubit here
+//               ),
+//               // Add other BlocProviders if needed
+//             ],
+//             child: MaterialApp(
+//               title: 'MedCare',
+//               theme: themeState.themeData,
+//               debugShowCheckedModeBanner: false,
+//               onGenerateRoute: appRouter.generateRoute,
+//               initialRoute: Routes.splashScreen,
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+
+//! above is the right ///////////
+
 class MedcareApp extends StatelessWidget {
-  const MedcareApp({Key? key, required this.appRouter}) : super(key: key);
+  const MedcareApp(
+      {Key? key, required this.appRouter, required this.cacheHelper})
+      : super(key: key);
   final AppRouter appRouter;
+  final ChacheHelper cacheHelper;
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
-      child: BlocBuilder<AppThemeCubit, AppThemeState>(
-        builder: (context, themeState) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider<AppThemeCubit>.value(
-                  value: context.read<AppThemeCubit>()),
-              BlocProvider<CartCubit>(
-                create: (context) =>
-                    CartCubit(), // Initialize your CartCubit here
+      child: BlocProvider(
+        create: (context) => AppThemeCubit(cacheHelper),
+        child: BlocBuilder<AppThemeCubit, AppThemeState>(
+          builder: (context, themeState) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<AppThemeCubit>.value(
+                    value: context.read<AppThemeCubit>()),
+                BlocProvider<CartCubit>(
+                  create: (context) =>
+                      CartCubit(), // Initialize your CartCubit here
+                ),
+              ],
+              child: MaterialApp(
+                title: 'MedCare',
+                theme: themeState.themeData,
+                debugShowCheckedModeBanner: false,
+                onGenerateRoute: appRouter.generateRoute,
+                initialRoute: Routes.splashScreen,
               ),
-              // Add other BlocProviders if needed
-            ],
-            child: MaterialApp(
-              title: 'MedCare',
-              theme: themeState.themeData,
-              debugShowCheckedModeBanner: false,
-              onGenerateRoute: appRouter.generateRoute,
-              initialRoute: Routes.splashScreen,
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

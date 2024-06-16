@@ -51,6 +51,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -88,12 +90,18 @@ class _ProfileState extends State<Profile> {
                               children: [
                                 Text(
                                   "Your Profile",
-                                  style: TextStyles.font24BinkBold,
+                                  style: isDarkTheme
+                                      ? TextStyles.font24whiteBold2
+                                      : TextStyles
+                                          .font24rusasyBold2, //TextStyles.font24BinkBold
                                 ),
                                 verticalSpace(8),
                                 Text(
                                   "Please take a few minutes to fill out your profile within the provided fields..",
-                                  style: TextStyles.font14MoreGrayRegular,
+                                  style: isDarkTheme
+                                      ? TextStyles.font14LightGrayRegular
+                                      : TextStyles
+                                          .font14MoreGrayRegular, //TextStyles.font14MoreGrayRegular,
                                 ),
                               ],
                             ),
@@ -201,6 +209,8 @@ class _ProfileState extends State<Profile> {
     required String label,
     bool isNumeric = false,
   }) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -210,13 +220,18 @@ class _ProfileState extends State<Profile> {
             controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
+              hintStyle: TextStyle(
+                color: isDarkTheme ? Colors.white : Colors.black,
+              ),
               labelText: label,
-              labelStyle: const TextStyle(color: Colors.black),
+              labelStyle:
+                  TextStyle(color: isDarkTheme ? Colors.white : Colors.black),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.black),
+                borderSide: BorderSide(
+                    color: isDarkTheme ? Colors.white : Colors.black),
                 borderRadius: BorderRadius.circular(16),
               ),
               focusedBorder: OutlineInputBorder(

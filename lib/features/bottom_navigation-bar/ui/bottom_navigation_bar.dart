@@ -82,7 +82,8 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         buttonBackgroundColor: ColorsProvider.primaryBink,
-        backgroundColor: isDarkTheme ? Colors.grey.shade700 : Colors.white,
+        backgroundColor:
+            isDarkTheme ? const Color.fromARGB(0, 97, 97, 97) : Colors.white,
         height: 66,
         color: colorChoice,
         animationDuration: const Duration(milliseconds: 500),
@@ -95,30 +96,22 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
           Icon(
             Icons.home,
             size: 28,
-            color: currentIndex == 0
-                ? iconColorChoice
-                : ColorsProvider.naveIconColor,
+            color: currentIndex == 0 ? iconColorChoice : ColorsProvider.rusasy,
           ),
           Icon(
             Icons.science_sharp,
             size: 28,
-            color: currentIndex == 1
-                ? iconColorChoice
-                : ColorsProvider.naveIconColor,
+            color: currentIndex == 1 ? iconColorChoice : ColorsProvider.rusasy,
           ),
           Icon(
             Icons.location_on,
             size: 28,
-            color: currentIndex == 2
-                ? iconColorChoice
-                : ColorsProvider.naveIconColor,
+            color: currentIndex == 2 ? iconColorChoice : ColorsProvider.rusasy,
           ),
           Icon(
             Icons.person,
             size: 28,
-            color: currentIndex == 3
-                ? iconColorChoice
-                : ColorsProvider.naveIconColor,
+            color: currentIndex == 3 ? iconColorChoice : ColorsProvider.rusasy,
           ),
         ],
       ),

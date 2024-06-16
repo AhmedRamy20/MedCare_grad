@@ -24,6 +24,8 @@ class _SignupScreenState extends State<SignupScreen> {
   bool isObsecureText = true;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<SignUpCubit, SignUpState>(
@@ -71,13 +73,17 @@ class _SignupScreenState extends State<SignupScreen> {
                   children: [
                     Text(
                       "Create Account",
-                      style: TextStyles.font24BinkBold,
+                      style: isDarkTheme
+                          ? TextStyles.font24whiteBold2
+                          : TextStyles.font24BinkBold,
                     ),
                     verticalSpace(8),
                     Text(
                       // 'Sign up now and start exploring all that our app has to offer. We\'re excited to welcome you to our Medcare!.',
                       'With you Signing up . We\'re excited to welcome you to our Healthcare!',
-                      style: TextStyles.font15GrayRegular,
+                      style: isDarkTheme
+                          ? TextStyles.font15whiteRegular
+                          : TextStyles.font15GrayRegular,
                     ),
                     verticalSpace(30),
                     Column(
@@ -86,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         verticalSpace(25),
                         state is SignUpLoading
                             ? const CircularProgressIndicator(
-                                color: Colors.amber,
+                                color: Colors.white,
                               )
                             : MedAppButton(
                                 buttonText: "Sign up",

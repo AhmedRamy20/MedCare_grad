@@ -7,6 +7,7 @@ class Medicine {
   final String? sideEffects;
   final String? ingredients;
   final DateTime? expiryDate;
+  int quantity;
 
   Medicine({
     required this.id,
@@ -17,6 +18,7 @@ class Medicine {
     this.sideEffects,
     this.ingredients,
     this.expiryDate,
+    this.quantity = 1,
   });
 
   factory Medicine.fromJson(Map<String, dynamic> json) {

@@ -8,12 +8,16 @@ class AlreadyHaveAccountText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Already have an account?",
-          style: TextStyles.font13DarkMediam,
+          style: isDarkTheme
+              ? TextStyles.font13whiteMediam
+              : TextStyles.font13DarkMediam,
         ),
         GestureDetector(
           onTap: () {
@@ -21,7 +25,9 @@ class AlreadyHaveAccountText extends StatelessWidget {
           },
           child: Text(
             " Sign in",
-            style: TextStyles.font13BinkSemiBold,
+            style: isDarkTheme
+                ? TextStyles.font13BinkSemiBold
+                : TextStyles.font13BinkSemiBold,
           ),
         )
       ],

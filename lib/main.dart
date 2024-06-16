@@ -7,15 +7,17 @@ import 'package:medical_app/core/theming/appTheme/cubit/app_theme_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ChacheHelper().init();
+  final cacheHelper = ChacheHelper();
+  await ChacheHelper().init();
   Stripe.publishableKey = ApiKey.puplishableKey;
   runApp(
     BlocProvider<AppThemeCubit>(
-      create: (context) => AppThemeCubit(),
+      create: (context) => AppThemeCubit(cacheHelper),
       child: MedcareApp(
         appRouter: AppRouter(),
+        cacheHelper: cacheHelper,
       ),
     ),
   );

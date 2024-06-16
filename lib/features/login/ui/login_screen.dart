@@ -26,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late SignInModel signInModel;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<LoginCubit, LoginState>(
@@ -121,13 +123,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       "Welcome Back",
-                      style: TextStyles.font24BinkBold,
+                      style: isDarkTheme
+                          ? TextStyles.font24whiteBold2
+                          : TextStyles.font24BinkBold,
                     ),
                     verticalSpace(8),
                     Text(
                       // 'Med App excited to have you back, can\'t wait to see what you\'ve been up to since you last logged in.',
                       'How long have you turned your back on us? Just Kidding :)',
-                      style: TextStyles.font15GrayRegular,
+                      style: isDarkTheme
+                          ? TextStyles.font15whiteRegular
+                          : TextStyles.font15GrayRegular,
                     ),
                     verticalSpace(27), //! was like 36
                     Column(
@@ -142,7 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: Text(
                               "Forgot Password",
-                              style: TextStyles.font13BinkRegular,
+                              style: isDarkTheme
+                                  ? TextStyles.font13whiteRegular
+                                  : TextStyles.font13BinkRegular,
                             ),
                           ),
                         ),
@@ -184,7 +192,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             horizontalSpace(3),
                             Text(
                               "Or sign in with",
-                              style: TextStyles.font12signLightGrayRegular,
+                              style: isDarkTheme
+                                  ? TextStyles.font12whiteRegular
+                                  : TextStyles.font12signLightGrayRegular,
                             ),
                             horizontalSpace(3),
                             const Expanded(

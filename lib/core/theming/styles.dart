@@ -24,6 +24,26 @@ class TextStyles {
     color: ColorsProvider.greeting1Color,
     fontWeight: FontWeightconv.bold,
   );
+  static TextStyle font24rusasyBold2 = TextStyle(
+    fontSize: 24.sp,
+    color: ColorsProvider.rusasy,
+    fontWeight: FontWeightconv.bold,
+  );
+  static TextStyle font15rusasyregular = TextStyle(
+    fontSize: 15.sp,
+    color: ColorsProvider.rusasy,
+    fontWeight: FontWeightconv.regular,
+  );
+  static TextStyle font24whiteBold2 = TextStyle(
+    fontSize: 24.sp,
+    color: ColorsProvider.feildWhite,
+    fontWeight: FontWeightconv.bold,
+  );
+  static TextStyle font24BlueBold2 = TextStyle(
+    fontSize: 24.sp,
+    color: ColorsProvider.primaryBink,
+    fontWeight: FontWeightconv.bold,
+  );
   static TextStyle font24BlackBold = TextStyle(
     fontSize: 24.sp,
     color: ColorsProvider.dark,
@@ -51,9 +71,26 @@ class TextStyles {
     fontWeight: FontWeightconv.regular,
     letterSpacing: 0.2,
   );
+  static TextStyle font15whiteRegular = TextStyle(
+    fontSize: 15.sp,
+    color: ColorsProvider.feildWhite,
+    fontWeight: FontWeightconv.regular,
+    letterSpacing: 0.2,
+  );
+  static TextStyle font12whiteRegular = TextStyle(
+    fontSize: 12.sp,
+    color: ColorsProvider.feildWhite,
+    fontWeight: FontWeightconv.regular,
+    letterSpacing: 0.2,
+  );
   static TextStyle font13GrayRegular = TextStyle(
     fontSize: 13.sp,
     color: ColorsProvider.gray,
+    fontWeight: FontWeightconv.regular,
+  );
+  static TextStyle font13whiteRegular = TextStyle(
+    fontSize: 13.sp,
+    color: ColorsProvider.feildWhite,
     fontWeight: FontWeightconv.regular,
   );
   static TextStyle font10GrayRegular = TextStyle(
@@ -104,6 +141,11 @@ class TextStyles {
   static TextStyle font13DarkMediam = TextStyle(
     fontSize: 13.sp,
     color: ColorsProvider.dark,
+    fontWeight: FontWeightconv.medium,
+  );
+  static TextStyle font13whiteMediam = TextStyle(
+    fontSize: 13.sp,
+    color: ColorsProvider.feildWhite,
     fontWeight: FontWeightconv.medium,
   );
   static TextStyle font14GreyMediam = TextStyle(

@@ -7,6 +7,7 @@ class SignUpModel {
   final double? weight;
   final String? gender;
   final String? pictureUrl;
+  final String? bloodType;
 
   SignUpModel({
     required this.token,
@@ -16,6 +17,7 @@ class SignUpModel {
     this.weight,
     this.gender,
     this.pictureUrl,
+    this.bloodType,
   });
 
   factory SignUpModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class SignUpModel {
       weight: json['weight']?.toDouble(),
       gender: json['gender'],
       pictureUrl: json['pictureUrl'],
+      bloodType: json['bloodType'],
     );
   }
 }

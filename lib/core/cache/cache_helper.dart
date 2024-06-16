@@ -85,4 +85,16 @@ class ChacheHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('profileImageUrl');
   }
+
+
+
+  //* Save theme preference
+  Future<void> saveThemePreference(bool isDarkTheme) async {
+    await sharedPreferences.setBool('isDarkTheme', isDarkTheme);
+  }
+
+  //* Get theme preference
+  bool getThemePreference() {
+    return sharedPreferences.getBool('isDarkTheme') ?? false;
+  }
 }

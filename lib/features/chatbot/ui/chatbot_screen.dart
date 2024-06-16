@@ -57,11 +57,11 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
         title: const Text(
           "Chatbot",
           style: TextStyle(
-            color: Color.fromARGB(255, 158, 208, 233),
+            color: Colors.white,
             fontSize: 24,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 188, 111, 111),
+        backgroundColor: ColorsProvider.primaryBink,
         centerTitle: true,
         elevation: 0,
       ),
@@ -96,12 +96,12 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(60)),
                       borderSide: BorderSide(
-                        color: Color.fromARGB(255, 107, 46, 27),
+                        color: Colors.white,
                       )),
                   hintText: 'chat',
                   hintStyle: const TextStyle(color: Colors.white),
                   suffixIcon: IconButton(
-                      color: const Color.fromARGB(255, 107, 46, 27),
+                      color: Colors.white,
                       onPressed: () {
                         this.getResponse();
                         sendMessage(queryController.text);
@@ -138,9 +138,7 @@ Widget buildItem(String item, Animation animation, int index) {
         width: 225,
         alignment: mine ? Alignment.topLeft : Alignment.topRight,
         child: Material(
-          color: mine
-              ? Color.fromARGB(255, 167, 88, 88)
-              : const Color.fromARGB(255, 237, 159, 159),
+          color: mine ? ColorsProvider.primaryBink : Colors.black45,
           borderRadius: mine
               ? const BorderRadius.only(
                   topRight: Radius.circular(15),
@@ -158,7 +156,7 @@ Widget buildItem(String item, Animation animation, int index) {
               item.replaceAll('0', ''),
               style: TextStyle(
                 fontSize: 17,
-                color: mine ? Colors.white : Color.fromARGB(255, 0, 0, 0),
+                color: mine ? Colors.white : Colors.white,
               ),
             ),
           ),

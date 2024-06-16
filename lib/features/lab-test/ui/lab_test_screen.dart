@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +9,13 @@ import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 import 'package:medical_app/features/cart/logic/cubit/cart_cubit.dart';
+import 'package:medical_app/features/cart/logic/cubit/cart_state.dart';
 import 'package:medical_app/features/lab-test/data/models/lab_test_model.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_state.dart';
 import 'package:medical_app/features/lab-test/ui/lab_details_screen.dart';
 import 'package:medical_app/features/lab-test/ui/widgets/lab_test_shimmer.dart';
+import 'package:badges/badges.dart' as badges;
 
 class LabTest extends StatefulWidget {
   const LabTest({super.key});
@@ -29,6 +32,7 @@ class _LabTestState extends State<LabTest> {
   void initState() {
     super.initState();
     context.read<LabTestCubit>().fetchLabTests();
+    context.read<CartCubit>().loadCart();
   }
 
   Future<void> _handleRefresh() async {
@@ -45,25 +49,73 @@ class _LabTestState extends State<LabTest> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Transform(
-              transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
-              alignment: Alignment.center,
-              child: IconButton(
-                onPressed: () {
-                  // context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
-                  context.pushNamed(Routes.cart);
-                },
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: ColorsProvider.greeting1Color,
-                  size: 33,
-                ),
-              ),
-            ),
-          )
+          BlocBuilder<CartCubit, CartState>(
+            builder: (context, cartState) {
+              int cartItemCount = 0;
+              if (cartState is CartItemsUpdated) {
+                cartItemCount = cartState.medicineCartItems.length +
+                    cartState.labTestCartItems.length;
+              }
+              Widget badgeWidget = cartItemCount > 0
+                  ? badges.Badge(
+                      badgeContent: Text(
+                        '$cartItemCount',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      // position: BadgePosition.topEnd(end: 3),
+                      position: BadgePosition.topEnd(
+                        top: 2,
+                        end: 12,
+                      ),
+                      badgeStyle: BadgeStyle(
+                        badgeColor: Colors.red,
+                        padding: EdgeInsets.all(5),
+                        elevation: 0,
+                      ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Transform(
+                          transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            onPressed: () {
+                              // context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                              context.pushNamed(Routes.cart);
+                            },
+                            icon: const Icon(
+                              Icons.shopping_cart,
+                              color: ColorsProvider
+                                  .primaryBink, //ColorsProvider.greeting1Color
+                              size: 33,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : IconButton(
+                      onPressed: () {},
+                      icon: Transform(
+                        transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                        alignment: Alignment.center,
+                        child: IconButton(
+                          onPressed: () {
+                            // context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                            context.pushNamed(Routes.cart);
+                          },
+                          icon: const Icon(
+                            Icons.shopping_cart,
+                            color: ColorsProvider
+                                .primaryBink, //ColorsProvider.greeting1Color
+                            size: 33,
+                          ),
+                        ),
+                      ),
+                    );
+              return badgeWidget;
+            },
+          ),
         ],
       ),
       body: SafeArea(
@@ -78,15 +130,19 @@ class _LabTestState extends State<LabTest> {
                 child: Container(
                   height: 50,
                   decoration: BoxDecoration(
-                    color:
-                        isDarkTheme ? Colors.grey.shade800 : Colors.grey[200],
+                    color: isDarkTheme
+                        ? ColorsProvider.feildWhite
+                        : Colors.grey[200],
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.search),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.search,
+                          color: isDarkTheme ? Colors.grey : Colors.grey,
+                        ),
                       ),
                       Expanded(
                         child: GestureDetector(
@@ -298,7 +354,7 @@ class _LabTestState extends State<LabTest> {
                                             onPressed: () {
                                               context
                                                   .read<CartCubit>()
-                                                  .addToCart(labTest);
+                                                  .addToLabTestCart(labTest);
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(

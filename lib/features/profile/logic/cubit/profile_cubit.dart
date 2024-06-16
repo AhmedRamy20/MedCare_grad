@@ -24,7 +24,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
 
       final response = await dio.get(
-        'http://DawayahealthCare1.somee.com/Account/GetCurrentuser',
+        'http://DawayahealthCare2.somee.com/Account/GetCurrentuser',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -86,7 +86,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
       // Add authorization header
       final response = await dio.put(
-        'http://DawayahealthCare1.somee.com/Account/UpdateCurrentUser',
+        'http://DawayahealthCare2.somee.com/Account/UpdateCurrentUser',
         data: formData,
         options: Options(
           headers: {

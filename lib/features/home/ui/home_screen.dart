@@ -478,6 +478,7 @@
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+import 'package:badges/badges.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -491,11 +492,15 @@ import 'package:medical_app/core/theming/appTheme/cubit/app_theme_cubit.dart';
 import 'package:medical_app/core/theming/colors.dart';
 import 'package:medical_app/core/theming/styles.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:medical_app/features/cart/logic/cubit/cart_cubit.dart';
+import 'package:medical_app/features/cart/logic/cubit/cart_state.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_state.dart';
+import 'package:medical_app/features/home/ui/medicine_details_screen.dart';
 import 'package:medical_app/features/home/ui/widgets/medicine_shimmer_loading.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -548,22 +553,110 @@ class _HomeScreenState extends State<HomeScreen> {
           size: 30,
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Transform(
-              transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
-              alignment: Alignment.center,
-              child: IconButton(
-                onPressed: () {
-                  context.pushNamed(Routes.cart); //MyCartViewBody
-                },
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: ColorsProvider.greeting1Color,
-                  size: 33,
-                ),
-              ),
-            ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: BlocBuilder<CartCubit, CartState>(
+          //     builder: (context, cartState) {
+          //       int cartItemCount = 0;
+          //       if (cartState is CartItemsUpdated) {
+          //         cartItemCount = cartState.medicineCartItems.length +
+          //             cartState.labTestCartItems.length;
+          //       }
+          //       return badges.Badge(
+          //         badgeContent: Text(
+          //           '$cartItemCount',
+          //           style: const TextStyle(color: Colors.white),
+          //         ),
+          //         // position: BadgePosition.topEnd(end: 3),
+          //         position: BadgePosition.topEnd(
+          //           top: 2,
+          //           end: 12,
+          //         ),
+          //         badgeStyle: BadgeStyle(
+          //           badgeColor: Colors.red,
+          //           padding: EdgeInsets.all(5),
+          //           elevation: 0,
+          //         ),
+          //         child: IconButton(
+          //           onPressed: () {
+          //             context.pushNamed(Routes.cart); //MyCartViewBody
+          //           },
+          //           icon: const Icon(
+          //             Icons.shopping_cart,
+          //             color: ColorsProvider
+          //                 .primaryBink, //ColorsProvider.greeting1Color
+          //             size: 33,
+          //           ),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
+          BlocBuilder<CartCubit, CartState>(
+            builder: (context, cartState) {
+              int cartItemCount = 0;
+              if (cartState is CartItemsUpdated) {
+                cartItemCount = cartState.medicineCartItems.length +
+                    cartState.labTestCartItems.length;
+              }
+              Widget badgeWidget = cartItemCount > 0
+                  ? badges.Badge(
+                      badgeContent: Text(
+                        '$cartItemCount',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      // position: BadgePosition.topEnd(end: 3),
+                      position: BadgePosition.topEnd(
+                        top: 2,
+                        end: 12,
+                      ),
+                      badgeStyle: BadgeStyle(
+                        badgeColor: Colors.red,
+                        padding: EdgeInsets.all(5),
+                        elevation: 0,
+                      ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Transform(
+                          transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            onPressed: () {
+                              // context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                              context.pushNamed(Routes.cart);
+                            },
+                            icon: const Icon(
+                              Icons.shopping_cart,
+                              color: ColorsProvider
+                                  .primaryBink, //ColorsProvider.greeting1Color
+                              size: 33,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : IconButton(
+                      onPressed: () {},
+                      icon: Transform(
+                        transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                        alignment: Alignment.center,
+                        child: IconButton(
+                          onPressed: () {
+                            // context.pushNamed(Routes.paymentCheckout); //MyCartViewBody
+                            context.pushNamed(Routes.cart);
+                          },
+                          icon: const Icon(
+                            Icons.shopping_cart,
+                            color: ColorsProvider
+                                .primaryBink, //ColorsProvider.greeting1Color
+                            size: 33,
+                          ),
+                        ),
+                      ),
+                    );
+              return badgeWidget;
+            },
           ),
         ],
         leading: Builder(
@@ -653,7 +746,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ListTile(
                   leading: const Icon(
                     Icons.contact_support,
-                    color: Color(0xffE99987),
+                    color: ColorsProvider.primaryBink, //Color(0xffE99987)
                     size: 24,
                   ),
                   title: Text(
@@ -687,7 +780,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ListTile(
                   leading: const Icon(
                     Icons.science,
-                    color: Color(0xffE99987),
+                    color: ColorsProvider.primaryBink,
                     size: 24,
                   ),
                   title: Text(
@@ -733,12 +826,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   leading: isDarkTheme
                       ? const Icon(
                           Icons.dark_mode, // Use light mode icon by default
-                          color: Color(0xffE99987),
+                          // color: Color(0xffE99987),
+                          color: ColorsProvider.primaryBink,
                           size: 24,
                         )
                       : const Icon(
                           Icons.light_mode, // Use light mode icon by default
-                          color: Color(0xffE99987),
+                          color: ColorsProvider.primaryBink,
                           size: 24,
                         ),
                   title: Text(
@@ -752,7 +846,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onChanged: (value) {
                       context.read<AppThemeCubit>().toggleTheme();
                     },
-                    activeColor: const Color(0xffE99987),
+                    activeColor: ColorsProvider.primaryBink,
                     inactiveThumbColor: Colors.grey.shade500,
                     inactiveTrackColor: Colors.white,
                     // inactiveThumbImage: AssetImage('assets/images/google.png'),
@@ -765,7 +859,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListTile(
                 leading: const Icon(
                   Icons.logout_outlined,
-                  color: Color(0xffE99987),
+                  color: ColorsProvider.primaryBink,
                   size: 24,
                 ),
                 title: Text(
@@ -773,7 +867,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: isDarkTheme
                       ? const TextStyle(color: Colors.white)
                       : const TextStyle(
-                          color: Color.fromARGB(255, 153, 62, 55)),
+                          color: Color.fromARGB(255, 190, 20, 8),
+                          fontWeight: FontWeight.bold,
+                        ),
                 ),
                 onTap: () async {
                   await loginCubit.clearUserData();
@@ -801,7 +897,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   fit: BoxFit.scaleDown,
                   child: Text(
                     "Hi, $userUniqename",
-                    style: TextStyles.font24BinkBold2,
+                    style: isDarkTheme
+                        ? TextStyles.font24whiteBold2
+                        : TextStyles.font24rusasyBold2,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -826,7 +924,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                             color: isDarkTheme
-                                ? Colors.grey.shade900
+                                ? Color.fromARGB(255, 33, 36, 52)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -853,15 +951,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     height: isSearchExpanded ? null : 56,
                     decoration: BoxDecoration(
-                      color:
-                          isDarkTheme ? Colors.grey.shade800 : Colors.grey[200],
+                      color: isDarkTheme
+                          ? ColorsProvider.feildWhite
+                          : Colors.grey[200],
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.search),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.search,
+                            color: isDarkTheme ? Colors.grey : Colors.grey,
+                          ),
                         ),
                         Expanded(
                           child: GestureDetector(
@@ -883,8 +985,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   isSearchExpanded = true;
                                 });
                               },
-                              cursorColor:
-                                  isDarkTheme ? Colors.white : Colors.black,
+                              cursorColor: isDarkTheme
+                                  ? ColorsProvider.primaryBink
+                                  : ColorsProvider.primaryBink,
                               decoration: const InputDecoration(
                                 hintText: "Search a Drug",
                                 border: InputBorder.none,
@@ -944,81 +1047,92 @@ class _HomeScreenState extends State<HomeScreen> {
                           medicineCount,
                           (index) {
                             final medicine = state.medicines[index];
-                            return ListTile(
-                              leading: SizedBox(
-                                height: 100,
-                                width: 100,
-                                //* old
-                                // child: medicine.pictureUrl.isNotEmpty
-                                //     ? Image.network(medicine.pictureUrl)
-                                //     : const Placeholder(),
-                                child: medicine.pictureUrl.isNotEmpty
-                                    ? FancyShimmerImage(
-                                        imageUrl: medicine.pictureUrl,
-                                        boxFit: BoxFit.cover,
-                                        errorWidget: Container(
-                                          child: const Icon(
-                                            Icons.error,
-                                            color: ColorsProvider.primaryBink,
-                                          ),
-                                        ),
-                                      )
-                                    : const Icon(
-                                        Icons.error,
-                                        color: ColorsProvider.primaryBink,
-                                      ),
-                                //! fancy
-                                // child: FancyShimmerImage(
-                                //   imageUrl: medicine.pictureUrl,
-                                // ),
-                              ),
-                              title: Text(
-                                medicine.name,
-                                style: isDarkTheme
-                                    ? TextStyle(
-                                        color: Colors.white, fontSize: 14.sp)
-                                    : TextStyles.font14DarkMediam,
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    medicine.description,
-                                    style: isDarkTheme
-                                        ? TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 14.sp)
-                                        : TextStyles.font14LightGrayRegular,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MedicineDetailsScreen(
+                                        medicine: medicine),
                                   ),
-                                  Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: '\$ ',
-                                          style: TextStyle(
-                                            color: Colors.green,
-                                            fontSize: 16,
+                                );
+                              },
+                              child: ListTile(
+                                leading: SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  //* old
+                                  // child: medicine.pictureUrl.isNotEmpty
+                                  //     ? Image.network(medicine.pictureUrl)
+                                  //     : const Placeholder(),
+                                  child: medicine.pictureUrl.isNotEmpty
+                                      ? FancyShimmerImage(
+                                          imageUrl: medicine.pictureUrl,
+                                          boxFit: BoxFit.cover,
+                                          errorWidget: Container(
+                                            child: const Icon(
+                                              Icons.error,
+                                              color: ColorsProvider.primaryBink,
+                                            ),
                                           ),
+                                        )
+                                      : const Icon(
+                                          Icons.error,
+                                          color: ColorsProvider.primaryBink,
                                         ),
-                                        TextSpan(
-                                          text:
-                                              '${medicine.price.toStringAsFixed(2)}',
-                                          style: isDarkTheme
-                                              ? const TextStyle(
-                                                  color: Colors.white60,
-                                                  fontSize: 16)
-                                              : const TextStyle(
-                                                  color: ColorsProvider
-                                                      .greeting2Color,
-                                                  fontSize: 16,
-                                                ),
-                                        ),
-                                      ],
+                                  //! fancy
+                                  // child: FancyShimmerImage(
+                                  //   imageUrl: medicine.pictureUrl,
+                                  // ),
+                                ),
+                                title: Text(
+                                  medicine.name,
+                                  style: isDarkTheme
+                                      ? TextStyle(
+                                          color: Colors.white, fontSize: 14.sp)
+                                      : TextStyles.font14DarkMediam,
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      medicine.description,
+                                      style: isDarkTheme
+                                          ? TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 14.sp)
+                                          : TextStyles.font14LightGrayRegular,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                ],
+                                    Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          const TextSpan(
+                                            text: '\$ ',
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                '${medicine.price.toStringAsFixed(2)}',
+                                            style: isDarkTheme
+                                                ? const TextStyle(
+                                                    color: Colors.white60,
+                                                    fontSize: 16)
+                                                : const TextStyle(
+                                                    color: ColorsProvider
+                                                        .greeting2Color,
+                                                    fontSize: 16,
+                                                  ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -1034,50 +1148,61 @@ class _HomeScreenState extends State<HomeScreen> {
                           medicineCount,
                           (index) {
                             final medicine = state.medicines[index];
-                            return ListTile(
-                              leading: SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: medicine.pictureUrl.isNotEmpty
-                                    ? Image.network(medicine.pictureUrl)
-                                    : const Placeholder(),
-                              ),
-                              title: Text(
-                                medicine.name,
-                                style: TextStyles.font14DarkMediam,
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    medicine.description,
-                                    style: TextStyles.font14LightGrayRegular,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MedicineDetailsScreen(
+                                        medicine: medicine),
                                   ),
-                                  Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: '\$ ',
-                                          style: TextStyle(
-                                            color: Colors.green,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text:
-                                              '${medicine.price.toStringAsFixed(2)}',
-                                          style: const TextStyle(
-                                            color:
-                                                ColorsProvider.greeting2Color,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
+                                );
+                              },
+                              child: ListTile(
+                                leading: SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: medicine.pictureUrl.isNotEmpty
+                                      ? Image.network(medicine.pictureUrl)
+                                      : const Placeholder(),
+                                ),
+                                title: Text(
+                                  medicine.name,
+                                  style: TextStyles.font14DarkMediam,
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      medicine.description,
+                                      style: TextStyles.font14LightGrayRegular,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                ],
+                                    Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          const TextSpan(
+                                            text: '\$ ',
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text:
+                                                '${medicine.price.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                              color:
+                                                  ColorsProvider.greeting2Color,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -1111,10 +1236,11 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 context.pushNamed(Routes.chatbotScreen);
               },
-              backgroundColor: const Color.fromARGB(255, 228, 197, 208),
+              backgroundColor: ColorsProvider.primaryBink,
               child: const Icon(
                 Icons.chat_bubble,
-                color: ColorsProvider.primaryBink,
+                color: Color.fromARGB(
+                    255, 196, 204, 215), //ColorsProvider.primaryBink
               ),
             ),
     );

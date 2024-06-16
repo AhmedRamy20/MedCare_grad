@@ -75,7 +75,8 @@ class SplashScreen extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           body: Center(
-            child: Image.asset('assets/images/splash.png'), // Your splash image
+            // child: Image.asset('assets/images/splash.png'),
+            child: Image.asset('assets/images/splash2.png'),
           ),
         );
       },
@@ -83,8 +84,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   Future<void> _navigateFromSplash(BuildContext context) async {
-    await Future.delayed(
-        Duration(seconds: 2)); // Simulate a delay for splash screen
+    await Future.delayed(Duration(seconds: 2)); // a delay for splash screen
 
     final bool onboardingSeen =
         ChacheHelper().getData(key: 'onboarding_seen') ?? false;

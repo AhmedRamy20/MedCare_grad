@@ -40,7 +40,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       emit(SignInLoading());
       final response = await dio.post(
-        "http://DawayahealthCare1.somee.com/Account/Login",
+        "http://DawayahealthCare2.somee.com/Account/Login",
         data: {
           ApiKey.email: signInEmail.text,
           ApiKey.password: signInPassword.text,
