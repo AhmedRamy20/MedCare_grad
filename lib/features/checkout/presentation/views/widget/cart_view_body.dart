@@ -38,24 +38,24 @@ class MyCartViewBody extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            const OrderInfoItem(
-              title: 'Order Subtotal',
-              value: r'42.97$',
-            ),
-            const SizedBox(
-              height: 3,
-            ),
-            const OrderInfoItem(
-              title: 'Discount',
-              value: r'0$',
-            ),
-            const SizedBox(
-              height: 3,
-            ),
-            const OrderInfoItem(
-              title: 'Shipping',
-              value: r'8$',
-            ),
+            // const OrderInfoItem(
+            //   title: 'Order Subtotal',
+            //   value: r'42.97$',
+            // ),
+            // const SizedBox(
+            //   height: 3,
+            // ),
+            // const OrderInfoItem(
+            //   title: 'Discount',
+            //   value: r'0$',
+            // ),
+            // const SizedBox(
+            //   height: 3,
+            // ),
+            // const OrderInfoItem(
+            //   title: 'Shipping',
+            //   value: r'8$',
+            // ),
             const Divider(
               thickness: 2,
               height: 34,
@@ -95,7 +95,8 @@ class MyCartViewBody extends StatelessWidget {
                     builder: (context) {
                       return BlocProvider(
                         create: (context) => PaymentCubit(CheckoutRepoImpl()),
-                        child: PaymentMethodsBottomSheet(totalPrice: totalPrice),
+                        child:
+                            PaymentMethodsBottomSheet(totalPrice: totalPrice),
                       );
                     });
               },

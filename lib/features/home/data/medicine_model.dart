@@ -35,4 +35,19 @@ class Medicine {
           : null,
     );
   }
+
+  //! for store in shared pref
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'pictureUrl': pictureUrl,
+      'price': price,
+      'sideEffects': sideEffects,
+      'ingredients': ingredients,
+      'expiryDate': expiryDate?.toIso8601String(),
+      'quantity': quantity,
+    };
+  }
 }

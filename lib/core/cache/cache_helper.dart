@@ -1,4 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:medical_app/features/home/data/medicine_model.dart';
+import 'package:medical_app/features/lab-test/data/models/lab_test_model.dart';
+import 'dart:convert';
 
 class ChacheHelper {
   static late SharedPreferences sharedPreferences;
@@ -58,6 +61,46 @@ class ChacheHelper {
     return await sharedPreferences.clear();
   }
 
+  //! Cart Pref
+
+  //* Save list of Medicine objects
+  Future<void> saveMedicineCartItems(List<Medicine> medicines) async {
+    List<String> jsonMedicines =
+        medicines.map((medicine) => json.encode(medicine.toJson())).toList();
+    await sharedPreferences.setStringList('medicineCartItems', jsonMedicines);
+  }
+
+  //* Get list of Medicine objects
+  List<Medicine> getMedicineCartItems() {
+    List<String>? jsonMedicines =
+        sharedPreferences.getStringList('medicineCartItems');
+    if (jsonMedicines != null) {
+      return jsonMedicines
+          .map((jsonMedicine) => Medicine.fromJson(json.decode(jsonMedicine)))
+          .toList();
+    }
+    return [];
+  }
+
+  //* Save list of LabTestModel objects
+  Future<void> saveLabTestCartItems(List<LabTestModel> labTests) async {
+    List<String> jsonLabTests =
+        labTests.map((labTest) => json.encode(labTest.toJson())).toList();
+    await sharedPreferences.setStringList('labTestCartItems', jsonLabTests);
+  }
+
+  //* Get list of LabTestModel objects
+  List<LabTestModel> getLabTestCartItems() {
+    List<String>? jsonLabTests =
+        sharedPreferences.getStringList('labTestCartItems');
+    if (jsonLabTests != null) {
+      return jsonLabTests
+          .map((jsonLabTest) => LabTestModel.fromJson(json.decode(jsonLabTest)))
+          .toList();
+    }
+    return [];
+  }
+
 //* this used to put data in local data base using key
   Future<dynamic> put({
     required String key,
@@ -85,8 +128,6 @@ class ChacheHelper {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('profileImageUrl');
   }
-
-
 
   //* Save theme preference
   Future<void> saveThemePreference(bool isDarkTheme) async {

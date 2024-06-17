@@ -242,6 +242,7 @@ import 'package:medical_app/features/cart/logic/cubit/cart_cubit.dart';
 import 'package:medical_app/features/cart/logic/cubit/cart_state.dart';
 import 'package:medical_app/features/home/data/medicine_model.dart';
 import 'package:medical_app/features/lab-test/data/models/lab_test_model.dart';
+import 'package:medical_app/core/cache/cache_helper.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -253,6 +254,21 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   List<Medicine> _medicineCartItems = [];
   List<LabTestModel> _labTestCartItems = [];
+  final ChacheHelper _cacheHelper = ChacheHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCart();
+  }
+
+  Future<void> _initializeCart() async {
+    await _cacheHelper.init();
+    setState(() {
+      _medicineCartItems = _cacheHelper.getMedicineCartItems();
+      _labTestCartItems = _cacheHelper.getLabTestCartItems();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -272,6 +288,10 @@ class _CartScreenState extends State<CartScreen> {
           } else if (state is CartItemsUpdated) {
             _medicineCartItems = state.medicineCartItems;
             _labTestCartItems = state.labTestCartItems;
+
+            // //! Save updated cart items to SharedPref
+            // _cacheHelper.saveMedicineCartItems(_medicineCartItems);
+            // _cacheHelper.saveLabTestCartItems(_labTestCartItems);
             if (_medicineCartItems.isEmpty && _labTestCartItems.isEmpty) {
               return const Center(child: Text('No items in the cart.'));
             }
@@ -312,6 +332,9 @@ class _CartScreenState extends State<CartScreen> {
                                 (element.price * element.quantity),
                           );
 
+                      // //! Save updated cart items to SharedPref
+                      // _cacheHelper.saveMedicineCartItems(_medicineCartItems);
+                      // _cacheHelper.saveLabTestCartItems(_labTestCartItems);
                       Navigator.of(context).pushNamed(
                         Routes.paymentCheckout,
                         arguments: {'totalPrice': totalPrice},
@@ -343,11 +366,13 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget buildMedicineItem(BuildContext context, Medicine medicine) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDarkTheme ? Colors.grey.shade300 : Colors.white,
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
@@ -428,7 +453,10 @@ class _CartScreenState extends State<CartScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.remove),
+                          icon: const Icon(
+                            Icons.remove,
+                            color: ColorsProvider.primaryBink,
+                          ),
                           onPressed: () {
                             context
                                 .read<CartCubit>()
@@ -439,10 +467,14 @@ class _CartScreenState extends State<CartScreen> {
                           '${medicine.quantity}',
                           style: TextStyle(
                             fontSize: 16.0,
+                            color: Colors.black,
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.add),
+                          icon: const Icon(
+                            Icons.add,
+                            color: ColorsProvider.primaryBink,
+                          ),
                           onPressed: () {
                             context
                                 .read<CartCubit>()

@@ -88,6 +88,17 @@ class Lab extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'pictureUrl': pictureUrl,
+      'location': location,
+    };
+  }
+
   @override
   List<Object?> get props => [id, name, email, phone, pictureUrl, location];
 }
@@ -120,9 +131,23 @@ class LabTestModel extends Equatable {
       price: json['price'],
       lab: Lab.fromJson(json['lab']),
       imageUrl: json['imageUrl'],
+      quantity: json['quantity'] ?? 1, //!pref
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'price': price,
+      'lab': lab.toJson(),
+      'imageUrl': imageUrl,
+      'quantity': quantity,
+    };
+  }
+
   @override
-  List<Object?> get props => [id, name, description, price, lab, imageUrl];
+  List<Object?> get props =>
+      [id, name, description, price, lab, imageUrl, quantity];
 }
