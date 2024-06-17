@@ -865,7 +865,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text(
                   "Logout",
                   style: isDarkTheme
-                      ? const TextStyle(color: Colors.white)
+                      ? const TextStyle(
+                          color: Color.fromARGB(255, 190, 20, 8),
+                          fontWeight: FontWeight.bold,
+                        )
                       : const TextStyle(
                           color: Color.fromARGB(255, 190, 20, 8),
                           fontWeight: FontWeight.bold,
@@ -1102,7 +1105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               color: Colors.white70,
                                               fontSize: 14.sp)
                                           : TextStyles.font14LightGrayRegular,
-                                      maxLines: 1,
+                                      maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text.rich(
@@ -1176,7 +1179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Text(
                                       medicine.description,
                                       style: TextStyles.font14LightGrayRegular,
-                                      maxLines: 1,
+                                      maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text.rich(
@@ -1274,8 +1277,10 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              foregroundColor: ColorsProvider.primaryBink,
-              backgroundColor: Colors.white,
+              // foregroundColor: ColorsProvider.primaryBink,
+              backgroundColor: isDarkTheme
+                  ? ColorsProvider.primaryBink
+                  : ColorsProvider.primaryBink,
               elevation: 2,
             ),
             onPressed: () {

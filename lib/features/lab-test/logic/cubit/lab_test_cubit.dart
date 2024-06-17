@@ -10,6 +10,7 @@ class LabTestCubit extends Cubit<LabTestState> {
 
   final Dio dio;
   List<LabTestModel> cachedLabTests = [];
+  List<LabTestModel> filteredLabTests = []; // Add filtered list for search
 
   Future<void> fetchLabTests() async {
     emit(LabTestLoading());
@@ -20,6 +21,9 @@ class LabTestCubit extends Cubit<LabTestState> {
       final labTests = data.map((json) => LabTestModel.fromJson(json)).toList();
       // emit(LabTestLoaded(labTests));
       cachedLabTests = labTests;
+      filteredLabTests = cachedLabTests;
+      emit(LabTestLoaded(filteredLabTests));
+
       if (isClosed) return; // Check again before emitting
       emit(LabTestLoaded(labTests));
     } on DioError catch (e) {
@@ -38,6 +42,19 @@ class LabTestCubit extends Cubit<LabTestState> {
       if (isClosed) return;
       emit(LabTestError(e.toString()));
     }
+  }
+
+  void searchLabTests(String query) {
+    if (query.isEmpty) {
+      filteredLabTests = cachedLabTests;
+    } else {
+      filteredLabTests = cachedLabTests
+          .where((labTest) =>
+              labTest.name.toLowerCase().contains(query.toLowerCase()) ||
+              labTest.description.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    emit(LabTestLoaded(filteredLabTests));
   }
 }
 

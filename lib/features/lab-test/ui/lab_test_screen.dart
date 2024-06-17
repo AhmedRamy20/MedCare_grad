@@ -145,50 +145,42 @@ class _LabTestState extends State<LabTest> {
                         ),
                       ),
                       Expanded(
-                        child: GestureDetector(
+                        child: TextField(
+                          controller: searchController,
+                          focusNode: _searchFocusNode,
                           onTap: () {
-                            // _searchFocusNode.requestFocus();
-
-                            // setState(() {
-                            //   isSearchExpanded = true;
-                            // });
-                            // FocusScope.of(context)
-                            //     .requestFocus(_searchFocusNode);
+                            _searchFocusNode.requestFocus();
                           },
-                          child: TextField(
-                            controller: searchController,
-                            focusNode: _searchFocusNode,
-                            onTap: () {
-                              _searchFocusNode.requestFocus();
-                            },
-                            cursorColor:
-                                isDarkTheme ? Colors.white : Colors.black,
-                            decoration: InputDecoration(
-                              hintText: "Search by Lab Tests",
-                              border: InputBorder.none,
-                              hintStyle: TextStyles.font14GreyMediam,
-                            ),
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 19,
-                            ),
-                            onChanged: (searchedValue) {
-                              print("Search value: $searchedValue");
-                              // context
-                              //     .read<MedicineCubit>()
-                              //     .searchMedicines(searchedValue);
-                              // context
-                              //     .read<MedicineCubit>()
-                              //     .searchMedicines(searchedValue);
-                            },
-                            onSubmitted: (value) {
-                              // setState(
-                              //   () {
-                              //     isSearchExpanded = false;
-                              //   },
-                              // );
-                            },
+                          cursorColor:
+                              isDarkTheme ? Colors.white : Colors.black,
+                          decoration: InputDecoration(
+                            hintText: "Search by Lab Tests",
+                            border: InputBorder.none,
+                            hintStyle: TextStyles.font14GreyMediam,
                           ),
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 19,
+                          ),
+                          onChanged: (searchedValue) {
+                            print("Search value: $searchedValue");
+                            context
+                                .read<LabTestCubit>()
+                                .searchLabTests(searchedValue);
+                            // context
+                            //     .read<MedicineCubit>()
+                            //     .searchMedicines(searchedValue);
+                            // context
+                            //     .read<MedicineCubit>()
+                            //     .searchMedicines(searchedValue);
+                          },
+                          onSubmitted: (value) {
+                            // setState(
+                            //   () {
+                            //     isSearchExpanded = false;
+                            //   },
+                            // );
+                          },
                         ),
                       ),
                     ],
@@ -213,8 +205,9 @@ class _LabTestState extends State<LabTest> {
                           ),
                         );
                       }
-                      final labTestCount =
-                          state.labTests.length > 3 ? 3 : state.labTests.length;
+                      // final labTestCount =
+                      //     state.labTests.length > 3 ? 3 : state.labTests.length;
+                      final labTestCount = state.labTests.length;
 
                       return RefreshIndicator(
                         color: ColorsProvider.primaryBink,
