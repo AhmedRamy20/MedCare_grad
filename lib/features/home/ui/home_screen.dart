@@ -548,6 +548,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(
           color: ColorsProvider.primaryBink,
           size: 30,
@@ -789,7 +790,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? const TextStyle(color: Colors.white)
                         : TextStyles.font14GrayRegular,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    context.pop();
+                    context.pushNamed(Routes.labTestResult);
+                  },
                 ),
                 //* Language if needed
                 // ListTile(
@@ -1068,26 +1072,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // child: medicine.pictureUrl.isNotEmpty
                                   //     ? Image.network(medicine.pictureUrl)
                                   //     : const Placeholder(),
-                                  child: medicine.pictureUrl.isNotEmpty
-                                      ? FancyShimmerImage(
-                                          imageUrl: medicine.pictureUrl,
-                                          boxFit: BoxFit.cover,
-                                          errorWidget: Container(
-                                            child: const Icon(
+                                  child: Hero(
+                                    tag: medicine.id,
+                                    child: AspectRatio(
+                                      aspectRatio: 2.0,
+                                      child: medicine.pictureUrl.isNotEmpty
+                                          ? FancyShimmerImage(
+                                              imageUrl: medicine.pictureUrl,
+                                              boxFit: BoxFit.cover,
+                                              errorWidget: Container(
+                                                child: const Icon(
+                                                  Icons.error,
+                                                  color: ColorsProvider
+                                                      .primaryBink,
+                                                ),
+                                              ),
+                                            )
+                                          : const Icon(
                                               Icons.error,
                                               color: ColorsProvider.primaryBink,
                                             ),
-                                          ),
-                                        )
-                                      : const Icon(
-                                          Icons.error,
-                                          color: ColorsProvider.primaryBink,
-                                        ),
+                                    ),
+                                  ),
                                   //! fancy
                                   // child: FancyShimmerImage(
                                   //   imageUrl: medicine.pictureUrl,
                                   // ),
                                 ),
+                                //! name
                                 title: Text(
                                   medicine.name,
                                   style: isDarkTheme
@@ -1095,6 +1107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           color: Colors.white, fontSize: 14.sp)
                                       : TextStyles.font14DarkMediam,
                                 ),
+
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1135,6 +1148,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                   ],
+                                ),
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    BlocProvider.of<CartCubit>(context)
+                                        .addToMedicineCart(medicine);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            '${medicine.name} added to cart'),
+                                        duration: const Duration(seconds: 1),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.shopping_cart,
+                                    color: ColorsProvider.primaryBink,
+                                  ),
                                 ),
                               ),
                             );

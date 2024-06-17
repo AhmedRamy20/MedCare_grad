@@ -15,6 +15,7 @@ import 'package:medical_app/features/forget-password/ui/otp_screen.dart';
 import 'package:medical_app/features/home/data/medicine_model.dart';
 import 'package:medical_app/features/home/logic/cubit/medicine_cubit.dart';
 import 'package:medical_app/features/home/ui/home_screen.dart';
+import 'package:medical_app/features/home/ui/lab_test_result_screen.dart';
 import 'package:medical_app/features/home/ui/medicine_details_screen.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
@@ -169,6 +170,10 @@ class AppRouter {
       case Routes.cart:
         return MaterialPageRoute(
           builder: (_) => const CartScreen(),
+        );
+      case Routes.labTestResult:
+        return MaterialPageRoute(
+          builder: (_) => const LabTestResultScreen(),
         );
       // case Routes.labTest:
       //   return MaterialPageRoute(

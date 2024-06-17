@@ -18,3 +18,5 @@ class ProfileError extends ProfileState {
     required this.errMsg,
   });
 }
+
+class ProfileNoInternet extends ProfileState {}

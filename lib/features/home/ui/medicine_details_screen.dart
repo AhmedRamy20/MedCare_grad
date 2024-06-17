@@ -25,7 +25,13 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Medicine details"),
+        title: Text(
+          "${widget.medicine.name} details",
+          style: TextStyle(
+            color: isDarkTheme ? Colors.white : Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(5),
@@ -40,9 +46,15 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    widget.medicine.pictureUrl,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: widget.medicine.id,
+                    child: AspectRatio(
+                      aspectRatio: 2.0,
+                      child: Image.network(
+                        widget.medicine.pictureUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -53,8 +65,9 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                 child: Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color:
-                        isDarkTheme ? Colors.grey[800] : Colors.lightBlue[100],
+                    color: isDarkTheme
+                        ? const Color.fromARGB(255, 118, 151, 166)
+                        : Colors.lightBlue[100],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -121,7 +134,10 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                             TextSpan(
                               text: "Description: ",
                               style: TextStyle(
-                                  color: ColorsProvider.rusasy,
+                                  color: isDarkTheme
+                                      ? Colors.white
+                                      : ColorsProvider
+                                          .rusasy, //ColorsProvider.rusasy
                                   fontSize: 18.sp),
                             ),
                             TextSpan(
@@ -147,7 +163,9 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                             TextSpan(
                               text: "SideEffects: ",
                               style: TextStyle(
-                                  color: ColorsProvider.rusasy,
+                                  color: isDarkTheme
+                                      ? Colors.white
+                                      : ColorsProvider.rusasy,
                                   fontSize: 18.sp),
                             ),
                             TextSpan(
@@ -183,7 +201,9 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                             TextSpan(
                               text: "Price: ",
                               style: TextStyle(
-                                  color: ColorsProvider.rusasy,
+                                  color: isDarkTheme
+                                      ? Colors.white
+                                      : ColorsProvider.rusasy,
                                   fontSize: 18.sp),
                             ),
                             TextSpan(
@@ -195,7 +215,8 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                             TextSpan(
                               text: "\$",
                               style: TextStyle(
-                                  color: Colors.green, fontSize: 17.sp),
+                                  color: const Color.fromARGB(255, 0, 255, 8),
+                                  fontSize: 18.sp),
                             ),
                           ],
                         ),
@@ -259,6 +280,48 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                       //   ],
                       // ),
                       SizedBox(height: 20.h),
+                      // Expanded(
+                      //   child: Center(
+                      //     child: ElevatedButton(
+                      //       style: ElevatedButton.styleFrom(
+                      //         primary: Colors.blue,
+                      //         padding: EdgeInsets.symmetric(
+                      //             horizontal: 32, vertical: 12),
+                      //         shape: RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(10),
+                      //         ),
+                      //       ),
+                      //       onPressed: () {
+                      //         int quantityAdded = widget.medicine.quantity;
+                      //         BlocProvider.of<CartCubit>(context)
+                      //             .addToMedicineCart(widget.medicine);
+
+                      //         ScaffoldMessenger.of(context).showSnackBar(
+                      //           SnackBar(
+                      //             content: Text(
+                      //                 '${widget.medicine.name} added to cart'),
+                      //             duration: Duration(seconds: 2),
+                      //             action: SnackBarAction(
+                      //               label: 'Undo',
+                      //               onPressed: () {
+                      //                 BlocProvider.of<CartCubit>(context)
+                      //                     .removeSpecificMedicineQuantity(
+                      //                         widget.medicine, quantityAdded);
+                      //               },
+                      //             ),
+                      //           ),
+                      //         );
+                      //       },
+                      //       child: Text(
+                      //         'Add Cart',
+                      //         style: TextStyle(
+                      //           color: Colors.white,
+                      //           fontSize: 18.sp,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Expanded(
                         child: Center(
                           child: ElevatedButton(
@@ -271,15 +334,45 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                               ),
                             ),
                             onPressed: () {
-                              widget.medicine.quantity = quantity;
+                              int quantityAdded = widget.medicine.quantity;
+
                               BlocProvider.of<CartCubit>(context)
                                   .addToMedicineCart(widget.medicine);
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      '${widget.medicine.name} added to cart'),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
                             },
-                            child: Text(
-                              'Add Cart',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.sp,
+                            // child: Text(
+                            //   'Add to Cart',
+                            //   style: TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 18,
+                            //   ),
+                            // ),
+                            child: const SizedBox(
+                              width: 120,
+                              height: 30,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Add to Cart',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.shopping_cart,
+                                    color: Colors.white,
+                                  ),
+                                ],
                               ),
                             ),
                           ),

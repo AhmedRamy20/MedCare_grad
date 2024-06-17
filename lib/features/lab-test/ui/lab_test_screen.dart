@@ -342,9 +342,43 @@ class _LabTestState extends State<LabTest> {
                                             ),
                                           ),
 
-                                          // Lab info
+                                          //! Lab Add to cart
+                                          // ElevatedButton(
+                                          //   onPressed: () {
+                                          //     context
+                                          //         .read<CartCubit>()
+                                          //         .addToLabTestCart(labTest);
+                                          //     ScaffoldMessenger.of(context)
+                                          //         .showSnackBar(
+                                          //       SnackBar(
+                                          //         content: Text(
+                                          //             '${labTest.name} added to cart'),
+                                          //       ),
+                                          //     );
+                                          //   },
+                                          //   style: ElevatedButton.styleFrom(
+                                          //     backgroundColor:
+                                          //         ColorsProvider.primaryBink,
+                                          //     foregroundColor: Colors.white,
+                                          //     elevation: 0,
+                                          //     padding: const EdgeInsets.only(
+                                          //         top: 10,
+                                          //         bottom: 13,
+                                          //         right: 34,
+                                          //         left: 34),
+                                          //     shape: RoundedRectangleBorder(
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(15),
+                                          //     ),
+                                          //   ),
+                                          //   child: const Text("Add to Cart"),
+                                          // ),
+
+                                          //**
                                           ElevatedButton(
                                             onPressed: () {
+                                              int quantityAdded =
+                                                  labTest.quantity;
                                               context
                                                   .read<CartCubit>()
                                                   .addToLabTestCart(labTest);
@@ -353,6 +387,18 @@ class _LabTestState extends State<LabTest> {
                                                 SnackBar(
                                                   content: Text(
                                                       '${labTest.name} added to cart'),
+                                                  duration:
+                                                      Duration(seconds: 1),
+                                                  action: SnackBarAction(
+                                                    label: 'Undo',
+                                                    onPressed: () {
+                                                      context
+                                                          .read<CartCubit>()
+                                                          .removeSpecificLabTestQuantity(
+                                                              labTest,
+                                                              quantityAdded);
+                                                    },
+                                                  ),
                                                 ),
                                               );
                                             },

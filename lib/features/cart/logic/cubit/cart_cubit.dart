@@ -204,7 +204,7 @@ class CartCubit extends Cubit<CartState> {
     _cacheHelper.saveLabTestCartItems(labTestCartItems);
   }
 
-  // Medicine related functions
+  // //! Medicine related functions (comment for the quantity undo)
   void addToMedicineCart(Medicine medicine) {
     final existingItemIndex =
         medicineCartItems.indexWhere((item) => item.id == medicine.id);
@@ -256,22 +256,6 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // LabTestModel related functions
-  void addToLabTestCart(LabTestModel labTest) {
-    final existingItemIndex =
-        labTestCartItems.indexWhere((item) => item.id == labTest.id);
-    if (existingItemIndex != -1) {
-      labTestCartItems[existingItemIndex].quantity++;
-    } else {
-      labTest.quantity = 1;
-      labTestCartItems.add(labTest);
-    }
-    _saveCartItems();
-    emit(CartItemsUpdated(
-        medicineCartItems: medicineCartItems,
-        labTestCartItems: labTestCartItems));
-  }
-
   void removeFromLabTestCart(LabTestModel labTest) {
     labTestCartItems.removeWhere((item) => item.id == labTest.id);
     _saveCartItems();
@@ -306,5 +290,53 @@ class CartCubit extends Cubit<CartState> {
           medicineCartItems: medicineCartItems,
           labTestCartItems: labTestCartItems));
     }
+  }
+
+  //!!!!! doing changes here to undo the specific item quentity
+  //* LabTestModel related functions
+  // void addToLabTestCart(LabTestModel labTest) {
+  //   final existingItemIndex =
+  //       labTestCartItems.indexWhere((item) => item.id == labTest.id);
+  //   if (existingItemIndex != -1) {
+  //     labTestCartItems[existingItemIndex].quantity++;
+  //   } else {
+  //     labTest.quantity = 1;
+  //     labTestCartItems.add(labTest);
+  //   }
+  //   _saveCartItems();
+  //   emit(CartItemsUpdated(
+  //       medicineCartItems: medicineCartItems,
+  //       labTestCartItems: labTestCartItems));
+  // }
+
+  void removeSpecificLabTestQuantity(LabTestModel labTest, int quantity) {
+    final existingItemIndex =
+        labTestCartItems.indexWhere((item) => item.id == labTest.id);
+    if (existingItemIndex != -1) {
+      if (labTestCartItems[existingItemIndex].quantity > quantity) {
+        labTestCartItems[existingItemIndex].quantity -= quantity;
+      } else {
+        labTestCartItems.removeAt(existingItemIndex);
+      }
+      _saveCartItems();
+      emit(CartItemsUpdated(
+          medicineCartItems: medicineCartItems,
+          labTestCartItems: labTestCartItems));
+    }
+  }
+
+  void addToLabTestCart(LabTestModel labTest) {
+    final existingItemIndex =
+        labTestCartItems.indexWhere((item) => item.id == labTest.id);
+    if (existingItemIndex != -1) {
+      labTestCartItems[existingItemIndex].quantity++;
+    } else {
+      labTest.quantity = 1;
+      labTestCartItems.add(labTest);
+    }
+    _saveCartItems();
+    emit(CartItemsUpdated(
+        medicineCartItems: medicineCartItems,
+        labTestCartItems: labTestCartItems));
   }
 }

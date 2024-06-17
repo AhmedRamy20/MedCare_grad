@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
   void _fetchUserData() {
     context.read<ProfileCubit>().fetchUserData().catchError((error) {
       // If there's an error fetching user data, show the error dialog
-      _showErrorDialog(error.toString());
+      //! _showErrorDialog(error.toString());
     });
   }
 
@@ -65,6 +65,7 @@ class _ProfileState extends State<Profile> {
                     listener: (context, state) {
                       if (state is ProfileSuccess) {
                         _profileImageUrl = state.userData.pictureUrl;
+                      } else if (state is ProfileNoInternet) {
                       } else if (state is ProfileError) {
                         // ScaffoldMessenger.of(context).showSnackBar(
                         //   SnackBar(content: Text('Error: ${state.errMsg}')),
@@ -75,6 +76,10 @@ class _ProfileState extends State<Profile> {
                     builder: (context, state) {
                       if (state is ProfileLoading) {
                         return Center(child: CircularProgressIndicator());
+                      } else if (state is ProfileError) {
+                        return Center(
+                          child: Text("There is No connection availible.."),
+                        );
                       } else if (state is ProfileSuccess) {
                         userNameController.text = state.userData.displayName;
                         userWeightController.text =
@@ -163,8 +168,61 @@ class _ProfileState extends State<Profile> {
                               hintText: "Height",
                               label: "Height",
                             ),
-                            verticalSpace(10),
+                            verticalSpace(25),
+                            SizedBox(
+                              width: 200,
+                              child: ElevatedButton(
+                                onPressed: _updateProfile,
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          ColorsProvider.primaryBink),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                      EdgeInsets.symmetric(
+                                          vertical: 15.0, horizontal: 60.0)),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                ),
+                                child: Text("Save"),
+                              ),
+                            ),
                           ],
+                        );
+                      } else if (state is ProfileNoInternet) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              verticalSpace(200.h),
+                              const Text(
+                                'No internet connection',
+                                style: TextStyle(fontSize: 18.0),
+                              ),
+                              verticalSpace(16.h),
+                              ElevatedButton(
+                                onPressed: _fetchUserData,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorsProvider.primaryBink,
+                                  foregroundColor: Colors.white,
+                                  elevation: 0,
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 13, right: 15, left: 15),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: const Text('Reload'),
+                              ),
+                            ],
+                          ),
                         );
                       } else if (state is ProfileError) {
                         return Center(child: Text('Error: ${state.errMsg}'));
@@ -175,26 +233,26 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 200,
-                child: ElevatedButton(
-                  onPressed: _updateProfile,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        ColorsProvider.primaryBink),
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 60.0)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  child: Text("Save"),
-                ),
-              ),
+              // SizedBox(
+              //   width: 200,
+              //   child: ElevatedButton(
+              //     onPressed: _updateProfile,
+              //     style: ButtonStyle(
+              //       backgroundColor: MaterialStateProperty.all<Color>(
+              //           ColorsProvider.primaryBink),
+              //       foregroundColor:
+              //           MaterialStateProperty.all<Color>(Colors.white),
+              //       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              //           EdgeInsets.symmetric(vertical: 15.0, horizontal: 60.0)),
+              //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              //         RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(10.0),
+              //         ),
+              //       ),
+              //     ),
+              //     child: Text("Save"),
+              //   ),
+              // ),
               verticalSpace(30),
             ],
           ),

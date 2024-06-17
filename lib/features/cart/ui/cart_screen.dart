@@ -270,6 +270,15 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
+  //* for the refresh indicator
+  Future<void> _refreshCart() async {
+    await _cacheHelper.init();
+    setState(() {
+      _medicineCartItems = _cacheHelper.getMedicineCartItems();
+      _labTestCartItems = _cacheHelper.getLabTestCartItems();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -278,91 +287,94 @@ class _CartScreenState extends State<CartScreen> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      body: BlocBuilder<CartCubit, CartState>(
-        builder: (context, state) {
-          if (state is CartInitial) {
-            context.read<CartCubit>().loadCart();
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is CartLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is CartItemsUpdated) {
-            _medicineCartItems = state.medicineCartItems;
-            _labTestCartItems = state.labTestCartItems;
+      body: RefreshIndicator(
+        onRefresh: _refreshCart,
+        child: BlocBuilder<CartCubit, CartState>(
+          builder: (context, state) {
+            if (state is CartInitial) {
+              context.read<CartCubit>().loadCart();
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is CartLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is CartItemsUpdated) {
+              _medicineCartItems = state.medicineCartItems;
+              _labTestCartItems = state.labTestCartItems;
 
-            // //! Save updated cart items to SharedPref
-            // _cacheHelper.saveMedicineCartItems(_medicineCartItems);
-            // _cacheHelper.saveLabTestCartItems(_labTestCartItems);
-            if (_medicineCartItems.isEmpty && _labTestCartItems.isEmpty) {
-              return const Center(child: Text('No items in the cart.'));
-            }
+              // //! Save updated cart items to SharedPref
+              // _cacheHelper.saveMedicineCartItems(_medicineCartItems);
+              // _cacheHelper.saveLabTestCartItems(_labTestCartItems);
+              if (_medicineCartItems.isEmpty && _labTestCartItems.isEmpty) {
+                return const Center(child: Text('No items in the cart.'));
+              }
 
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount:
-                        _medicineCartItems.length + _labTestCartItems.length,
-                    itemBuilder: (context, index) {
-                      if (index < _medicineCartItems.length) {
-                        final medicine = _medicineCartItems[index];
-                        return buildMedicineItem(context, medicine);
-                      } else {
-                        final labTest = _labTestCartItems[
-                            index - _medicineCartItems.length];
-                        return buildLabTestItem(context, labTest);
-                      }
-                    },
-                  ),
-                ),
-
-                //! Home ,site ...etc
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Calculate total price
-                      double totalPrice = _medicineCartItems.fold<double>(
-                            0.0,
-                            (previousValue, element) =>
-                                previousValue +
-                                (element.price * element.quantity),
-                          ) +
-                          _labTestCartItems.fold<double>(
-                            0.0,
-                            (previousValue, element) =>
-                                previousValue +
-                                (element.price * element.quantity),
-                          );
-
-                      // //! Save updated cart items to SharedPref
-                      // _cacheHelper.saveMedicineCartItems(_medicineCartItems);
-                      // _cacheHelper.saveLabTestCartItems(_labTestCartItems);
-                      Navigator.of(context).pushNamed(
-                        Routes.paymentCheckout,
-                        arguments: {'totalPrice': totalPrice},
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorsProvider.primaryBink,
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size.fromHeight(50),
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount:
+                          _medicineCartItems.length + _labTestCartItems.length,
+                      itemBuilder: (context, index) {
+                        if (index < _medicineCartItems.length) {
+                          final medicine = _medicineCartItems[index];
+                          return buildMedicineItem(context, medicine);
+                        } else {
+                          final labTest = _labTestCartItems[
+                              index - _medicineCartItems.length];
+                          return buildLabTestItem(context, labTest);
+                        }
+                      },
                     ),
-                    child: const Text(
-                      'Checkout',
-                      style: TextStyle(
-                        fontSize: 16,
+                  ),
+
+                  //! Home ,site ...etc
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Calculate total price
+                        double totalPrice = _medicineCartItems.fold<double>(
+                              0.0,
+                              (previousValue, element) =>
+                                  previousValue +
+                                  (element.price * element.quantity),
+                            ) +
+                            _labTestCartItems.fold<double>(
+                              0.0,
+                              (previousValue, element) =>
+                                  previousValue +
+                                  (element.price * element.quantity),
+                            );
+
+                        // //! Save updated cart items to SharedPref
+                        // _cacheHelper.saveMedicineCartItems(_medicineCartItems);
+                        // _cacheHelper.saveLabTestCartItems(_labTestCartItems);
+                        Navigator.of(context).pushNamed(
+                          Routes.paymentCheckout,
+                          arguments: {'totalPrice': totalPrice},
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsProvider.primaryBink,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      child: const Text(
+                        'Checkout',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            );
-          } else if (state is CartError) {
-            return Center(child: Text(state.message));
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+                ],
+              );
+            } else if (state is CartError) {
+              return Center(child: Text(state.message));
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }
@@ -407,6 +419,30 @@ class _CartScreenState extends State<CartScreen> {
                         fit: BoxFit.cover,
                         width: 80.0,
                         height: 90.0,
+
+                        //! added lately so that when there is no connection or error from the server
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: ColorsProvider.primaryBink,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey[300],
+                            child: Icon(Icons.error, color: Colors.red),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -562,6 +598,30 @@ class _CartScreenState extends State<CartScreen> {
                         fit: BoxFit.cover,
                         width: 80.0,
                         height: 90.0,
+
+                        //! added lately so that when there is no connection or error from the server
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: ColorsProvider.primaryBink,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey[300],
+                            child: Icon(Icons.error, color: Colors.red),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -662,7 +722,7 @@ class _CartScreenState extends State<CartScreen> {
               width: 70,
               height: 20,
               decoration: BoxDecoration(
-                color: ColorsProvider.primaryBink,
+                color: const Color.fromARGB(255, 71, 172, 235),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Center(

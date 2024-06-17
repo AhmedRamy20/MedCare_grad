@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,17 +47,28 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
       emit(ProfileSuccess(userData: userData));
     } on DioError catch (e) {
-      if (e.message!.contains('Connection failed') ||
-          e.message!.contains('Connection refused') ||
-          e.message!.contains('Connection reset') ||
-          e.message!.contains('SocketException')) {
-        emit(ProfileError(errMsg: 'No internet connection'));
+      // if (e.message!.contains('Connection failed') ||
+      //     e.message!.contains('Connection refused') ||
+      //     e.message!.contains('Connection reset') ||
+      //     e.message!.contains('SocketException')) {
+      //   emit(ProfileError(errMsg: 'No internet connection'));
+      // } else {
+      //   emit(ProfileError(errMsg: 'Error: ${e.message}'));
+      // }
+      if (_isConnectionError(e)) {
+        emit(ProfileNoInternet());
       } else {
         emit(ProfileError(errMsg: 'Error: ${e.message}'));
       }
     } catch (e) {
       emit(ProfileError(errMsg: e.toString()));
     }
+  }
+
+  bool _isConnectionError(DioError e) {
+    return e.error is SocketException ||
+        e.error is HttpException ||
+        e.error is TimeoutException;
   }
 
   //!! update
