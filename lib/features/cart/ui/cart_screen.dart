@@ -314,6 +314,8 @@ class _CartScreenState extends State<CartScreen> {
                     },
                   ),
                 ),
+
+                //! Home ,site ...etc
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton(
@@ -368,256 +370,313 @@ class _CartScreenState extends State<CartScreen> {
   Widget buildMedicineItem(BuildContext context, Medicine medicine) {
     final theme = Theme.of(context);
     final isDarkTheme = theme.brightness == Brightness.dark;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: isDarkTheme ? Colors.grey.shade300 : Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: isDarkTheme ? Colors.grey.shade300 : Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // SizedBox(
-            //   width: 80.0,
-            //   child: Image.network(
-            //     medicine.pictureUrl,
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
-            Center(
-              child: SizedBox(
-                width: 80.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    medicine.pictureUrl,
-                    fit: BoxFit.cover,
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(
+                //   width: 80.0,
+                //   child: Image.network(
+                //     medicine.pictureUrl,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
+                Center(
+                  child: SizedBox(
                     width: 80.0,
-                    height: 90.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        medicine.pictureUrl,
+                        fit: BoxFit.cover,
+                        width: 80.0,
+                        height: 90.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                medicine.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context
+                                    .read<CartCubit>()
+                                    .removeFromMedicineCart(medicine);
+                              },
+                              icon: const Icon(
+                                Icons.delete,
+                                color: ColorsProvider.primaryBink,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Price: \$${medicine.price.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.remove,
+                                color: ColorsProvider.primaryBink,
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<CartCubit>()
+                                    .decreaseMedicineQuantity(medicine);
+                              },
+                            ),
+                            Text(
+                              '${medicine.quantity}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.add,
+                                color: ColorsProvider.primaryBink,
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<CartCubit>()
+                                    .increaseMedicineQuantity(medicine);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          // left: 3,
+          top: 15,
+          child: Transform.rotate(
+            angle: 100.0,
+            child: Container(
+              width: 70,
+              height: 20,
+              decoration: BoxDecoration(
+                color: ColorsProvider.primaryBink,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Center(
+                child: Text(
+                  "Drug",
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            medicine.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            context
-                                .read<CartCubit>()
-                                .removeFromMedicineCart(medicine);
-                          },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: ColorsProvider.primaryBink,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'Price: \$${medicine.price.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.remove,
-                            color: ColorsProvider.primaryBink,
-                          ),
-                          onPressed: () {
-                            context
-                                .read<CartCubit>()
-                                .decreaseMedicineQuantity(medicine);
-                          },
-                        ),
-                        Text(
-                          '${medicine.quantity}',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.add,
-                            color: ColorsProvider.primaryBink,
-                          ),
-                          onPressed: () {
-                            context
-                                .read<CartCubit>()
-                                .increaseMedicineQuantity(medicine);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
   Widget buildLabTestItem(BuildContext context, LabTestModel labTest) {
     final theme = Theme.of(context);
     final isDarkTheme = theme.brightness == Brightness.dark;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: isDarkTheme ? Colors.grey.shade300 : Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: isDarkTheme ? Colors.grey.shade300 : Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // SizedBox(
-            //   width: 80.0,
-            //   child: Image.network(
-            //     medicine.pictureUrl,
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
-            Center(
-              child: SizedBox(
-                width: 80.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    labTest.imageUrl,
-                    fit: BoxFit.cover,
+            child: Row(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(
+                //   width: 80.0,
+                //   child: Image.network(
+                //     medicine.pictureUrl,
+                //     fit: BoxFit.cover,
+                //   ),
+                // ),
+                Center(
+                  child: SizedBox(
                     width: 80.0,
-                    height: 90.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        labTest.imageUrl,
+                        fit: BoxFit.cover,
+                        width: 80.0,
+                        height: 90.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                labTest.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context
+                                    .read<CartCubit>()
+                                    .removeFromLabTestCart(labTest);
+                              },
+                              icon: const Icon(
+                                Icons.delete,
+                                color: ColorsProvider.primaryBink,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          'Price: \$${labTest.price.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.remove,
+                                color: ColorsProvider.primaryBink,
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<CartCubit>()
+                                    .decreaseLabTestQuantity(labTest);
+                              },
+                            ),
+                            Text(
+                              '${labTest.quantity}',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.add,
+                                color: ColorsProvider.primaryBink,
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<CartCubit>()
+                                    .increaseLabTestQuantity(labTest);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        //! badge
+
+        Positioned(
+          // left: 3,
+          top: 15,
+          child: Transform.rotate(
+            angle: 100.0,
+            child: Container(
+              width: 70,
+              height: 20,
+              decoration: BoxDecoration(
+                color: ColorsProvider.primaryBink,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Center(
+                child: Text(
+                  "Test",
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            labTest.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            context
-                                .read<CartCubit>()
-                                .removeFromLabTestCart(labTest);
-                          },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: ColorsProvider.primaryBink,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'Price: \$${labTest.price.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.remove,
-                            color: ColorsProvider.primaryBink,
-                          ),
-                          onPressed: () {
-                            context
-                                .read<CartCubit>()
-                                .decreaseLabTestQuantity(labTest);
-                          },
-                        ),
-                        Text(
-                          '${labTest.quantity}',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.add,
-                            color: ColorsProvider.primaryBink,
-                          ),
-                          onPressed: () {
-                            context
-                                .read<CartCubit>()
-                                .increaseLabTestQuantity(labTest);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
     // return Padding(
     //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

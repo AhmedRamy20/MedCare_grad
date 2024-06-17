@@ -98,6 +98,8 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> clearUserData() async {
     await ChacheHelper().removeData(key: ApiKey.token);
     await ChacheHelper().removeData(key: ApiKey.name);
+    // await ChacheHelper()
+    //     .clearData(); //! for clearing the data all include user + cart ...etc
   }
 
   //* Did not use it though ...
