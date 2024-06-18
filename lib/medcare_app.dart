@@ -11,6 +11,7 @@ import 'package:medical_app/core/theming/appTheme/cubit/app_theme_cubit.dart';
 import 'package:medical_app/core/theming/appTheme/cubit/app_theme_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
+import 'package:medical_app/features/profile/logic/cubit/profile_cubit.dart';
 
 // class MedcareApp extends StatelessWidget {
 //   const MedcareApp({super.key, required this.appRouter});
@@ -100,6 +101,9 @@ class MedcareApp extends StatelessWidget {
                 BlocProvider<CartCubit>(
                   create: (context) =>
                       CartCubit(), // Initialize your CartCubit here
+                ),
+                BlocProvider<ProfileCubit>(
+                  create: (context) => ProfileCubit(),
                 ),
               ],
               child: MaterialApp(

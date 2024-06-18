@@ -156,6 +156,9 @@ class AppRouter {
               BlocProvider<LabTestCubit>(
                 create: (context) => LabTestCubit(Dio()),
               ),
+              // BlocProvider<ProfileCubit>(
+              //   create: (context) => ProfileCubit(),
+              // ),
             ],
             // create: (context) => MedicineCubit(),
             child: const HomeStartWithBottomNav(),

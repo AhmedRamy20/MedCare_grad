@@ -499,7 +499,11 @@ import 'package:medical_app/features/home/logic/cubit/medicine_state.dart';
 import 'package:medical_app/features/home/ui/medicine_details_screen.dart';
 import 'package:medical_app/features/home/ui/widgets/medicine_shimmer_loading.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
+import 'package:medical_app/features/profile/logic/cubit/profile_cubit.dart';
+import 'package:medical_app/features/profile/logic/cubit/profile_state.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:badges/badges.dart' as badges;
 
 class HomeScreen extends StatefulWidget {
@@ -519,6 +523,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<MedicineCubit>().fetchMedicines();
+    context.read<ProfileCubit>().fetchUserData();
     getUsernameFromCache();
   }
 
@@ -538,6 +543,79 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _handleRefresh() async {
     await context.read<MedicineCubit>().fetchMedicines();
+  }
+
+  Future<bool> _showLogoutConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            'Logout',
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+              'With logging out your data will be cleared from our app Are you sure you want to Logout?'),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.of(context).pop(false);
+                //   },
+                //   child: Text('Cancel'),
+                // ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorsProvider.primaryBink,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 13, right: 15, left: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text('Cancel'),
+                ),
+
+                //**** */
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 13, right: 15, left: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text('Logout'),
+                ),
+
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.of(context).pop(true);
+                //   },
+                //   child: Text('Logout'),
+                // ),
+              ],
+            ),
+          ],
+        );
+      },
+    ).then((value) => value ?? false);
   }
 
   @override
@@ -696,53 +774,105 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Column(
               children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: isDarkTheme ? Colors.grey.shade800 : Colors.white,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Image.asset(
-                      //   'assets/images/sec.png',
-                      //   scale: 0.7,
-                      // ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.settings,
-                            color: isDarkTheme
-                                ? Colors.white70
-                                : ColorsProvider.darkGray,
-                          ),
-                          horizontalSpace(10),
-                          Text(
-                            'Settings',
-                            style: TextStyle(
-                              color: isDarkTheme
-                                  ? Colors.white
-                                  : ColorsProvider.darkGray,
-                              fontSize: 17,
+                BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                    if (state is ProfileSuccess) {
+                      final userData = state.userData;
+                      // Determine the image provider based on userData.pictureUrl
+                      // ImageProvider<Object>? imageProvider;
+                      // if (userData.pictureUrl != null &&
+                      //     userData.pictureUrl!.isNotEmpty) {
+                      //   imageProvider =
+                      //       CachedNetworkImageProvider(userData.pictureUrl!);
+                      // } else if (userData.pictureUrl == null) {
+                      //   imageProvider = AssetImage("assets/images/avatar.png");
+                      // } else {
+                      //   imageProvider = AssetImage("assets/images/avatar.png");
+                      // }
+                      return UserAccountsDrawerHeader(
+                        decoration: const BoxDecoration(
+                          color: ColorsProvider.primaryBink,
+                        ),
+                        accountName: Text(userData.displayName),
+                        accountEmail: Text(userData.email),
+                        // currentAccountPicture: CircleAvatar(
+                        //   backgroundColor: Colors.grey.shade200,
+                        //   backgroundImage: imageProvider,
+                        //   errorWidget: (context, url, error) => CircleAvatar(
+                        //     backgroundColor: Colors.grey.shade200,
+                        //     child: Image.asset("assets/images/avatar.png"),
+                        //   ),
+                        // ),
+
+                        currentAccountPicture: CircleAvatar(
+                          backgroundColor: Colors.grey.shade200,
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: userData.pictureUrl ?? '',
+                              placeholder: (context, url) {
+                                // context.read<ProfileCubit>().fetchUserData();
+                                return const CircularProgressIndicator();
+                              },
+                              errorWidget: (context, url, error) =>
+                                  Image.asset("assets/images/avatar.png"),
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          // verticalSpace(20),
-                        ],
-                      ),
-                      // Center(
-                      //   child: Text(
-                      //     'Settings',
-                      //     style: TextStyle(
-                      //       color: isDarkTheme
-                      //           ? Colors.white70
-                      //           : ColorsProvider.darkGray,
-                      //       fontSize: 17,
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
+                        ),
+                      );
+                    } else {
+                      return DrawerHeader(
+                        decoration: BoxDecoration(
+                          color:
+                              isDarkTheme ? Colors.grey.shade800 : Colors.white,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Image.asset(
+                            //   'assets/images/sec.png',
+                            //   scale: 0.7,
+                            // ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.settings,
+                                  color: isDarkTheme
+                                      ? Colors.white70
+                                      : ColorsProvider.darkGray,
+                                ),
+                                horizontalSpace(10),
+                                Text(
+                                  'Settings',
+                                  style: TextStyle(
+                                    color: isDarkTheme
+                                        ? Colors.white
+                                        : ColorsProvider.darkGray,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                // verticalSpace(20),
+                              ],
+                            ),
+                            // Center(
+                            //   child: Text(
+                            //     'Settings',
+                            //     style: TextStyle(
+                            //       color: isDarkTheme
+                            //           ? Colors.white70
+                            //           : ColorsProvider.darkGray,
+                            //       fontSize: 17,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
                 ),
+
                 verticalSpace(20),
                 ListTile(
                   leading: const Icon(
@@ -758,6 +888,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onTap: () {
                     aboutUsDialog(context, isDarkTheme);
+                  },
+                ),
+
+                // verticalSpace(20),
+                ListTile(
+                  leading: const Icon(
+                    Icons.phone,
+                    color: ColorsProvider.primaryBink, //Color(0xffE99987)
+                    size: 24,
+                  ),
+                  title: Text(
+                    "Contact Us",
+                    style: isDarkTheme
+                        ? const TextStyle(color: Colors.white)
+                        : TextStyles.font14GrayRegular,
+                  ),
+                  onTap: () {
+                    // aboutUsDialog(context, isDarkTheme);
+                    _launchPhoneDialer();
                   },
                 ),
                 // ListTile(
@@ -879,11 +1028,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                 ),
                 onTap: () async {
-                  await loginCubit.clearUserData();
-                  context.pushNamedAndRemoveUntil(
-                    Routes.loginScreen,
-                    predicate: (route) => false,
-                  );
+                  // await loginCubit.clearUserData();
+                  // await context.read<CartCubit>().clearCart();
+                  // context.pushNamedAndRemoveUntil(
+                  //   Routes.loginScreen,
+                  //   predicate: (route) => false,
+                  // );
+
+                  //** logout confirmation */
+                  bool shouldLogout =
+                      await _showLogoutConfirmationDialog(context);
+                  if (shouldLogout) {
+                    await context.read<LoginCubit>().clearUserData();
+                    await context.read<CartCubit>().clearCart();
+                    context.pushNamedAndRemoveUntil(
+                      Routes.loginScreen,
+                      predicate: (route) => false,
+                    );
+                  }
                 },
               ),
             ),
@@ -1324,5 +1486,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  void _launchPhoneDialer() async {
+    final phoneNumber = 'tel:+201019686065';
+    if (await canLaunch(phoneNumber)) {
+      await launch(phoneNumber);
+    } else {
+      throw 'Could not launch $phoneNumber';
+    }
   }
 }

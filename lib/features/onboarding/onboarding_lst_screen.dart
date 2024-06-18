@@ -20,7 +20,7 @@ class OnBoardingFirstScreen extends StatelessWidget {
             children: [
               const LogoName(),
               SizedBox(height: 30.h),
-              Image.asset('assets/images/drug.png'),
+              Image.asset('assets/images/drug_supply.png'),
               const TextChatDescription(
                 fstText: "Buying Medicine Online",
                 secText: "search about medicine and buy",

@@ -21,7 +21,7 @@ class OnBoardingThirdScreen extends StatelessWidget {
             children: [
               const LogoName(),
               SizedBox(height: 30.h),
-              Image.asset('assets/images/pana.png'),
+              Image.asset('assets/images/pana60.png'),
               const TextChatDescription(
                 fstText: "Online Chatbot",
                 secText: "Predicting the disease based on",

@@ -204,6 +204,16 @@ class CartCubit extends Cubit<CartState> {
     _cacheHelper.saveLabTestCartItems(labTestCartItems);
   }
 
+  //! for clear the cart items when logout
+  Future<void> clearCart() async {
+    medicineCartItems.clear();
+    labTestCartItems.clear();
+    _saveCartItems();
+    emit(CartItemsUpdated(
+        medicineCartItems: medicineCartItems,
+        labTestCartItems: labTestCartItems));
+  }
+
   // //! Medicine related functions (comment for the quantity undo)
   void addToMedicineCart(Medicine medicine) {
     final existingItemIndex =

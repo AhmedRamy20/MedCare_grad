@@ -20,7 +20,7 @@ class OnBoardingSecScreen extends StatelessWidget {
             children: [
               const LogoName(),
               SizedBox(height: 30.h),
-              Image.asset('assets/images/lab.png'),
+              Image.asset('assets/images/lab_test66.png'),
               const TextChatDescription(
                 fstText: "Online Laboratories",
                 secText: "Online lap tests with different",

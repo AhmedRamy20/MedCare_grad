@@ -181,35 +181,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                               ),
                         verticalSpace(36),
-                        Row(
-                          children: [
-                            const Expanded(
-                              child: Divider(
-                                color: ColorsProvider.veryLightGray,
-                                thickness: 1,
-                              ),
-                            ),
-                            horizontalSpace(3),
-                            Text(
-                              "Or sign in with",
-                              style: isDarkTheme
-                                  ? TextStyles.font12whiteRegular
-                                  : TextStyles.font12signLightGrayRegular,
-                            ),
-                            horizontalSpace(3),
-                            const Expanded(
-                              child: Divider(
-                                color: ColorsProvider.veryLightGray,
-                                thickness: 1,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     const Expanded(
+                        //       child: Divider(
+                        //         color: ColorsProvider.veryLightGray,
+                        //         thickness: 1,
+                        //       ),
+                        //     ),
+                        //     horizontalSpace(3),
+                        //     Text(
+                        //       "Or sign in with",
+                        //       style: isDarkTheme
+                        //           ? TextStyles.font12whiteRegular
+                        //           : TextStyles.font12signLightGrayRegular,
+                        //     ),
+                        //     horizontalSpace(3),
+                        //     const Expanded(
+                        //       child: Divider(
+                        //         color: ColorsProvider.veryLightGray,
+                        //         thickness: 1,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        //!!
                         verticalSpace(30), //! was 32
-                        GoogleButton(
-                          imagePath: "assets/images/google.png",
-                          onPressed: () {},
-                        ),
+                        // GoogleButton(
+                        //   imagePath: "assets/images/google.png",
+                        //   onPressed: () {},
+                        // ),
                         verticalSpace(20), //! was 60
                         const TermsAndConditionsText(),
                         verticalSpace(20),

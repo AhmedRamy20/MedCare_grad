@@ -10,10 +10,10 @@ class LogoName extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset('assets/images/sec.png'),
+        Image.asset('assets/images/logo30.png'),
         SizedBox(width: 10.w),
         Text(
-          "MedCare",
+          "HealthCare",
           style: TextStyles.font24BinkBold,
         )
       ],
