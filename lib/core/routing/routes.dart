@@ -15,4 +15,8 @@ class Routes {
   static const String cart = '/Cart';
   static const String medicineDetailsScreen = '/MedicineDetailsScreen';
   static const String labTestResult = '/LabTestResult';
+
+  //! new for nurse
+  static const String orders = '/Orders';
+  static const String patientDetails = '/PatientDetails';
 }

@@ -37,6 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 context.pushReplacementNamed(
                   Routes.homeStartWithBottomNav,
                 );
+              } else if (state is NurseSignInSuccess) {
+                context.pushReplacementNamed(
+                  Routes.orders,
+                );
               } else if (state is SignInFailure) {
                 //* User is registered but the account is not activated
                 if (state.errorMsg ==
@@ -106,7 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 }
               } else {
                 const CircularProgressIndicator(
-                  color: Color.fromARGB(230, 228, 99, 99),
+                  // color: Color.fromARGB(230, 228, 99, 99),
+                  color: ColorsProvider.primaryBink,
                 );
               }
             }

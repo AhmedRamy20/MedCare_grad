@@ -261,6 +261,16 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  // @override
+  // void dispose() {
+  //   // final cubitProf = context.read<ProfileCubit>();
+  //   // cubitProf.close();
+  //   userNameController.dispose();
+  //   userWeightController.dispose();
+  //   userHeightController.dispose();
+  //   super.dispose();
+  // }
+
   Widget buildUpdateRow({
     required TextEditingController controller,
     required String hintText,

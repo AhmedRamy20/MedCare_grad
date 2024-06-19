@@ -21,6 +21,8 @@ import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
 import 'package:medical_app/features/lab-test/ui/lab_test_screen.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:medical_app/features/login/ui/login_screen.dart';
+import 'package:medical_app/features/nurse_orders/ui/orders.dart';
+import 'package:medical_app/features/nurse_orders/ui/patient_details.dart';
 import 'package:medical_app/features/onboarding/onboarding_screens.dart';
 import 'package:medical_app/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:medical_app/features/profile/ui/profile_screen.dart';
@@ -177,6 +179,21 @@ class AppRouter {
       case Routes.labTestResult:
         return MaterialPageRoute(
           builder: (_) => const LabTestResultScreen(),
+        );
+
+      //! new for nurse
+      case Routes.orders:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(providers: [
+            BlocProvider<LoginCubit>(
+              create: (context) => LoginCubit()..checkLoginStatus(),
+            ),
+          ], child: const OrdersScreen()),
+        );
+
+      case Routes.patientDetails:
+        return MaterialPageRoute(
+          builder: (_) => const PatientDetailsScreen(),
         );
       // case Routes.labTest:
       //   return MaterialPageRoute(

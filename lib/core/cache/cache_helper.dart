@@ -7,8 +7,16 @@ class ChacheHelper {
   static late SharedPreferences sharedPreferences;
 
   //* Here we initialize the cache
-  init() async {
+  Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();
+
+    //! nurse preference and user
+
+    bool isDarkTheme = sharedPreferences.getBool('isDarkTheme') ?? false;
+    print("Initial theme preference: $isDarkTheme");
+    if (!sharedPreferences.containsKey('isDarkTheme')) {
+      await sharedPreferences.setBool('isDarkTheme', false);
+    }
   }
 
   //* Method to put the data in local database using key
@@ -131,11 +139,17 @@ class ChacheHelper {
 
   //* Save theme preference
   Future<void> saveThemePreference(bool isDarkTheme) async {
+    print("Saving theme preference: $isDarkTheme");
     await sharedPreferences.setBool('isDarkTheme', isDarkTheme);
   }
 
   //* Get theme preference
   bool getThemePreference() {
     return sharedPreferences.getBool('isDarkTheme') ?? false;
+  }
+
+  //* Remove theme preference
+  Future<bool> removeThemePreference() async {
+    return await sharedPreferences.remove('isDarkTheme');
   }
 }

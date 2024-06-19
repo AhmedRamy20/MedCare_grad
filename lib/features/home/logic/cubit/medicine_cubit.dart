@@ -32,6 +32,7 @@ class MedicineCubit extends Cubit<MedicineState> {
       //   throw Exception('Failed to load medicines: ${response.statusCode}');
       //   // emit(MedicineError('Failed to load medicines: ${response.statusCode}'));
       // }
+      //! Here the medicine exception appears
     } catch (error) {
       throw Exception('Failed to load medicines: $error');
       // emit(MedicineError('Failed to load medicines: $error'));

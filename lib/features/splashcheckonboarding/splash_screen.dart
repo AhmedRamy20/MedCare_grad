@@ -64,6 +64,7 @@ import 'package:medical_app/features/home/ui/home_screen.dart';
 import 'package:medical_app/features/login/logic/cubit/login_cubit.dart';
 import 'package:medical_app/features/login/logic/cubit/login_state.dart';
 import 'package:medical_app/features/login/ui/login_screen.dart';
+import 'package:medical_app/features/nurse_orders/ui/orders.dart';
 import 'package:medical_app/features/onboarding/onboarding_screens.dart';
 import 'package:medical_app/features/onboarding/onboarding_sec_screen.dart';
 
@@ -112,6 +113,8 @@ class AuthCheckScreen extends StatelessWidget {
               create: (context) => MedicineCubit(),
               child: HomeStartWithBottomNav(),
             );
+          } else if (state is NurseSignInSuccess) {
+            return OrdersScreen();
           } else {
             return LoginScreen();
           }

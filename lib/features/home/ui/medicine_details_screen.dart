@@ -34,7 +34,11 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
         backgroundColor: Colors.transparent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.only(
+          top: 5,
+          right: 5,
+          left: 5,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,6 +51,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Hero(
+                    // tag: widget.medicine.id,
                     tag: widget.medicine.id,
                     child: AspectRatio(
                       aspectRatio: 2.0,

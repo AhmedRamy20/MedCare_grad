@@ -36,4 +36,9 @@ class AppThemeCubit extends Cubit<AppThemeState> {
       emit(LightThemeState());
     }
   }
+
+  void resetTheme() async {
+    await _cacheHelper.saveThemePreference(false);
+    emit(LightThemeState());
+  }
 }
