@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/routing/routes.dart';
@@ -30,12 +31,13 @@ class _CartScreenState extends State<CartScreen> {
 
   TextEditingController _locationController = TextEditingController();
 
+  Position? _currentPosition;
+
   @override
   void initState() {
     super.initState();
     _initializeCart();
     _determinePosition();
-    // _locationController.text = '';
   }
 
   @override
@@ -44,23 +46,16 @@ class _CartScreenState extends State<CartScreen> {
     super.dispose();
   }
 
-  //! determine the location of the user
-
   Future<void> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled, do something to alert the user.
-      // return;
       print("Please enable your location");
-    } else {
-      print("The location is enabled");
+      return;
     }
 
-    // Check for permission
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -84,7 +79,7 @@ class _CartScreenState extends State<CartScreen> {
             child: Column(
               children: [
                 const Text(
-                    "We can not detect your location while not enabeling your Location...."),
+                    "We can not detect your location while not enabling your Location...."),
                 verticalSpace(10),
               ],
             ),
@@ -92,7 +87,6 @@ class _CartScreenState extends State<CartScreen> {
           actions: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                // foregroundColor: ColorsProvider.primaryBink,
                 backgroundColor: ColorsProvider.primaryBink,
                 elevation: 2,
               ),
@@ -111,19 +105,15 @@ class _CartScreenState extends State<CartScreen> {
       return;
     }
 
-    // When we reach here, permissions are granted and we can get the location.
-    // Position position = await Geolocator.getCurrentPosition();
-    // _locationController.text = "${position.latitude}, ${position.longitude}";
-
     if (permission == LocationPermission.whileInUse ||
         permission == LocationPermission.always) {
       Position position = await Geolocator.getCurrentPosition();
-      // setState(() {
-      //   _locationController.text =
-      //       "${position.latitude}, ${position.longitude}";
-      // });
+      setState(() {
+        _currentPosition = position;
+        _locationController.text =
+            "${position.latitude}, ${position.longitude}";
+      });
 
-      // Use reverse geocoding to get the human-readable address.
       List<Placemark> placemarks = [];
       try {
         placemarks = await placemarkFromCoordinates(
@@ -132,12 +122,9 @@ class _CartScreenState extends State<CartScreen> {
         );
       } catch (e) {
         print('Error fetching placemarks: $e');
-        // Handle error fetching placemarks
         return;
       }
 
-      // Update the location controller with the formatted address.
-      // Update the location controller with the formatted address.
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks[0];
         setState(() {
@@ -158,13 +145,38 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
-  //* for the refresh indicator
   Future<void> _refreshCart() async {
     await _cacheHelper.init();
     setState(() {
       _medicineCartItems = _cacheHelper.getMedicineCartItems();
       _labTestCartItems = _cacheHelper.getLabTestCartItems();
     });
+  }
+
+  Widget _buildMiniMap() {
+    if (_currentPosition == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    return Container(
+      height: 200,
+      width: double.infinity,
+      child: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target:
+              LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+          zoom: 15,
+        ),
+        markers: {
+          Marker(
+            markerId: MarkerId("currentLocation"),
+            position:
+                LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+          ),
+        },
+        zoomControlsEnabled: false,
+      ),
+    );
   }
 
   @override
@@ -214,6 +226,45 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
 
+                  Container(
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          // spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: Offset(2, 6), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Divider(),
+                  ),
+
+                  verticalSpace(10),
+
+                  // Show location input and mini-map always
+                  if (!_isHomeSelected)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _locationController,
+                            decoration: const InputDecoration(
+                                labelText: 'Enter your location',
+                                border: OutlineInputBorder(),
+                                prefix: Icon(
+                                  Icons.place,
+                                  color: ColorsProvider.primaryBink,
+                                )),
+                          ),
+                          const SizedBox(height: 5),
+                          _buildMiniMap(),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+
                   // Additional section based on selection
                   if (_labTestCartItems.isNotEmpty)
                     Column(
@@ -249,32 +300,24 @@ class _CartScreenState extends State<CartScreen> {
                             ],
                           ),
                         ),
-                        if (!_isHomeSelected)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: TextFormField(
-                              controller: _locationController,
-                              decoration: const InputDecoration(
-                                labelText: 'Enter your location',
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
+                        // if (!_isHomeSelected)
+                        //   Padding(
+                        //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                        //     child: TextFormField(
+                        //       controller: _locationController,
+                        //       decoration: const InputDecoration(
+                        //         labelText: 'Enter your location',
+                        //         border: OutlineInputBorder(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // const SizedBox(height: 16),
+                        // _buildMiniMap(),
                         if (!_isHomeSelected)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Row(
                               children: [
-                                // Radio(
-                                //     value: 'male',
-                                //     groupValue: null,
-                                //     onChanged: null),
-                                // const Text('Male'),
-                                // Radio(
-                                //     value: 'female',
-                                //     groupValue: null,
-                                //     onChanged: null),
-                                // const Text('Female'),
                                 Radio<String>(
                                   value: 'male',
                                   groupValue: _selectedGender,
@@ -296,7 +339,6 @@ class _CartScreenState extends State<CartScreen> {
                                   },
                                   activeColor: ColorsProvider.primaryBink,
                                 ),
-
                                 const Text('Female'),
                               ],
                             ),
@@ -306,7 +348,12 @@ class _CartScreenState extends State<CartScreen> {
 
                   // Checkout button
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(
+                      top: 16.0,
+                      right: 16.0,
+                      left: 16.0,
+                      bottom: 10.0,
+                    ),
                     child: ElevatedButton(
                       onPressed: () {
                         // Calculate total price
