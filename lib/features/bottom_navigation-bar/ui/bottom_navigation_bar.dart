@@ -13,6 +13,7 @@ import 'package:medical_app/features/nearby-pharmacies/ui/nearby_pharmacy_locati
 import 'package:medical_app/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:medical_app/features/profile/ui/profile_screen.dart';
 import 'package:medical_app/features/lab-test/logic/cubit/lab_test_cubit.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeStartWithBottomNav extends StatefulWidget {
   const HomeStartWithBottomNav({super.key});
@@ -72,6 +73,20 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
     super.initState();
   }
 
+  //!! permission granted when enter the screen
+  void _onItemTapped(int index) async {
+    if (index == 2) {
+      // Assuming NearbyPharmacies is at index 2
+      var status = await Permission.locationWhenInUse.status;
+      if (!status.isGranted) {
+        status = await Permission.locationWhenInUse.request();
+      }
+    }
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final loginCubit = context.read<LoginCubit>();
@@ -87,11 +102,12 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
         height: 66,
         color: colorChoice,
         animationDuration: const Duration(milliseconds: 500),
-        onTap: (int index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
+        // onTap: (int index) {
+        //   setState(() {
+        //     currentIndex = index;
+        //   });
+        // },
+        onTap: _onItemTapped,
         items: [
           Icon(
             Icons.home,
@@ -120,11 +136,6 @@ class _HomeStartWithBottomNavState extends State<HomeStartWithBottomNav> {
         index: currentIndex,
         children: [
           homeScreen,
-          // BlocProvider<LabTestCubit>(
-          //   create: (context) => LabTestCubit(Dio()), // Provide LabTestCubit
-          //   child: labTest,
-          // ),
-
           MultiBlocProvider(
             providers: [
               BlocProvider<LabTestCubit>(

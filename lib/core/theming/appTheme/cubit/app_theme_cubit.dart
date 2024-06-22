@@ -3,22 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_app/core/theming/appTheme/cubit/app_theme_state.dart';
 import 'package:medical_app/core/cache/cache_helper.dart';
 
-// class AppThemeCubit extends Cubit<AppThemeState> {
-//   final ChacheHelper _chacheHelper;
-
-//   AppThemeCubit(this._chacheHelper) : super(LightThemeState());
-
-//   void toggleTheme() {
-//     if (state is LightThemeState) {
-//       emit(DarkThemeState());
-//     } else {
-//       emit(LightThemeState());
-//     }
-//   }
-// }
-
-//****************************** */
-
 class AppThemeCubit extends Cubit<AppThemeState> {
   final ChacheHelper _cacheHelper;
 

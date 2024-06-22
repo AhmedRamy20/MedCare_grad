@@ -167,12 +167,6 @@ class _LabTestState extends State<LabTest> {
                             context
                                 .read<LabTestCubit>()
                                 .searchLabTests(searchedValue);
-                            // context
-                            //     .read<MedicineCubit>()
-                            //     .searchMedicines(searchedValue);
-                            // context
-                            //     .read<MedicineCubit>()
-                            //     .searchMedicines(searchedValue);
                           },
                           onSubmitted: (value) {
                             // setState(
@@ -205,8 +199,7 @@ class _LabTestState extends State<LabTest> {
                           ),
                         );
                       }
-                      // final labTestCount =
-                      //     state.labTests.length > 3 ? 3 : state.labTests.length;
+
                       final labTestCount = state.labTests.length;
 
                       return RefreshIndicator(
@@ -216,25 +209,7 @@ class _LabTestState extends State<LabTest> {
                           itemCount: labTestCount, //state.labTests.length
                           itemBuilder: (context, index) {
                             final labTest = state.labTests[index];
-                            // return ListTile(
-                            //   leading: CircleAvatar(
-                            //     backgroundImage: NetworkImage(
-                            //         labTest.imageUrl), //labTest.lab.pictureUrl
-                            //   ),
-                            //   title: Text(labTest.name),
-                            //   subtitle: Text(labTest.description),
-                            //   trailing: Text('\$${labTest.price.toString()}'),
-                            //   onTap: () {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             LabDetailScreen(lab: labTest.lab),
-                            //       ),
-                            //     );
-                            //   },
-                            // );
-                            //!!!
+
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -471,5 +446,3 @@ class _LabTestState extends State<LabTest> {
     );
   }
 }
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

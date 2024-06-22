@@ -233,26 +233,6 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   width: 200,
-              //   child: ElevatedButton(
-              //     onPressed: _updateProfile,
-              //     style: ButtonStyle(
-              //       backgroundColor: MaterialStateProperty.all<Color>(
-              //           ColorsProvider.primaryBink),
-              //       foregroundColor:
-              //           MaterialStateProperty.all<Color>(Colors.white),
-              //       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              //           EdgeInsets.symmetric(vertical: 15.0, horizontal: 60.0)),
-              //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              //         RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(10.0),
-              //         ),
-              //       ),
-              //     ),
-              //     child: Text("Save"),
-              //   ),
-              // ),
               verticalSpace(30),
             ],
           ),

@@ -168,14 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 buttonText: "Login",
                                 textStyle: TextStyles.font16WhiteSemiBold,
                                 onPressed: () {
-                                  // context.pushReplacementNamed(
-                                  //     Routes.homeStartWithBottomNav);
-
-                                  //!!
-                                  // if (formKey.currentState!.validate()) {
-                                  //   context.read<LoginCubit>().signIn();
-                                  // }
-
                                   if (context
                                       .read<LoginCubit>()
                                       .signInFormKey
@@ -186,36 +178,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                               ),
                         verticalSpace(36),
-                        // Row(
-                        //   children: [
-                        //     const Expanded(
-                        //       child: Divider(
-                        //         color: ColorsProvider.veryLightGray,
-                        //         thickness: 1,
-                        //       ),
-                        //     ),
-                        //     horizontalSpace(3),
-                        //     Text(
-                        //       "Or sign in with",
-                        //       style: isDarkTheme
-                        //           ? TextStyles.font12whiteRegular
-                        //           : TextStyles.font12signLightGrayRegular,
-                        //     ),
-                        //     horizontalSpace(3),
-                        //     const Expanded(
-                        //       child: Divider(
-                        //         color: ColorsProvider.veryLightGray,
-                        //         thickness: 1,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        //!!
+
                         verticalSpace(30), //! was 32
-                        // GoogleButton(
-                        //   imagePath: "assets/images/google.png",
-                        //   onPressed: () {},
-                        // ),
+
                         verticalSpace(20), //! was 60
                         const TermsAndConditionsText(),
                         verticalSpace(20),

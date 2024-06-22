@@ -27,12 +27,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         child: BlocConsumer<VerifyEmailCubit, VerifyEmailState>(
           listener: (context, state) {
             if (state is VerifyEmailFailure) {
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //   SnackBar(
-              //     content: Text(state.errorMsg),
-              //     backgroundColor: const Color.fromARGB(255, 26, 21, 21),
-              //   ),
-              // );
               //* Message when failure
               showDialog(
                 context: context,
@@ -79,8 +73,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                       "Email Verification",
                       style: TextStyles.font18BlackRegular,
                     ),
-                    // Text(
-                    //     "Take your time verifing your Email, Don't exit without verifing the Email "),
 
                     verticalSpace(6),
                     Center(

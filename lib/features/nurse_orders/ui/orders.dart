@@ -206,20 +206,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     aboutUsDialog(context, isDarkTheme);
                   },
                 ),
-                // ListTile(
-                //   leading: const Icon(
-                //     Icons.science,
-                //     color: ColorsProvider.primaryBink,
-                //     size: 24,
-                //   ),
-                //   title: Text(
-                //     "Test Result",
-                //     style: isDarkTheme
-                //         ? const TextStyle(color: Colors.white)
-                //         : TextStyles.font14GrayRegular,
-                //   ),
-                //   onTap: () {},
-                // ),
                 ListTile(
                   leading: isDarkTheme
                       ? const Icon(
@@ -300,11 +286,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.network(
-                            "https://apollohealthlib.blob.core.windows.net/health-library/2021/07/shutterstock_1704731518-2048x1365.jpg",
-                            fit: BoxFit.cover,
-                            width: 80.0,
-                            height: 90.0,
-                          ),
+                        "https://apollohealthlib.blob.core.windows.net/health-library/2021/07/shutterstock_1704731518-2048x1365.jpg",
+                        fit: BoxFit.cover,
+                        width: 80.0,
+                        height: 90.0,
+                      ),
                     ),
                   ),
                   title: const Text(
@@ -360,8 +346,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
       ),
     );
 
-    // Add your approve logic here
-    // For example, send data to the server or update a database
     print('Approved');
   }
 
@@ -377,9 +361,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
         backgroundColor: Colors.red,
       ),
     );
-
-    // Add your deny logic here
-    // For example, send data to the server or update a database
 
     print('Denied');
   }

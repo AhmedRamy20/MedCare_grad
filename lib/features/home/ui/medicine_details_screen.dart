@@ -95,37 +95,6 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                               ),
                       ),
                       SizedBox(height: 10.h),
-                      // Row(
-                      //   children: [
-                      //     Text(
-                      //       "Description: ",
-                      //       style: TextStyle(
-                      //         color: ColorsProvider.primaryBink,
-                      //         fontSize: 17,
-                      //       ),
-                      //     ),
-                      //     Text(
-                      //       "widget.medicine.description",
-                      //       maxLines: 3,
-                      //       overflow: TextOverflow.ellipsis,
-                      //       style: isDarkTheme
-                      //           ? TextStyle(
-                      //               color: Colors.white70, fontSize: 16.sp)
-                      //           : TextStyle(
-                      //               color: Colors.black87, fontSize: 16.sp),
-                      //     ),
-                      //   ],
-                      // ),
-                      //!!
-                      // Text(
-                      //   "Description: ${widget.medicine.description}",
-                      //   maxLines: 3,
-                      //   overflow: TextOverflow.ellipsis,
-                      //   style: isDarkTheme
-                      //       ? TextStyle(color: Colors.white70, fontSize: 16.sp)
-                      //       : TextStyle(color: Colors.black87, fontSize: 16.sp),
-                      // ),
-
                       RichText(
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -153,7 +122,6 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                           ],
                         ),
                       ),
-
                       SizedBox(height: 10.h),
                       RichText(
                         maxLines: 3,
@@ -182,17 +150,6 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                         ),
                       ),
                       SizedBox(height: 10.h),
-                      // Row(
-                      //   children: [
-                      // Icon(Icons.attach_money,
-                      //     color: Colors.green, size: 20),
-                      // Text(
-                      //   '${widget.medicine.price.toStringAsFixed(2)}',
-                      //   style:
-                      //       TextStyle(color: Colors.green, fontSize: 20.sp),
-                      // ),
-                      //   ],
-                      // ),
                       RichText(
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -227,106 +184,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                         ),
                       ),
                       SizedBox(height: 10.h),
-                      // Row(
-                      //   children: [
-                      //     Text(
-                      //       "Quantity",
-                      //       style: TextStyle(
-                      //         color: isDarkTheme
-                      //             ? Colors.white
-                      //             : ColorsProvider.rusasy,
-                      //         fontSize: 17.sp,
-                      //       ),
-                      //     ),
-                      //     Spacer(),
-                      //     IconButton(
-                      //       onPressed: () {
-                      //         setState(() {
-                      //           if (quantity > 1) quantity--;
-                      //         });
-                      //       },
-                      //       icon: Icon(Icons.remove, color: Colors.white),
-                      //       color: Colors.blue,
-                      //       constraints: BoxConstraints(
-                      //         minWidth: 32,
-                      //         minHeight: 32,
-                      //       ),
-                      //       padding: EdgeInsets.zero,
-                      //       iconSize: 18,
-                      //     ),
-                      //     Container(
-                      //       width: 24,
-                      //       height: 24,
-                      //       alignment: Alignment.center,
-                      //       decoration: BoxDecoration(
-                      //         color: Colors.white,
-                      //         borderRadius: BorderRadius.circular(5),
-                      //       ),
-                      //       child: Text(
-                      //         '$quantity',
-                      //         style: TextStyle(fontSize: 16.sp),
-                      //       ),
-                      //     ),
-                      //     IconButton(
-                      //       onPressed: () {
-                      //         setState(() {
-                      //           quantity++;
-                      //         });
-                      //       },
-                      //       icon: Icon(Icons.add, color: Colors.white),
-                      //       color: Colors.blue,
-                      //       constraints: BoxConstraints(
-                      //         minWidth: 32,
-                      //         minHeight: 32,
-                      //       ),
-                      //       padding: EdgeInsets.zero,
-                      //       iconSize: 18,
-                      //     ),
-                      //   ],
-                      // ),
                       SizedBox(height: 20.h),
-                      // Expanded(
-                      //   child: Center(
-                      //     child: ElevatedButton(
-                      //       style: ElevatedButton.styleFrom(
-                      //         primary: Colors.blue,
-                      //         padding: EdgeInsets.symmetric(
-                      //             horizontal: 32, vertical: 12),
-                      //         shape: RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.circular(10),
-                      //         ),
-                      //       ),
-                      //       onPressed: () {
-                      //         int quantityAdded = widget.medicine.quantity;
-                      //         BlocProvider.of<CartCubit>(context)
-                      //             .addToMedicineCart(widget.medicine);
-
-                      //         ScaffoldMessenger.of(context).showSnackBar(
-                      //           SnackBar(
-                      //             content: Text(
-                      //                 '${widget.medicine.name} added to cart'),
-                      //             duration: Duration(seconds: 2),
-                      //             action: SnackBarAction(
-                      //               label: 'Undo',
-                      //               onPressed: () {
-                      //                 BlocProvider.of<CartCubit>(context)
-                      //                     .removeSpecificMedicineQuantity(
-                      //                         widget.medicine, quantityAdded);
-                      //               },
-                      //             ),
-                      //           ),
-                      //         );
-                      //       },
-                      //       child: Text(
-                      //         'Add Cart',
-                      //         style: TextStyle(
-                      //           color: Colors.white,
-                      //           fontSize: 18.sp,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Expanded(
                         child: Center(
                           child: ElevatedButton(
@@ -352,13 +210,6 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                 ),
                               );
                             },
-                            // child: Text(
-                            //   'Add to Cart',
-                            //   style: TextStyle(
-                            //     color: Colors.white,
-                            //     fontSize: 18,
-                            //   ),
-                            // ),
                             child: const SizedBox(
                               width: 120,
                               height: 30,

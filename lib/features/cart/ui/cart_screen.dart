@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:medical_app/core/helpers/extensions.dart';
 import 'package:medical_app/core/helpers/spacing.dart';
 import 'package:medical_app/core/routing/routes.dart';
 import 'package:medical_app/core/theming/colors.dart';
@@ -226,18 +225,27 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
 
-                  Container(
-                    decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          // spreadRadius: 1,
-                          blurRadius: 7,
-                          offset: Offset(2, 6), // changes position of shadow
-                        ),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      right: 14,
+                      left: 14,
                     ),
-                    child: Divider(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade300,
+                            // spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(2, 5),
+                          ),
+                        ],
+                      ),
+                      child: Divider(
+                        thickness: 3,
+                        // endIndent: 20,
+                      ),
+                    ),
                   ),
 
                   verticalSpace(10),
@@ -300,19 +308,6 @@ class _CartScreenState extends State<CartScreen> {
                             ],
                           ),
                         ),
-                        // if (!_isHomeSelected)
-                        //   Padding(
-                        //     padding: const EdgeInsets.symmetric(horizontal: 16),
-                        //     child: TextFormField(
-                        //       controller: _locationController,
-                        //       decoration: const InputDecoration(
-                        //         labelText: 'Enter your location',
-                        //         border: OutlineInputBorder(),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // const SizedBox(height: 16),
-                        // _buildMiniMap(),
                         if (!_isHomeSelected)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),

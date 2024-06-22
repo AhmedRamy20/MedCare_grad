@@ -1,205 +1,3 @@
-// import 'dart:async';
-
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:permission_handler/permission_handler.dart';
-
-// class NearbyPharmacies extends StatefulWidget {
-//   const NearbyPharmacies({super.key});
-
-//   @override
-//   State<NearbyPharmacies> createState() => _NearbyPharmaciesState();
-// }
-
-// class _NearbyPharmaciesState extends State<NearbyPharmacies> {
-//   final Completer<GoogleMapController> _controller =
-//   Completer<GoogleMapController>();
-
-//   static const CameraPosition _kGooglePlex = CameraPosition(
-//     target: LatLng(37.42796133580664, -122.085749655962),
-//     zoom: 8,
-//   );
-
-//   static const CameraPosition _kLake = CameraPosition(
-//       bearing: 192.8334901395799,
-//       target: LatLng(37.43296265331129, -122.08832357078792),
-//       tilt: 59.440717697143555,
-//       zoom: 5);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: GoogleMap(
-//         mapType: MapType.normal,
-//         initialCameraPosition: _kGooglePlex,
-//         onMapCreated: (GoogleMapController controller) {
-//           _controller.complete(controller);
-//         },
-//       ),
-//       floatingActionButton: FloatingActionButton.extended(
-//         heroTag: "619",
-//         onPressed: _goToTheLake,
-//         label: const Text('To the lake!'),
-//         icon: const Icon(Icons.directions_boat),
-//       ),
-//     );
-//   }
-
-//   Future<void> _goToTheLake() async {
-//     final GoogleMapController controller = await _controller.future;
-//     await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-//   }
-// }
-
-//!!!!!!!!!!!!!!!!!!!!!
-
-// import 'dart:async';
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-// class NearbyPharmacies extends StatefulWidget {
-//   const NearbyPharmacies({super.key});
-//   @override
-//   State<NearbyPharmacies> createState() => _NearbyPharmaciesState();
-// }
-
-// class _NearbyPharmaciesState extends State<NearbyPharmacies> {
-//   Completer<GoogleMapController> _controller = Completer();
-
-//   static final CameraPosition _initialPosition = CameraPosition(
-//       target: LatLng(37.42796133580664, -122.085749655962), zoom: 14.4746);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Nearby Pharmacies'),
-//       ),
-//       body: GoogleMap(
-//         mapType: MapType.normal,
-//         initialCameraPosition: _initialPosition,
-//         onMapCreated: (GoogleMapController controller) {
-//           _controller.complete(controller);
-//         },
-//       ),
-//     );
-//   }
-// }
-
-//* to check Api Key => https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY
-
-//* key: "AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY",
-//* AIzaSyAdps_rCUe-0ZItkn2DEV_TGYnLpHio9XY
-//! AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY
-//* AIzaSyAzSSxYEnHx3TL963hnYFftU8zPcXW9x5s
-//* AIzaSyCOkTjXIbM_HWzMUd5OdEv2H3dq5BnGXJU
-//? AIzaSyCTaCXHs7ZwIckaS61IrdpYj08fz5p4oos
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-//????????????????????
-
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'dart:async';
-// import 'package:geolocator/geolocator.dart';
-// import 'package:permission_handler/permission_handler.dart';
-
-// class NearbyPharmacies extends StatefulWidget {
-//   const NearbyPharmacies({super.key});
-
-//   @override
-//   State<NearbyPharmacies> createState() => _NearbyPharmaciesState();
-// }
-
-// class _NearbyPharmaciesState extends State<NearbyPharmacies> {
-//   final Completer<GoogleMapController> _controller =
-//       Completer<GoogleMapController>();
-
-//   static const CameraPosition _kGooglePlex = CameraPosition(
-//     target: LatLng(37.42796133580664, -122.085749655962),
-//     zoom: 14.4746,
-//   );
-
-//   late Position _currentPosition;
-//   late CameraPosition _currentCameraPosition;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _getCurrentLocation();
-//   }
-
-//   Future<void> _getCurrentLocation() async {
-//     bool serviceEnabled;
-//     LocationPermission permission;
-
-//     // Test if location services are enabled.
-//     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-//     if (!serviceEnabled) {
-//       // Location services are not enabled, don't continue
-//       return Future.error('Location services are disabled.');
-//     }
-
-//     permission = await Geolocator.checkPermission();
-//     if (permission == LocationPermission.denied) {
-//       permission = await Geolocator.requestPermission();
-//       if (permission == LocationPermission.denied) {
-//         // Permissions are denied, next time you could try requesting permissions again
-//         return Future.error('Location permissions are denied');
-//       }
-//     }
-
-//     if (permission == LocationPermission.deniedForever) {
-//       // Permissions are denied forever, handle appropriately
-//       return Future.error(
-//           'Location permissions are permanently denied, we cannot request permissions.');
-//     }
-
-//     // When we reach here, permissions are granted and we can continue accessing the position of the device
-//     Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-//         .then((Position position) {
-//       setState(() {
-//         _currentPosition = position;
-//         _currentCameraPosition = CameraPosition(
-//           target: LatLng(position.latitude, position.longitude),
-//           zoom: 14.4746,
-//         );
-//         _goToCurrentLocation();
-//       });
-//     }).catchError((e) {
-//       print(e);
-//     });
-//   }
-
-//   Future<void> _goToCurrentLocation() async {
-//     final GoogleMapController controller = await _controller.future;
-//     controller
-//         .animateCamera(CameraUpdate.newCameraPosition(_currentCameraPosition));
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: GoogleMap(
-//         mapType: MapType.normal,
-//         initialCameraPosition: _kGooglePlex,
-//         myLocationEnabled: true,
-//         onMapCreated: (GoogleMapController controller) {
-//           _controller.complete(controller);
-//         },
-//       ),
-//       floatingActionButton: FloatingActionButton.extended(
-//         onPressed: _getCurrentLocation,
-//         label: const Text('Current Location'),
-//         icon: const Icon(Icons.my_location),
-//       ),
-//     );
-//   }
-// }
-
-//***************** */
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
@@ -208,52 +6,71 @@ import 'package:medical_app/core/helpers/location_helper.dart';
 import 'package:medical_app/core/theming/colors.dart';
 
 class NearbyPharmacies extends StatefulWidget {
-  const NearbyPharmacies({super.key});
+  const NearbyPharmacies({Key? key}) : super(key: key);
 
   @override
   State<NearbyPharmacies> createState() => _NearbyPharmaciesState();
 }
 
 class _NearbyPharmaciesState extends State<NearbyPharmacies> {
-  static Position? position;
+  Position? _currentPosition;
   Completer<GoogleMapController> _mapController = Completer();
-
-  static final CameraPosition _myCurrentLocationCameraPosition = CameraPosition(
-    bearing: 0.0,
-    target: LatLng(position!.latitude, position!.longitude),
-    tilt: 0.0,
-    zoom: 17,
-  );
-
-  Future<void> getMyCurrentLocation() async {
-    position = await LocationHelper.getCurrentLocation().whenComplete(() {
-      setState(() {});
-    });
-  }
+  List<Marker> _markers = [];
 
   @override
-  initState() {
+  void initState() {
     super.initState();
-    getMyCurrentLocation();
+    _getCurrentLocation();
   }
 
-  Widget buildMap() {
-    return GoogleMap(
-      mapType: MapType.normal,
-      myLocationEnabled: true,
-      zoomControlsEnabled: false,
-      myLocationButtonEnabled: false,
-      initialCameraPosition: _myCurrentLocationCameraPosition,
-      onMapCreated: (GoogleMapController controller) {
-        _mapController.complete(controller);
-      },
-    );
+  Future<void> _getCurrentLocation() async {
+    try {
+      _currentPosition = await LocationHelper.getCurrentLocation();
+      _updateMarkers();
+    } catch (e) {
+      print('Error getting current location: $e');
+    }
   }
 
-  Future<void> _goToMyCurrentLocation() async {
-    final GoogleMapController controller = await _mapController.future;
-    controller.animateCamera(
-        CameraUpdate.newCameraPosition(_myCurrentLocationCameraPosition));
+  void _updateMarkers() {
+    setState(() {
+      _markers.clear();
+      if (_currentPosition != null) {
+        // Add user's current location marker
+        _markers.add(Marker(
+          markerId: const MarkerId('currentLocation'),
+          position:
+              LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+          infoWindow: const InfoWindow(
+            title: 'Current Location',
+            snippet: 'This is your current location',
+          ),
+          icon: BitmapDescriptor.defaultMarker,
+        ));
+
+        List<Pharmacy> nearbyPharmacies = [
+          Pharmacy(
+              name: 'Pharmacy A', location: const LatLng(30.550223, 31.257712)),
+          Pharmacy(
+              name: 'Pharmacy B', location: const LatLng(30.553468, 31.252693)),
+          Pharmacy(
+              name: 'Pharmacy C', location: const LatLng(30.553978, 31.256765)),
+        ];
+
+        nearbyPharmacies.forEach((pharmacy) {
+          _markers.add(Marker(
+            markerId: MarkerId(pharmacy.name),
+            position: pharmacy.location,
+            infoWindow: InfoWindow(
+              title: pharmacy.name,
+              snippet: 'Tap to view details',
+            ),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueAzure),
+          ));
+        });
+      }
+    });
   }
 
   @override
@@ -261,28 +78,211 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
     return Scaffold(
       body: Stack(
         children: [
-          position != null
-              ? buildMap()
-              : Center(
-                  child: Container(
-                    child: CircularProgressIndicator(
-                      color: ColorsProvider.primaryBink,
-                    ),
+          _currentPosition != null
+              ? GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(_currentPosition!.latitude,
+                        _currentPosition!.longitude),
+                    zoom: 15,
+                  ),
+                  onMapCreated: (GoogleMapController controller) {
+                    _mapController.complete(controller);
+                  },
+                  markers: Set<Marker>.from(_markers),
+                )
+              : const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorsProvider.primaryBink,
                   ),
                 ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 120,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _markers.length,
+                itemBuilder: (context, index) {
+                  Marker marker = _markers[index];
+                  if (marker.markerId.value == 'currentLocation') {
+                    return const SizedBox
+                        .shrink(); // Skip rendering for current location marker
+                  }
+                  return _buildPharmacyContainer(marker);
+                },
+              ),
+            ),
+          ),
         ],
       ),
-      floatingActionButton: Container(
-        margin: const EdgeInsets.fromLTRB(0, 0, 8, 30),
-        child: FloatingActionButton(
-          backgroundColor: ColorsProvider.primaryBink,
-          onPressed: _goToMyCurrentLocation,
-          child: const Icon(
-            Icons.place,
-            color: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ColorsProvider.primaryBink,
+        onPressed: _goToMyCurrentLocation,
+        child: const Icon(
+          Icons.place,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPharmacyContainer(Marker marker) {
+    return GestureDetector(
+      onTap: () {
+        _goToPharmacyLocation(marker.position);
+      },
+      child: Container(
+        width: 200,
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                marker.infoWindow.title!,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              const SizedBox(height: 4),
+              Text(marker.infoWindow.snippet!),
+              const SizedBox(height: 4),
+              FutureBuilder<String>(
+                future: _getDistance(marker.position),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text('Distance: ${snapshot.data}');
+                  } else if (snapshot.hasError) {
+                    return const Text('Error calculating distance');
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+              const SizedBox(height: 4),
+              ElevatedButton(
+                onPressed: () {
+                  _showPharmacyDetails(
+                      marker.infoWindow.title!, marker.position);
+                },
+                child: const Text('View Details'),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+
+  Future<String> _getDistance(LatLng destination) async {
+    if (_currentPosition != null) {
+      double distanceInMeters = await Geolocator.distanceBetween(
+        _currentPosition!.latitude,
+        _currentPosition!.longitude,
+        destination.latitude,
+        destination.longitude,
+      );
+      double distanceInKm = distanceInMeters / 1000;
+      return '${distanceInKm.toStringAsFixed(2)} km';
+    } else {
+      return 'Unknown';
+    }
+  }
+
+  void _goToMyCurrentLocation() {
+    _mapController.future.then((controller) {
+      controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target:
+                LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
+            zoom: 17,
+          ),
+        ),
+      );
+    });
+  }
+
+  void _goToPharmacyLocation(LatLng location) {
+    _mapController.future.then((controller) {
+      controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: location,
+            zoom: 17,
+          ),
+        ),
+      );
+    });
+  }
+
+  void _showPharmacyDetails(String pharmacyName, LatLng pharmacyLocation) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Pharmacy Details'),
+        content: FutureBuilder<String>(
+          future: _getDistance(pharmacyLocation),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Name: $pharmacyName'),
+                  const SizedBox(height: 8),
+                  Text('Distance: ${snapshot.data}'),
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return const Text('Error calculating distance');
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Pharmacy {
+  final String name;
+  final LatLng location;
+
+  Pharmacy({required this.name, required this.location});
 }

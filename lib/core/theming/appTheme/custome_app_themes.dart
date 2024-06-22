@@ -10,7 +10,6 @@ class AppThemes {
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: ColorsProvider.primaryBink,
-    // Colors.grey.shade900
     scaffoldBackgroundColor: Color.fromARGB(255, 33, 36, 52),
     brightness: Brightness.dark,
   );

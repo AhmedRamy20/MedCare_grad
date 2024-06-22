@@ -61,13 +61,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => ForgetPassword(),
         );
-      //********** Splash check */
-      // case Routes.splashScreen:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider(
-      //         create: (context) => LoginCubit()..checkLoginStatus(),
-      //         child: SplashScreen()),
-      //   );
+
       case Routes.splashScreen:
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
@@ -93,11 +87,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => OtpScreen(),
         );
-      //! old payment
-      // case Routes.paymentCheckout:
-      //   return MaterialPageRoute(
-      //     builder: (_) => MyCartViewBody(),
-      //   );
+
       case Routes.paymentCheckout:
         if (arguments != null &&
             arguments is Map &&
@@ -111,21 +101,6 @@ class AppRouter {
           builder: (_) => MyCartViewBody(
               totalPrice: 0.0), // Default to 0.0 if totalPrice is not provided
         );
-      //! New maps phase
-      // case Routes.profile:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider<ProfileCubit>(
-      //         create: (context) => ProfileCubit(), child: Profile()),
-      //   );
-      //! old v
-      // case Routes.homeScreen:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider(
-      //       create: (context) => LoginCubit(DioConsumer(dio: Dio())),
-      //       child: const HomeScreen(),
-      //     ),
-      //   );
-      //! new v
       case Routes.homeScreen:
         return MaterialPageRoute(
           builder: (_) => HomeScreen(),
@@ -158,11 +133,7 @@ class AppRouter {
               BlocProvider<LabTestCubit>(
                 create: (context) => LabTestCubit(Dio()),
               ),
-              // BlocProvider<ProfileCubit>(
-              //   create: (context) => ProfileCubit(),
-              // ),
             ],
-            // create: (context) => MedicineCubit(),
             child: const HomeStartWithBottomNav(),
           ),
         );
@@ -195,21 +166,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const PatientDetailsScreen(),
         );
-      // case Routes.labTest:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider<LabTestCubit>(
-      //       create: (context) => LabTestCubit(Dio()),
-      //       child: LabTest(),
-      //     ),
-      //   );
-      // default:
-      //   return MaterialPageRoute(
-      //     builder: (_) => Scaffold(
-      //       body: Center(
-      //         child: Text("No route defined for ${settings.name}"),
-      //       ),
-      //     ),
-      //   );
     }
   }
 }

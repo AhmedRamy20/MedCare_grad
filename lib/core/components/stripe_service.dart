@@ -42,9 +42,6 @@ class StripeService {
             componentText: Colors.black,
           ),
         ),
-        // customerEphemeralKeySecret:
-        // initiPaymentSheetInputModel.ephemeralKeySecret,
-        // customerId: initiPaymentSheetInputModel.customerId,
         merchantDisplayName: 'ramy',
       ),
     );
@@ -57,33 +54,9 @@ class StripeService {
   Future makePayment(
       {required PaymentIntentInputModel paymentIntentInputModel}) async {
     var paymentIntentModel = await createPaymentIntent(paymentIntentInputModel);
-    // var ephemeralKeyModel =
-    // await createEphemeralKey(customerId: paymentIntentInputModel.cusomerId);
-    // var initPaymentSheetInputModel = InitiPaymentSheetInputModel(
-    //     clientSecret: paymentIntentModel.clientSecret!,
-    //     customerId: paymentIntentInputModel.cusomerId,
-    //     ephemeralKeySecret: ephemeralKeyModel.secret!);
+
     await initPaymentSheet(
         paymentIntentClientSecret: paymentIntentModel.clientSecret!);
-    // await initPaymentSheet(
-    //     initiPaymentSheetInputModel: initPaymentSheetInputModel);
     await displayPaymentSheet();
   }
-
-  // Future<EphemeralKeyModel> createEphemeralKey(
-  //     {required String customerId}) async {
-  //   var response = await apiService.post(
-  //       body: {'customer': customerId},
-  //       contentType: Headers.formUrlEncodedContentType,
-  //       url: 'https://api.stripe.com/v1/ephemeral_keys',
-  //       token: ApiKey.secretKey,
-  //       headers: {
-  //         'Authorization': "Bearer ${ApiKey.secretKey}",
-  //         'Stripe-Version': '2023-08-16',
-  //       });
-  //
-  //   var ephermeralKey = EphemeralKeyModel.fromJson(response.data);
-  //
-  //   return ephermeralKey;
-  // }
 }

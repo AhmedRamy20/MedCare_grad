@@ -84,12 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // TextButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop(false);
-                //   },
-                //   child: Text('Cancel'),
-                // ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop(false);
@@ -124,13 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: const Text('Logout'),
                 ),
-
-                // TextButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pop(true);
-                //   },
-                //   child: Text('Logout'),
-                // ),
               ],
             ),
           ],
@@ -153,46 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
           size: 30,
         ),
         actions: [
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: BlocBuilder<CartCubit, CartState>(
-          //     builder: (context, cartState) {
-          //       int cartItemCount = 0;
-          //       if (cartState is CartItemsUpdated) {
-          //         cartItemCount = cartState.medicineCartItems.length +
-          //             cartState.labTestCartItems.length;
-          //       }
-          //       return badges.Badge(
-          //         badgeContent: Text(
-          //           '$cartItemCount',
-          //           style: const TextStyle(color: Colors.white),
-          //         ),
-          //         // position: BadgePosition.topEnd(end: 3),
-          //         position: BadgePosition.topEnd(
-          //           top: 2,
-          //           end: 12,
-          //         ),
-          //         badgeStyle: BadgeStyle(
-          //           badgeColor: Colors.red,
-          //           padding: EdgeInsets.all(5),
-          //           elevation: 0,
-          //         ),
-          //         child: IconButton(
-          //           onPressed: () {
-          //             context.pushNamed(Routes.cart); //MyCartViewBody
-          //           },
-          //           icon: const Icon(
-          //             Icons.shopping_cart,
-          //             color: ColorsProvider
-          //                 .primaryBink, //ColorsProvider.greeting1Color
-          //             size: 33,
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-
           BlocBuilder<CartCubit, CartState>(
             builder: (context, cartState) {
               int cartItemCount = 0;
@@ -211,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         top: 2,
                         end: 12,
                       ),
-                      badgeStyle: BadgeStyle(
+                      badgeStyle: const BadgeStyle(
                         badgeColor: Colors.red,
                         padding: EdgeInsets.all(5),
                         elevation: 0,
@@ -342,7 +289,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               useOldImageOnUrlChange: true,
                               imageUrl: userData.pictureUrl ?? '',
                               placeholder: (context, url) {
-                                // context.read<ProfileCubit>().fetchUserData();
                                 return const CircularProgressIndicator();
                               },
                               errorWidget: (context, url, error) =>
@@ -363,10 +309,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // Image.asset(
-                            //   'assets/images/sec.png',
-                            //   scale: 0.7,
-                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -389,24 +331,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 // verticalSpace(20),
                               ],
                             ),
-                            // Center(
-                            //   child: Text(
-                            //     'Settings',
-                            //     style: TextStyle(
-                            //       color: isDarkTheme
-                            //           ? Colors.white70
-                            //           : ColorsProvider.darkGray,
-                            //       fontSize: 17,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       );
                     }
                   },
                 ),
-
                 verticalSpace(20),
                 ListTile(
                   leading: const Icon(
@@ -424,8 +354,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     aboutUsDialog(context, isDarkTheme);
                   },
                 ),
-
-                // verticalSpace(20),
                 ListTile(
                   leading: const Icon(
                     Icons.phone,
@@ -439,28 +367,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         : TextStyles.font14GrayRegular,
                   ),
                   onTap: () {
-                    // aboutUsDialog(context, isDarkTheme);
                     _launchPhoneDialer();
                   },
                 ),
-                // ListTile(
-                //   leading: const Icon(
-                //     Icons.contact_support,
-                //     color: Color(0xffE99987),
-                //     size: 24,
-                //   ),
-                //   title: Text(
-                //     "Contact Us+",
-                //     style: isDarkTheme
-                //         ? const TextStyle(color: Colors.white)
-                //         : TextStyles.font14GrayRegular,
-                //   ),
-                //   onTap: () {
-                //     launchUrl(
-                //       Uri.parse('+01019686065'),
-                //     );
-                //   },
-                // ),
                 ListTile(
                   leading: const Icon(
                     Icons.science,
@@ -478,47 +387,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     context.pushNamed(Routes.labTestResult);
                   },
                 ),
-                //* Language if needed
-                // ListTile(
-                //   leading: const Icon(
-                //     Icons.language,
-                //     color: Color(0xffE99987),
-                //     size: 24,
-                //   ),
-                //   title: Text(
-                //     "Language",
-                //     style: isDarkTheme
-                //         ? const TextStyle(color: Colors.white)
-                //         : TextStyles.font14GrayRegular,
-                //   ),
-                //   onTap: () {},
-                // ),
-                // ListTile(
-                //   leading: const Icon(
-                //     Icons.dark_mode,
-                //     color: Color(0xffE99987),
-                //     size: 24,
-                //   ),
-                //   title: Text(
-                //     "Dark Theme",
-                //     style: isDarkTheme
-                //         ? const TextStyle(color: Colors.white)
-                //         : TextStyles.font14GrayRegular,
-                //   ),
-                //   onTap: () {
-                //     context.read<AppThemeCubit>().toggleTheme();
-                //   },
-                // ),
                 ListTile(
                   leading: isDarkTheme
                       ? const Icon(
-                          Icons.dark_mode, // Use light mode icon by default
+                          Icons.dark_mode,
                           // color: Color(0xffE99987),
                           color: ColorsProvider.primaryBink,
                           size: 24,
                         )
                       : const Icon(
-                          Icons.light_mode, // Use light mode icon by default
+                          Icons.light_mode,
                           color: ColorsProvider.primaryBink,
                           size: 24,
                         ),
@@ -536,7 +414,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     activeColor: ColorsProvider.primaryBink,
                     inactiveThumbColor: Colors.grey.shade500,
                     inactiveTrackColor: Colors.white,
-                    // inactiveThumbImage: AssetImage('assets/images/google.png'),
                   ),
                 ),
               ],
@@ -562,13 +439,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                 ),
                 onTap: () async {
-                  // await loginCubit.clearUserData();
-                  // await context.read<CartCubit>().clearCart();
-                  // context.pushNamedAndRemoveUntil(
-                  //   Routes.loginScreen,
-                  //   predicate: (route) => false,
-                  // );
-
                   //** logout confirmation */
                   bool shouldLogout =
                       await _showLogoutConfirmationDialog(context);

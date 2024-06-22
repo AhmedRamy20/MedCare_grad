@@ -1,63 +1,3 @@
-// class Lab {
-//   final int id;
-//   final String name;
-//   final String email;
-//   final String phone;
-//   final String pictureUrl;
-//   final String location;
-
-//   Lab({
-//     required this.id,
-//     required this.name,
-//     required this.email,
-//     required this.phone,
-//     required this.pictureUrl,
-//     required this.location,
-//   });
-
-//   factory Lab.fromJson(Map<String, dynamic> json) {
-//     return Lab(
-//       id: json['id'],
-//       name: json['name'],
-//       email: json['email'],
-//       phone: json['phone'],
-//       pictureUrl: json['pictureUrl'],
-//       location: json['location'],
-//     );
-//   }
-// }
-
-// class LabTestModel {
-//   final int id;
-//   final String name;
-//   final String description;
-//   final double price;
-//   final Lab lab;
-//   final String imageUrl;
-
-//   LabTestModel({
-//     required this.id,
-//     required this.name,
-//     required this.description,
-//     required this.price,
-//     required this.lab,
-//     required this.imageUrl,
-//   });
-
-//   factory LabTestModel.fromJson(Map<String, dynamic> json) {
-//     return LabTestModel(
-//       id: json['id'],
-//       name: json['name'],
-//       description: json['description'],
-//       price: json['price'],
-//       lab: Lab.fromJson(json['lab']),
-//       imageUrl: json['imageUrl'],
-//     );
-//   }
-// }
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 import 'package:equatable/equatable.dart';
 
 class Lab extends Equatable {
@@ -110,6 +50,7 @@ class LabTestModel extends Equatable {
   final double price;
   final Lab lab;
   final String imageUrl;
+  DateTime? bookingTime;
   //*
   int quantity;
 
@@ -121,6 +62,7 @@ class LabTestModel extends Equatable {
     required this.lab,
     required this.imageUrl,
     this.quantity = 1,
+    this.bookingTime,
   });
 
   factory LabTestModel.fromJson(Map<String, dynamic> json) {
@@ -132,6 +74,9 @@ class LabTestModel extends Equatable {
       lab: Lab.fromJson(json['lab']),
       imageUrl: json['imageUrl'],
       quantity: json['quantity'] ?? 1, //!pref
+      bookingTime: json['bookingTime'] != null
+          ? DateTime.parse(json['bookingTime'])
+          : null,
     );
   }
 
@@ -144,10 +89,11 @@ class LabTestModel extends Equatable {
       'lab': lab.toJson(),
       'imageUrl': imageUrl,
       'quantity': quantity,
+      'bookingTime': bookingTime?.toIso8601String(),
     };
   }
 
   @override
   List<Object?> get props =>
-      [id, name, description, price, lab, imageUrl, quantity];
+      [id, name, description, price, lab, imageUrl, quantity, bookingTime];
 }

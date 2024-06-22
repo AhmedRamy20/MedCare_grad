@@ -42,6 +42,7 @@ class MedicineCubit extends Cubit<MedicineState> {
   //! Search
 
   void filterMedicines(String query) {
+    filteredMedicines.clear();
     final filteredList = notFilteredmedicines
         .where((medicine) =>
             medicine.name.toLowerCase().contains(query.toLowerCase()))
@@ -74,33 +75,4 @@ class MedicineCubit extends Cubit<MedicineState> {
       emit(MedicineListState(medicines: filteredMedicines));
     }
   }
-
-  // void clearFilteredList() {
-  //   emit(MedicineFilteredState(medicines: []));
-  // }
 }
-
-
-
-
-
-//* Search
-
-  // void filterMedicines(String query) {
-  //   final currentState = state;
-  //   if (currentState is MedicineListState) {
-  //     final filteredList = currentState.medicines
-  //         .where((medicine) =>
-  //             medicine.name.toLowerCase().contains(query.toLowerCase()))
-  //         .toList();
-  //     emit(MedicineFilteredState(filteredMedicines: filteredList));
-  //   }
-  // }
-
-  // void searchMedicines(String query) {
-  //   if (query.isEmpty) {
-  //     emit(MedicineListState(medicines: [])); // Reset to original list
-  //   } else {
-  //     filterMedicines(query);
-  //   }
-  // }

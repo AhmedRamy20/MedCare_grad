@@ -22,11 +22,6 @@ class PatientDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image.asset(
-            //   'assets/images/Dead.jpg',
-            //   scale: 2,
-            // ),
-
             Center(
               child: Container(
                 height: 200.h,
@@ -53,13 +48,6 @@ class PatientDetailsScreen extends StatelessWidget {
                   : TextStyles.font24BinkBold,
             ),
             verticalSpace(20),
-            // Text(
-            //   "patientemail@gmail.com",
-            //   style: isDarkTheme
-            //       ? const TextStyle(color: Colors.white)
-            //       : TextStyles.font18BlackRegular,
-            // ),
-
             TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Patient location',
@@ -67,12 +55,6 @@ class PatientDetailsScreen extends StatelessWidget {
               ),
             ),
             verticalSpace(10),
-            // Text(
-            //   "Patient Status",
-            //   style: isDarkTheme
-            //       ? const TextStyle(color: Colors.white)
-            //       : TextStyles.font18BlackRegular,
-            // ),
           ],
         ),
       ),
