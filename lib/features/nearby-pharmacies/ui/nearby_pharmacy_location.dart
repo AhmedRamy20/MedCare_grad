@@ -141,6 +141,10 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
   }
 
   Widget _buildPharmacyContainer(Marker marker) {
+    final theme = Theme.of(context);
+    final isDarkTheme = theme.brightness == Brightness.dark;
+    final textColor = isDarkTheme ? Colors.white : Colors.black;
+
     return GestureDetector(
       onTap: () {
         _goToPharmacyLocation(marker.position);
@@ -150,7 +154,7 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDarkTheme ? Colors.grey[850] : Colors.white,
           borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
@@ -177,9 +181,11 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
                 future: _getDistance(marker.position),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text('Distance: ${snapshot.data}');
+                    return Text('Distance: ${snapshot.data}',
+                        style: TextStyle(color: textColor));
                   } else if (snapshot.hasError) {
-                    return const Text('Error calculating distance');
+                    return Text('Error calculating distance',
+                        style: TextStyle(color: textColor));
                   } else {
                     return const CircularProgressIndicator();
                   }
@@ -191,6 +197,16 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
                   _showPharmacyDetails(
                       marker.infoWindow.title!, marker.position);
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorsProvider.primaryBink,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 13, right: 15, left: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
                 child: const Text('View Details'),
               ),
             ],
