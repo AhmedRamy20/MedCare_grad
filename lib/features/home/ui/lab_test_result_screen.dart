@@ -28,7 +28,9 @@ class _LabTestResultScreenState extends State<LabTestResultScreen> {
     String patientName = cachedUsername.toString();
 
     try {
-      Response response = await _dio.get('$apiUrl/$patientName');
+      // Response response = await _dio.get('$apiUrl/$patientName');
+      Response response =
+          await _dio.get(apiUrl, queryParameters: {'PatientName': patientName});
 
       if (response.statusCode == 200) {
         return response.data.toString();

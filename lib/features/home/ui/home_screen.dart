@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: ColorsProvider.primaryBink,
                         ),
                         accountName: Text(
-                          userData.displayName,
+                          "Welcome,${userData.displayName}",
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -282,23 +282,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         //   ),
                         // ),
 
-                        currentAccountPicture: CircleAvatar(
-                          backgroundColor: Colors.grey.shade200,
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              useOldImageOnUrlChange: true,
-                              imageUrl: userData.pictureUrl ?? '',
-                              placeholder: (context, url) {
-                                return const CircularProgressIndicator();
-                              },
-                              errorWidget: (context, url, error) =>
-                                  Image.asset("assets/images/avatar.png"),
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: double.infinity,
-                            ),
-                          ),
-                        ),
+                        //!!! This is the user img
+                        // currentAccountPicture: CircleAvatar(
+                        //   backgroundColor: Colors.grey.shade200,
+                        //   child: ClipOval(
+                        //     child: CachedNetworkImage(
+                        //       useOldImageOnUrlChange: true,
+                        //       imageUrl: userData.pictureUrl ?? '',
+                        //       placeholder: (context, url) {
+                        //         return const CircularProgressIndicator();
+                        //       },
+                        //       errorWidget: (context, url, error) =>
+                        //           Image.asset("assets/images/avatar.png"),
+                        //       fit: BoxFit.cover,
+                        //       width: double.infinity,
+                        //       height: double.infinity,
+                        //     ),
+                        //   ),
+                        // ),
                       );
                     } else {
                       return DrawerHeader(

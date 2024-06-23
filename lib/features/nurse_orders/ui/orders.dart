@@ -766,17 +766,56 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           children: [
                             Row(
                               children: [
-                                Icon(
-                                  Icons.person,
+                                // Icon(
+                                //   Icons.person,
+                                //   color: ColorsProvider.primaryBink,
+                                // ),
+                                const Icon(
+                                  Icons.book_online_outlined,
                                   color: ColorsProvider.primaryBink,
                                 ),
                                 horizontalSpace(10),
                                 Expanded(
                                   child: Text(
-                                    //! User name
-                                    // order.nurseName,
-                                    order.userName,
-                                    // "Ramy",
+                                    order.getTestNames(),
+                                    style: TextStyles.font14GrayRegular,
+                                  ),
+                                ),
+
+                                const Icon(
+                                  Icons.person,
+                                  color: ColorsProvider.primaryBink,
+                                ),
+                                Text(order.userName),
+                              ],
+                            ),
+                            verticalSpace(10),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.date_range,
+                                  color: ColorsProvider.primaryBink,
+                                ),
+                                horizontalSpace(10),
+                                Expanded(
+                                  child: Text(
+                                    order.bookingDate,
+                                    style: TextStyles.font14GrayRegular,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            verticalSpace(10),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_on,
+                                  color: ColorsProvider.primaryBink,
+                                ),
+                                horizontalSpace(10),
+                                Expanded(
+                                  child: Text(
+                                    order.location,
                                     style: TextStyles.font14GrayRegular,
                                   ),
                                 ),
@@ -812,38 +851,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 ),
                               ],
                             ),
-                            verticalSpace(10),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.date_range,
-                                  color: ColorsProvider.primaryBink,
-                                ),
-                                horizontalSpace(10),
-                                Expanded(
-                                  child: Text(
-                                    order.bookingDate,
-                                    style: TextStyles.font14GrayRegular,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            verticalSpace(10),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on,
-                                  color: ColorsProvider.primaryBink,
-                                ),
-                                horizontalSpace(10),
-                                Expanded(
-                                  child: Text(
-                                    order.location,
-                                    style: TextStyles.font14GrayRegular,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -853,7 +860,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: Text('No orders available'),
             );
           }
