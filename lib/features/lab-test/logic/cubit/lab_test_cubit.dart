@@ -16,7 +16,7 @@ class LabTestCubit extends Cubit<LabTestState> {
     emit(LabTestLoading());
     try {
       final response =
-          await dio.get('http://DawayaHealthCare777.somee.com/Test/GetTests');
+          await dio.get('http://DawayaHealthCare70.somee.com/Test/GetTests');
       final data = response.data as List;
       final labTests = data.map((json) => LabTestModel.fromJson(json)).toList();
       // emit(LabTestLoaded(labTests));
@@ -51,7 +51,11 @@ class LabTestCubit extends Cubit<LabTestState> {
       filteredLabTests = cachedLabTests
           .where((labTest) =>
               labTest.name.toLowerCase().contains(query.toLowerCase()) ||
-              labTest.description.toLowerCase().contains(query.toLowerCase()))
+              // labTest.description.toLowerCase().contains(query.toLowerCase()))
+              (labTest.description
+                      ?.toLowerCase()
+                      ?.contains(query.toLowerCase()) ??
+                  false))
           .toList();
     }
     emit(LabTestLoaded(filteredLabTests));

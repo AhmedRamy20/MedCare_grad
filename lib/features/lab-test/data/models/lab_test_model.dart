@@ -46,10 +46,10 @@ class Lab extends Equatable {
 class LabTestModel extends Equatable {
   final int id;
   final String name;
-  final String description;
+  final String? description;
   final double price;
   final Lab lab;
-  final String imageUrl;
+  final String? imageUrl;
   DateTime? bookingTime;
   //*
   int quantity;
@@ -57,10 +57,10 @@ class LabTestModel extends Equatable {
   LabTestModel({
     required this.id,
     required this.name,
-    required this.description,
+    this.description,
     required this.price,
     required this.lab,
-    required this.imageUrl,
+    this.imageUrl,
     this.quantity = 1,
     this.bookingTime,
   });
@@ -69,10 +69,10 @@ class LabTestModel extends Equatable {
     return LabTestModel(
       id: json['id'],
       name: json['name'],
-      description: json['description'],
-      price: json['price'],
+      description: json['description'] ?? '',
+      price: json['price'].toDouble(),
       lab: Lab.fromJson(json['lab']),
-      imageUrl: json['imageUrl'],
+      imageUrl: json['imageUrl'] ?? '',
       quantity: json['quantity'] ?? 1, //!pref
       bookingTime: json['bookingTime'] != null
           ? DateTime.parse(json['bookingTime'])

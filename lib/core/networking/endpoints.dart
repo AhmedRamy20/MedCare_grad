@@ -1,8 +1,8 @@
 class EndPoints {
   // static String baseUrl = "http://DawayaHealthCare.somee.com/";
-  static String baseUrl = "http://DawayaHealthCare777.somee.com/";
+  static String baseUrl = "http://DawayaHealthCare70.somee.com/";
   static String wholeGetMedicine =
-      "http://DawayaHealthCare777.somee.com/Medicine/Get-All-Medicines";
+      "http://DawayaHealthCare70.somee.com/Medicine/Get-All-Medicines";
   static String signIn = "Account/Login";
   static String signUp = "Account/Register";
   static String verifyEmail = "Account/Verify-Email";
