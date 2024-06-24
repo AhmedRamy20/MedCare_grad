@@ -130,6 +130,7 @@ class _NearbyPharmaciesState extends State<NearbyPharmacies> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "Salam alykom",
         backgroundColor: ColorsProvider.primaryBink,
         onPressed: _goToMyCurrentLocation,
         child: const Icon(

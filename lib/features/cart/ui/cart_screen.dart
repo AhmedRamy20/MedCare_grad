@@ -370,7 +370,9 @@ class _CartScreenState extends State<CartScreen> {
                         // _cacheHelper.saveLabTestCartItems(_labTestCartItems);
                         Navigator.of(context).pushNamed(
                           Routes.paymentCheckout,
-                          arguments: {'totalPrice': totalPrice},
+                          arguments: {
+                            'totalPrice': totalPrice,
+                          },
                         );
                       },
                       style: ElevatedButton.styleFrom(

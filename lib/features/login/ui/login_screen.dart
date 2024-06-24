@@ -145,20 +145,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         EmailWithPassword(),
                         verticalSpace(24),
-                        Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: InkWell(
-                            onTap: () {
-                              context.pushNamed(Routes.forgetPasswordScreen);
-                            },
-                            child: Text(
-                              "Forgot Password",
-                              style: isDarkTheme
-                                  ? TextStyles.font13whiteRegular
-                                  : TextStyles.font13BinkRegular,
-                            ),
-                          ),
-                        ),
+                        // Align(
+                        //   alignment: AlignmentDirectional.centerEnd,
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       context.pushNamed(Routes.forgetPasswordScreen);
+                        //     },
+                        //     child: Text(
+                        //       "Forgot Password",
+                        //       style: isDarkTheme
+                        //           ? TextStyles.font13whiteRegular
+                        //           : TextStyles.font13BinkRegular,
+                        //     ),
+                        //   ),
+                        // ),
                         verticalSpace(40),
                         state is SignInLoading
                             ? const CircularProgressIndicator(

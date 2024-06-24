@@ -20,7 +20,9 @@ class CustomButtonBlocConsumer extends StatelessWidget {
         if (state is PaymentSuccess) {
           Navigator.of(context)
               .pushReplacement(MaterialPageRoute(builder: (context) {
-            return const ThankYouView();
+            return ThankYouView(
+              totalPrice: totalPrice,
+            );
           }));
         }
 

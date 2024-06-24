@@ -7,7 +7,8 @@ import 'package:medical_app/features/checkout/presentation/views/widget/custome_
 import 'package:medical_app/features/checkout/presentation/views/widget/payment_method_list_view.dart';
 
 class PaymentDetailsViewBody extends StatefulWidget {
-  const PaymentDetailsViewBody({super.key});
+  final double totalPrice;
+  const PaymentDetailsViewBody({super.key, required this.totalPrice});
 
   @override
   State<PaymentDetailsViewBody> createState() => _PaymentDetailsViewBodyState();
@@ -46,7 +47,7 @@ class _PaymentDetailsViewBodyState extends State<PaymentDetailsViewBody> {
                     } else {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return const ThankYouView();
+                        return ThankYouView(totalPrice: widget.totalPrice);
                       }));
                       autovalidateMode = AutovalidateMode.always;
                       setState(() {});

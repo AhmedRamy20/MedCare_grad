@@ -4,7 +4,8 @@ import 'package:medical_app/features/checkout/presentation/views/widget/custome_
 import 'package:medical_app/features/checkout/presentation/views/widget/thank_you_card.dart';
 
 class ThankYouViewBody extends StatelessWidget {
-  const ThankYouViewBody({super.key});
+  final double totalPrice;
+  const ThankYouViewBody({super.key, required this.totalPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class ThankYouViewBody extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          const ThankYouCard(),
+          ThankYouCard(totalPrice: totalPrice),
           Positioned(
             bottom: MediaQuery.sizeOf(context).height * .2 + 20,
             left: 20 + 8,

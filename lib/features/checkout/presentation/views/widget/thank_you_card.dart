@@ -115,7 +115,8 @@ import 'package:medical_app/features/checkout/presentation/views/widget/payment_
 import 'package:medical_app/features/checkout/presentation/views/widget/total_price_widget.dart';
 
 class ThankYouCard extends StatelessWidget {
-  const ThankYouCard({Key? key}) : super(key: key);
+  final double totalPrice;
+  const ThankYouCard({Key? key, required this.totalPrice}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,25 +141,13 @@ class ThankYouCard extends StatelessWidget {
               style: Styles.style20,
             ),
             const SizedBox(height: 24),
-            const PaymentItemInfo(
-              title: 'Date',
-              value: '01/24/2023',
-            ),
-            const SizedBox(height: 10),
-            const PaymentItemInfo(
-              title: 'Time',
-              value: '10:15 AM',
-            ),
-            const SizedBox(height: 10),
-            const PaymentItemInfo(
-              title: 'To',
-              value: 'Sam Louis',
-            ),
+
             const Divider(
               height: 60,
               thickness: 2,
             ),
-            const TotalPrice(title: 'Total', value: r'$50.97'),
+            // const TotalPrice(title: 'Total', value: r'$50.97'),
+            TotalPrice(title: 'Total', value: totalPrice.toString()),
             const SizedBox(height: 10),
             const CardInfoWidget(),
             const Spacer(),
@@ -190,13 +179,13 @@ class ThankYouCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pop(); // Navigate back to the previous screen (home screen)
-              },
-              child: const Text('Back to Home'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context)
+            //         .pop(); // Navigate back to the previous screen (home screen)
+            //   },
+            //   child: const Text('Back to Home'),
+            // ),
           ],
         ),
       ),
