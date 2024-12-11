@@ -17,6 +17,8 @@ class MyTextFormFeild extends StatelessWidget {
   final double? width;
   final TextEditingController? controller;
   final Function(String?) validator;
+  final Widget? lable;
+  final bool showDatePicker;
 
   const MyTextFormFeild({
     super.key,
@@ -32,6 +34,8 @@ class MyTextFormFeild extends StatelessWidget {
     this.keyboardType,
     this.width,
     this.controller,
+    this.lable,
+    this.showDatePicker = false,
     required this.validator,
   });
 
@@ -42,6 +46,11 @@ class MyTextFormFeild extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         cursorColor: ColorsProvider.primaryBink,
+        onTap: () {
+          if (showDatePicker && keyboardType == TextInputType.number) {
+            _showDatePicker(context, controller);
+          }
+        },
         decoration: InputDecoration(
           isDense: true,
           contentPadding: contentPadding ??
@@ -83,6 +92,7 @@ class MyTextFormFeild extends StatelessWidget {
           hintText: hitText,
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
+          label: lable,
         ),
         obscureText: isObsecureText ?? false,
         style: TextStyles.font14DarkMediam,
@@ -92,5 +102,24 @@ class MyTextFormFeild extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+//! This for choosing the date like birhday ect... bu specifing the showDatePicker: true
+
+Future<void> _showDatePicker(
+    BuildContext context, TextEditingController? controller) async {
+  final DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(1900),
+    lastDate: DateTime.now(),
+  );
+  if (pickedDate != null && controller != null) {
+    final formattedDate =
+        "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+    controller.text = formattedDate;
+
+    FocusScope.of(context).unfocus();
   }
 }
