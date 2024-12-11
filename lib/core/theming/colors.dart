@@ -14,4 +14,5 @@ class ColorsProvider {
   static const Color naveIconColor = Color(0xFF69BFC7);
   static const Color greeting1Color = Color(0xFFE99987);
   static const Color greeting2Color = Color(0xFF616161);
+  static const Color profileSubText = Color(0xFF757575);
 }
